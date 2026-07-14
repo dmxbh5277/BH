@@ -51,6 +51,26 @@
             padding-left: 6px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Nút Xóa Dữ Liệu */
+        .btn-clear {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: none;
+            transition: all 0.2s;
+        }
+        .btn-clear:active {
+            background-color: #f5c6cb;
         }
 
         /* Bảng tính dữ liệu */
@@ -132,7 +152,7 @@
             padding: 8px;
             border-radius: 8px;
             border: 1px solid #edf2f7;
-            max-width: 340px; /* Khống chế độ rộng thu gọn lại */
+            max-width: 340px;
         }
         .mini-input-item {
             display: flex;
@@ -191,7 +211,10 @@
     <div style="display: flex; flex-direction: column; gap: 12px;">
         
         <div class="card">
-            <div class="card-title" style="border-left-color: #0b3c5d;">Thông số cấu hình</div>
+            <div class="card-title" style="border-left-color: #0b3c5d;">
+                <span>NHẬP THÔNG TIN SẢN PHẨM</span>
+                <button id="btnXoa" class="btn-clear">Xóa dữ liệu</button>
+            </div>
             <table class="sheet-table">
                 <tbody>
                     <tr>
@@ -204,15 +227,15 @@
                     </tr>
                     <tr>
                         <td class="label-bold">Giá NY</td>
-                        <td colspan="2" style="padding: 2px;"><input type="text" id="giaNY" class="text-right money-format text-blue" value="10,990,000"></td>
+                        <td colspan="2" style="padding: 2px;"><input type="text" id="giaNY" class="text-center money-format text-blue" value="0"></td>
                     </tr>
                     <tr>
                         <td class="label-bold">Giá KM</td>
-                        <td colspan="2" style="padding: 2px;"><input type="text" id="giaKM" class="text-right money-format text-red" value="10,590,000"></td>
+                        <td colspan="2" style="padding: 2px;"><input type="text" id="giaKM" class="text-center money-format text-red" value="0"></td>
                     </tr>
                     <tr>
                         <td class="label-bold">Min TT</td>
-                        <td colspan="2" style="padding: 2px;"><input type="text" id="minTT" class="text-center percent-format" value="5%"></td>
+                        <td colspan="2" style="padding: 2px;"><input type="text" id="minTT" class="text-center percent-format" value="0%"></td>
                     </tr>
                     <tr>
                         <td class="label-bold">Max TT</td>
@@ -224,14 +247,14 @@
                     </tr>
                     <tr>
                         <td class="label-bold">Tặng PMH</td>
-                        <td colspan="2" style="padding: 2px;"><input type="text" id="tangPMH" class="text-right money-format text-blue" value="100,000"></td>
+                        <td colspan="2" style="padding: 2px;"><input type="text" id="tangPMH" class="text-center money-format text-blue" value="0"></td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
         <div class="card">
-            <div class="card-title" style="border-left-color: #2ecc71;">Cấu hình Bảo hiểm</div>
+            <div class="card-title" style="border-left-color: #2ecc71;">GIÁ TRỊ CÁC GÓI BẢO HIỂM</div>
             <table class="sheet-table">
                 <tbody>
                     <tr class="bg-teal-header">
@@ -245,7 +268,7 @@
                         <td class="text-right text-blue" id="val_bh_11">0</td>
                     </tr>
                     <tr>
-                        <td class="checkbox-cell"><input type="checkbox" id="chk_bh_m1" checked></td>
+                        <td class="checkbox-cell"><input type="checkbox" id="chk_bh_m1"></td>
                         <td class="label-bold">BHMR 1 năm</td>
                         <td class="text-right text-blue" id="val_bh_m1">0</td>
                     </tr>
@@ -260,7 +283,7 @@
                         <td class="text-right text-blue" id="val_bh_m3">0</td>
                     </tr>
                     <tr>
-                        <td class="checkbox-cell"><input type="checkbox" id="chk_bh_rv6" checked></td>
+                        <td class="checkbox-cell"><input type="checkbox" id="chk_bh_rv6"></td>
                         <td class="label-bold">BHRV 6 th</td>
                         <td class="text-right text-blue" id="val_bh_rv6">0</td>
                     </tr>
@@ -280,12 +303,12 @@
     </div>
 
     <div class="card">
-        <div class="card-title" style="border-left-color: #e74c3c;">Bảng phân tích trả góp</div>
+        <div class="card-title" style="border-left-color: #e74c3c;">TƯ VẤN CÁC GÓI TRẢ GÓP</div>
         
         <div class="mini-input-group">
             <div class="mini-input-item">
                 <label for="khachTT">Khách TT:</label>
-                <input type="text" id="khachTT" class="money-format text-blue" value="2,500,000">
+                <input type="text" id="khachTT" class="money-format text-blue" value="1,000,000">
             </div>
             <div class="mini-input-item">
                 <label for="phiHS">Phí HS:</label>
@@ -352,7 +375,7 @@
     }
 
     function formatCurrency(num) {
-        if (isNaN(num) || num === null) return "0";
+        if (isNaN(num) || num === null || num === 0) return "0";
         return Math.round(num).toLocaleString('en-US');
     }
 
@@ -491,7 +514,6 @@
             }
 
             let tr = document.createElement('tr');
-            // Đã sắp xếp lại thứ tự cột và áp dụng class .text-center cho toàn bộ các ô kết quả số liệu
             tr.innerHTML = `
                 <td class="text-center" style="${res.key === 'BH_GOP' ? 'color: #e74c3c; font-weight: bold; font-size: 11.5px;' : 'font-weight: 600; color: #475569; font-size: 11.5px;'}">${res.label}</td>
                 <td class="text-center text-red" style="font-size: 12px;">${formatCurrency(res.traTruoc)}</td>
@@ -507,6 +529,14 @@
     window.addEventListener('DOMContentLoaded', () => {
         taiDuLieuPhanKhuc();
 
+        // Xử lý sự kiện bấm nút Xóa dữ liệu
+        document.getElementById('btnXoa').addEventListener('click', () => {
+            document.getElementById('giaNY').value = '';
+            document.getElementById('giaKM').value = '';
+            document.getElementById('tangPMH').value = '';
+            tinhToanCongThucGiaoDien(); // Tính toán lại ngay lập tức
+        });
+
         GOI_BH_CONFIG.forEach(item => {
             const chk = document.getElementById(item.id);
             if (chk) {
@@ -518,7 +548,15 @@
             input.addEventListener('input', (e) => {
                 let pos = e.target.selectionStart;
                 let len = e.target.value.length;
-                e.target.value = formatCurrency(cleanNumber(e.target.value));
+                let cleanVal = cleanNumber(e.target.value);
+                
+                // Nếu người dùng xóa hết, để rỗng thay vì hiện "0" để dễ nhập lại hơn
+                if(e.target.value === "") {
+                    e.target.value = "";
+                } else {
+                    e.target.value = formatCurrency(cleanVal);
+                }
+                
                 pos = pos + (e.target.value.length - len);
                 e.target.setSelectionRange(pos, pos);
                 tinhToanCongThucGiaoDien();
