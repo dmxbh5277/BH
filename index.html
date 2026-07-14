@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gói Trả Góp & Bảo Hiểm Mobile</title>
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+        body { background-color: #f1f2f6; padding: 8px; color: #333; -webkit-tap-highlight-color: transparent; }
+        .container { max-width: 100%; margin: 0 auto; background: #ffffff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; padding-bottom: 60px; }
+        
+        /* Tiêu đề chính trên Mobile */
+        .main-header { background-color: #0b3c5d; color: white; text-align: center; font-size: 18px; font-weight: bold; text-transform: uppercase; padding: 15px 10px; }
+        
+        .section-title { background: #e8f4fd; padding: 8px 12px; font-size: 14px; font-weight: bold; color: #0b3c5d; border-left: 4px solid #3498db; margin-top: 10px; }
+        
+        /* Cấu trúc bảng tối ưu cho màn hình cảm ứng */
+        table.sheet-table { width: 100%; border-collapse: collapse; margin-bottom: 5px; }
+        table.sheet-table th, table.sheet-table td { border: 1px solid #e0e0e0; padding: 10px 8px; font-size: 13px; vertical-align: middle; }
+        table.sheet-table th { font-weight: bold; text-align: center; background-color: #f8f9fa; }
+        
+        /* Tối ưu kích thước ô nhập liệu cho ngón tay dễ bấm trên điện thoại */
+        input[type="text"], input[type="number"], select { width: 100%; padding: 10px 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; font-weight: bold; background-color: #fff; -webkit-appearance: none; }
+        input[type="checkbox"] { transform: scale(1.4); cursor: pointer; margin: 0 auto; display: block; }
+        
+        .label-row { font-weight: 600; color: #2c3e50; font-size: 13px; }
+        .text-right { text-align: right; }
+        .text-center { text-align: center; }
+        .text-red { color: #e74c3c; font-weight: bold; }
+        
+        /* Màu nền giống Excel gốc */
+        .bg-light-yellow { background-color: #ffff00 !important; color: #000; font-weight: bold; text-center: center; }
+        .bg-red-warning { background-color: #ff0000 !important; color: #fff; font-weight: bold; text-align: center; font-size: 11px; }
+        .bg-soft-green { background-color: #2ecc71 !important; color: white; font-weight: bold; }
+        .bg-soft-blue { background-color: #3498db !important; color: white; font-weight: bold; }
+        .bg-soft-yellow { background-color: #f1c40f !important; color: black; font-weight: bold; }
+
+        /* Vùng cuộn ngang riêng cho Ma trận Trả góp để không vỡ màn hình dọc */
+        .responsive-table-wrapper { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid #ddd; margin-top: 5px; }
+        .responsive-table-wrapper table { width: 600px; /* Cố định độ rộng tối thiểu khi cuộn trên điện thoại */ border-collapse: collapse; }
+
+        .notes-section { padding: 12px; background-color: #fffdf0; border-top: 2px dashed #ff7675; color: #d63031; font-size: 12px; line-height: 1.5; margin: 15px 8px; border-radius: 4px; }
+        
+        /* Thanh trạng thái realtime gắn cố định dưới đáy màn hình điện thoại */
+        .status-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 12px; text-align: center; background-color: #ffffff; border-top: 1px solid #ddd; font-weight: bold; font-size: 13px; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); display: flex; justify-content: center; align-items: center; z-index: 999; }
+        .status-indicator { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; }
+        .status-green { background-color: #2ecc71; }
+        .status-yellow { background-color: #f1c40f; }
+        .status-red { background-color: #e74c3c; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="main-header">Tính Bảo Hiểm Kèm Trả Góp</div>
+    
+    <div class="section-title">THÔNG TIN SẢN PHẨM & GIÁ CƠ BẢN</div>
+    <table class="sheet-table">
+        <tr>
+            <td class="label-row" style="width: 35%;">NHÓM SP</td>
+            <td colspan="3">
+                <select id="nhomSP" style="color: #e74c3c; text-align: center;">
+                    <option value="">Đang tải dữ liệu từ Sheet...</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="label-row">GIÁ NY</td>
+            <td><input type="text" id="giaNY" value="14,490,000" class="text-right realtime-input money-format" style="color: #e74c3c;"></td>
+            <td class="bg-light-yellow text-center" style="width: 16%;">GÓP</td>
+            <td class="bg-light-yellow text-center" style="width: 16%; background-color: #0b3c5d; color: #fff;">PMH</td>
+        </tr>
+        <tr>
+            <td class="label-row">GIÁ KM</td>
+            <td><input type="text" id="giaKM" value="13,690,000" class="text-right realtime-input money-format" style="color: #e74c3c;"></td>
+            <td><input type="number" id="soThangGop" value="12" class="text-center realtime-input" style="color: #e74c3c;"></td>
+            <td><input type="text" id="pmh" value="0" class="text-center realtime-input money-format" style="color: #2ecc71;"></td>
+        </tr>
+        <tr>
+            <td class="label-row">TRẢ TRƯỚC MIN</td>
+            <td><input type="text" id="traTruocMin" value="0%" class="text-center realtime-input" style="color: #e74c3c;"></td>
+            <td colspan="2" class="text-center" style="background: #f1f2f6; font-size: 10px; font-weight: bold; padding: 4px;">GÓI BH ĐÃ CHỌN (D9:E9)</td>
+        </tr>
+        <tr>
+            <td class="label-row">TRẢ TRƯỚC MAX</td>
+            <td><input type="text" id="traTruocMax" value="70%" class="text-center realtime-input" style="color: #e74c3c;"></td>
+            <td id="out_bh_tantam" class="text-right text-red" style="font-size: 13px; background-color: #e8f4fd;">-</td>
+            <td id="out_bh_pvi" class="text-right text-red" style="font-size: 13px; background-color: #fdfae8;">-</td>
+        </tr>
+    </table>
+
+    <div class="section-title">DANH SÁCH GÓI BẢO HIỂM (B11:E16)</div>
+    <table class="sheet-table">
+        <thead>
+            <tr>
+                <th class="bg-soft-green" style="width: 44%;">GÓI BẢO HIỂM</th>
+                <th class="bg-soft-blue" style="width: 28%;">TẬN TÂM</th>
+                <th class="bg-soft-yellow" style="width: 28%;">PVI</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><label><input type="checkbox" id="bh_1_1" class="chk-goiBH realtime-input" checked style="display:inline-block; margin-right:6px; vertical-align:middle;"> BH 1-1</label></td>
+                <td id="out_d11" class="text-right">-</td>
+                <td id="out_e11" class="text-right">-</td>
+            </tr>
+            <tr>
+                <td><label><input type="checkbox" id="bhmr_1" class="chk-goiBH realtime-input" checked style="display:inline-block; margin-right:6px; vertical-align:middle;"> BHMR 1 NĂM</label></td>
+                <td id="out_d12" class="text-right">-</td>
+                <td id="out_e12" class="text-right">-</td>
+            </tr>
+            <tr>
+                <td><label><input type="checkbox" id="bhmr_2" class="chk-goiBH realtime-input" style="display:inline-block; margin-right:6px; vertical-align:middle;"> BHMR 2 NĂM</label></td>
+                <td id="out_d13" class="text-right">-</td>
+                <td id="out_e13" class="text-right">-</td>
+            </tr>
+            <tr>
+                <td><label><input type="checkbox" id="bhmr_3" class="chk-goiBH realtime-input" style="display:inline-block; margin-right:6px; vertical-align:middle;"> BHMR 3 NĂM</label></td>
+                <td id="out_d14" class="text-right">-</td>
+                <td id="out_e14" class="text-right">-</td>
+            </tr>
+            <tr>
+                <td><label><input type="checkbox" id="bhrv_6" class="chk-goiBH realtime-input" style="display:inline-block; margin-right:6px; vertical-align:middle;"> BHRV 6 TH</label></td>
+                <td id="out_d15" class="text-right">-</td>
+                <td id="out_e15" class="text-right">-</td>
+            </tr>
+            <tr>
+                <td><label><input type="checkbox" id="bhrv_12" class="chk-goiBH realtime-input" style="display:inline-block; margin-right:6px; vertical-align:middle;"> BHRV 12 TH</label></td>
+                <td id="out_d16" class="text-right">-</td>
+                <td id="out_e16" class="text-right">-</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="section-title">THIẾT LẬP KHÁCH TRẢ TRƯỚC HÀNG 3</div>
+    <table class="sheet-table">
+        <tr>
+            <th style="width: 50%;">KH TRẢ TRƯỚC (G3)</th>
+            <th style="width: 50%;">PHÍ HỒ SƠ (H3)</th>
+        </tr>
+        <tr>
+            <td><input type="text" id="khTraTruoc" value="1,500,000" class="text-center realtime-input money-format" style="color: #e74c3c;"></td>
+            <td><input type="text" id="phiHoSo" value="200000" class="text-center realtime-input money-format" style="color: #e74c3c;"></td>
+        </tr>
+        <tr>
+            <th class="bg-blue-btn">TẬN TÂM CHỌN (J3)</th>
+            <th class="bg-pvi-btn">PVI CHỌN (K3)</th>
+        </tr>
+        <tr>
+            <td><input type="checkbox" id="loaiBH_JanTam" class="realtime-input"></td>
+            <td><input type="checkbox" id="loaiBH_PVI" class="realtime-input"></td>
+        </tr>
+    </table>
+
+    <div class="section-title">KẾT QUẢ BẢNG TRẢ GÓP (Vuốt ngang để xem đủ cột)</div>
+    <div class="responsive-table-wrapper">
+        <table class="sheet-table">
+            <thead>
+                <tr>
+                    <th class="bg-light-yellow" style="width: 24%;">Gói góp</th>
+                    <th class="bg-light-yellow" style="width: 15%;">Trả trước</th>
+                    <th class="bg-light-yellow" style="width: 15%;">Góp/Tháng</th>
+                    <th class="bg-light-yellow" style="font-size: 11px; width: 16%;">Số tiền TT</th>
+                    <th class="bg-red-warning" style="width: 15%;">KH đưa trước ></th>
+                    <th class="bg-light-yellow" style="width: 15%;">Thêm/Tháng</th>
+                </tr>
+            </thead>
+            <tbody id="tbodyTraGop">
+                <tr><td colspan="6" class="text-center" style="padding:20px; color:#999;">Đang tải dữ liệu gốc từ Sheet...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="notes-section">
+        <strong>Lưu ý từ File gốc:</strong> File này được tính theo giá gốc của các gói Bảo hiểm. Các CTKM sẽ thay đổi tùy thời điểm, nếu có lệch giá thấp hơn, có thể bán kèm sản phẩm khác hoặc báo giảm giá cho khách.
+    </div>
+</div>
+
+<div class="status-bar">
+    <span id="statusIndicator" class="status-indicator status-yellow"></span>
+    <span id="statusText">Đang kết nối đến dữ liệu Google Sheet...</span>
+</div>
+
+<script>
+    // =========================================================
+    // DÁN ĐƯỜNG LINK WEB APP GOOGLE APPS SCRIPT CỦA BẠN VÀO ĐÂY
+    // =========================================================
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw-y3a2H_-DhrBehHtsOpICRryMnKZ9xn_N4RVl6eE_UrKQsiugdJ6ie3oJFK1c_jnbsg/exec";
+
+    let debounceTimer;
+
+    // Hàm chuyển đổi số chuỗi định dạng (ví dụ: "1,500,000" -> 1500000)
+    function clearMoneyFormat(str) {
+        return str.replace(/,/g, "");
+    }
+
+    // Hàm thêm dấu phẩy phân tách hàng nghìn tự động khi gõ
+    function formatNumberString(str) {
+        let clean = str.replace(/[^0-9]/g, "");
+        if (clean === "") return "";
+        return Number(clean).toLocaleString('en-US');
+    }
+
+    function capNhatTrangThai(status, text) {
+        const indicator = document.getElementById('statusIndicator');
+        const statusText = document.getElementById('statusText');
+        indicator.className = 'status-indicator';
+        if (status === 'success') indicator.classList.add('status-green');
+        else if (status === 'loading') indicator.classList.add('status-yellow');
+        else indicator.classList.add('status-red');
+        statusText.innerText = text;
+    }
+
+    // Khởi tạo trang: Tự lấy dữ liệu đang có trên Sheet điền vào Web App
+    function khoiTaoGiaoDienMobile() {
+        if (WEB_APP_URL.includes("DÁN_URL_WEB_APP")) {
+            capNhatTrangThai('error', 'Chưa dán URL Web App!');
+            return;
+        }
+        capNhatTrangThai('loading', 'Đang tải cấu hình...');
+
+        fetch(WEB_APP_URL)
+        .then(res => res.json())
+        .then(result => {
+            if (result.status === "success") {
+                const selectNhomSP = document.getElementById('nhomSP');
+                selectNhomSP.innerHTML = '';
+                result.dropdown.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item; option.text = item;
+                    selectNhomSP.appendChild(option);
+                });
+
+                const i = result.inputs;
+                document.getElementById('nhomSP').value = i.nhomSP;
+                document.getElementById('giaNY').value = Number(i.giaNY).toLocaleString('en-US');
+                document.getElementById('giaKM').value = Number(i.giaKM).toLocaleString('en-US');
+                document.getElementById('traTruocMin').value = i.traTruocMin;
+                document.getElementById('traTruocMax').value = i.traTruocMax;
+                document.getElementById('soThangGop').value = i.soThangGop;
+                document.getElementById('pmh').value = Number(i.pmh).toLocaleString('en-US');
+                document.getElementById('khTraTruoc').value = Number(i.khTraTruoc).toLocaleString('en-US');
+                document.getElementById('phiHoSo').value = Number(i.phiHoSo).toLocaleString('en-US');
+                document.getElementById('loaiBH_JanTam').checked = i.loaiBH_JanTam;
+                document.getElementById('loaiBH_PVI').checked = i.loaiBH_PVI;
+                
+                document.getElementById('bh_1_1').checked = i.goiBH[0];
+                document.getElementById('bhmr_1').checked = i.goiBH[1];
+                document.getElementById('bhmr_2').checked = i.goiBH[2];
+                document.getElementById('bhmr_3').checked = i.goiBH[3];
+                document.getElementById('bhrv_6').checked = i.goiBH[4];
+                document.getElementById('bhrv_12').checked = i.goiBH[5];
+
+                chayTinhToanSieuToc();
+            } else {
+                capNhatTrangThai('error', 'Lỗi: ' + result.message);
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            capNhatTrangThai('error', 'Mất kết nối với Sheet!');
+        });
+    }
+
+    function layDuLieuForm() {
+        const checkboxes = [
+            document.getElementById('bh_1_1').checked,
+            document.getElementById('bhmr_1').checked,
+            document.getElementById('bhmr_2').checked,
+            document.getElementById('bhmr_3').checked,
+            document.getElementById('bhrv_6').checked,
+            document.getElementById('bhrv_12').checked
+        ];
+
+        return {
+            nhomSP: document.getElementById('nhomSP').value,
+            giaNY: clearMoneyFormat(document.getElementById('giaNY').value),
+            giaKM: clearMoneyFormat(document.getElementById('giaKM').value),
+            traTruocMin: document.getElementById('traTruocMin').value,
+            traTruocMax: document.getElementById('traTruocMax').value,
+            soThangGop: document.getElementById('soThangGop').value,
+            pmh: clearMoneyFormat(document.getElementById('pmh').value),
+            khTraTruoc: clearMoneyFormat(document.getElementById('khTraTruoc').value),
+            phiHoSo: clearMoneyFormat(document.getElementById('phiHoSo').value),
+            loaiBH_JanTam: document.getElementById('loaiBH_JanTam').checked,
+            loaiBH_PVI: document.getElementById('loaiBH_PVI').checked,
+            goiBH: checkboxes
+        };
+    }
+
+    // Tăng tốc xử lý Realtime phản hồi cực nhanh
+    function chayTinhToanSieuToc() {
+        capNhatTrangThai('loading', 'Đang tính toán dữ liệu...');
+        const formData = layDuLieuForm();
+
+        fetch(WEB_APP_URL, {
+            method: 'POST',
+            redirect: 'follow',
+            body: JSON.stringify(formData),
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.status === "success") {
+                renderUI(result.data);
+                capNhatTrangThai('success', 'Đồng bộ: Đã cập nhật xong');
+            } else {
+                capNhatTrangThai('error', 'Lỗi xử lý logic trên Sheet');
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            capNhatTrangThai('error', 'Đang thử kết nối lại...');
+        });
+    }
+
+    // Rút ngắn thời gian Debounce xuống 250ms để tăng tốc độ gõ chữ trên điện thoại
+    function thucHienDebounce() {
+        capNhatTrangThai('loading', 'Đang nhập...');
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(chayTinhToanSieuToc, 250); 
+    }
+
+    function renderUI(data) {
+        document.getElementById('out_bh_tantam').innerText = data.giaGoiBHDaChon_TanTam;
+        document.getElementById('out_bh_pvi').innerText = data.giaGoiBHDaChon_PVI;
+
+        const rowsGoiBH = [
+            ['out_d11', 'out_e11'], ['out_d12', 'out_e12'],
+            ['out_d13', 'out_e13'], ['out_d14', 'out_e14'],
+            ['out_d15', 'out_e15'], ['out_d16', 'out_e16']
+        ];
+
+        data.bangGoiBH.forEach((row, index) => {
+            if (index < rowsGoiBH.length) {
+                document.getElementById(rowsGoiBH[index][0]).innerText = row[0];
+                document.getElementById(rowsGoiBH[index][1]).innerText = row[1];
+            }
+        });
+
+        const tbody = document.getElementById('tbodyTraGop');
+        tbody.innerHTML = ''; 
+
+        data.bangTraGop.forEach(row => {
+            if (!row[0] || row[0].trim() === "") return;
+
+            const tr = document.createElement('tr');
+            
+            const tdGoiGop = document.createElement('td');
+            tdGoiGop.innerText = row[0];
+            if (row[0] === "GÓP THƯỜNG" || row[0] === "BẢO HIỂM GỘP") {
+                tdGoiGop.style.color = "red";
+                tdGoiGop.style.fontWeight = "bold";
+            }
+            tr.appendChild(tdGoiGop);
+
+            const tdTraTruoc = document.createElement('td');
+            tdTraTruoc.className = "text-right";
+            tdTraTruoc.innerText = row[1];
+            if (row[1] === "Không đủ") tdTraTruoc.classList.add("text-red");
+            tr.appendChild(tdTraTruoc);
+
+            const tdGopMoiThang = document.createElement('td');
+            tdGopMoiThang.className = "text-right";
+            tdGopMoiThang.innerText = row[2];
+            if (row[2] === "Không đủ") tdGopMoiThang.classList.add("text-red");
+            tr.appendChild(tdGopMoiThang);
+
+            const tdNhapLieu = document.createElement('td');
+            tdNhapLieu.className = "text-right";
+            tdNhapLieu.innerText = row[3];
+            if (row[3] === "Không đủ") tdNhapLieu.classList.add("text-red");
+            tr.appendChild(tdNhapLieu);
+
+            const tdKHCunLonHon = document.createElement('td');
+            tdKHCunLonHon.className = "text-center";
+            tdKHCunLonHon.innerText = row[4];
+            if (row[4] === "Chọn Cty BH" || row[4] === "Không đủ") tdKHCunLonHon.classList.add("text-red");
+            tr.appendChild(tdKHCunLonHon);
+
+            const tdThemMoiThang = document.createElement('td');
+            tdThemMoiThang.className = "text-center";
+            tdThemMoiThang.innerText = row[5] || "";
+            tr.appendChild(tdThemMoiThang);
+
+            tbody.appendChild(tr);
+        });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        khoiTaoGiaoDienMobile();
+
+        // Gán bộ lắng nghe tự động định dạng dấu phẩy khi người dùng nhập số
+        const moneyInputs = document.querySelectorAll('.money-format');
+        moneyInputs.forEach(input => {
+            input.addEventListener('input', (e) => {
+                let cursorPosition = e.target.selectionStart;
+                let originalLength = e.target.value.length;
+                
+                e.target.value = formatNumberString(e.target.value);
+                
+                let newLength = e.target.value.length;
+                cursorPosition = cursorPosition + (newLength - originalLength);
+                e.target.setSelectionRange(cursorPosition, cursorPosition);
+            });
+        });
+
+        const allInputs = document.querySelectorAll('.realtime-input, #nhomSP');
+        allInputs.forEach(input => {
+            if (input.type === 'checkbox' || input.tagName === 'SELECT') {
+                input.addEventListener('change', chayTinhToanSieuToc);
+            } else {
+                input.addEventListener('input', thucHienDebounce);
+            }
+        });
+    });
+</script>
+</body>
+</html>
