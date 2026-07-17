@@ -6,191 +6,33 @@
     <title>Dashboard Trả Góp & Bảo Hiểm - Mobile Optimized</title>
     <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet">
     <style>
-        * { 
-            box-sizing: border-box; 
-            font-family: 'Google Sans', 'Segoe UI', Arial, sans-serif; 
-            margin: 0; 
-            padding: 0; 
-        }
-        body { 
-            background-color: #f4f6f9; 
-            padding: 8px; 
-            color: #2c3e50; 
-            padding-bottom: 50px; 
-        }
-        
-        .app-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
-            max-width: 1440px;
-            margin: 0 auto;
-        }
-        @media(min-width: 992px) {
-            .app-grid { grid-template-columns: 380px 1fr; gap: 20px; padding: 12px; }
-        }
-
-        .card {
-            background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            border: 1px solid #e2e8f0;
-            overflow: hidden;
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .card-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: #0b3c5d;
-            border-left: 4px solid #2ecc71;
-            padding-left: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .btn-clear {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            text-transform: none;
-            transition: all 0.2s;
-        }
-        .btn-clear:active {
-            background-color: #f5c6cb;
-        }
-
-        table.sheet-table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #fff;
-        }
-        table.sheet-table th, table.sheet-table td {
-            border: 1px solid #edf2f7;
-            padding: 6px 4px; 
-            font-size: 12.5px;
-            height: 36px;
-            vertical-align: middle;
-        }
-        
+        * { box-sizing: border-box; font-family: 'Google Sans', 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; }
+        body { background-color: #f4f6f9; padding: 8px; color: #2c3e50; padding-bottom: 50px; }
+        .app-grid { display: grid; grid-template-columns: 1fr; gap: 12px; max-width: 1440px; margin: 0 auto; }
+        @media(min-width: 992px) { .app-grid { grid-template-columns: 380px 1fr; gap: 20px; padding: 12px; } }
+        .card { background: #ffffff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); border: 1px solid #e2e8f0; overflow: hidden; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+        .card-title { font-size: 14px; font-weight: 700; color: #0b3c5d; border-left: 4px solid #2ecc71; padding-left: 6px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; justify-content: space-between; align-items: center; }
+        .btn-clear { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; }
+        table.sheet-table { width: 100%; border-collapse: collapse; background-color: #fff; }
+        table.sheet-table th, table.sheet-table td { border: 1px solid #edf2f7; padding: 6px 4px; font-size: 12.5px; height: 36px; vertical-align: middle; }
         .bg-teal-header { background-color: #0b3c5d !important; color: white; font-weight: 600; }
         .bg-light-green { background-color: #e6fffa !important; color: #0b3c5d; font-weight: bold; border-top: 1px solid #2ecc71; }
-        
-        input[type="text"], input[type="number"], select {
-            width: 100%;
-            height: 100%;
-            border: 1px solid transparent;
-            border-radius: 6px;
-            outline: none;
-            font-size: 12.5px;
-            font-weight: 700;
-            background: #f8fafc;
-            padding: 2px 6px;
-            transition: all 0.2s ease;
-            color: #334155;
-        }
-        select {
-            cursor: pointer;
-            appearance: none;
-            text-align-last: center;
-        }
-        input:focus, select:focus {
-            background-color: #ffffff;
-            border-color: #0b3c5d;
-            box-shadow: 0 0 0 2px rgba(11, 60, 93, 0.1);
-        }
-        
+        input[type="text"], input[type="number"], select { width: 100%; height: 100%; border: 1px solid transparent; border-radius: 6px; outline: none; font-size: 12.5px; font-weight: 700; background: #f8fafc; padding: 2px 6px; color: #334155; }
+        select { cursor: pointer; appearance: none; text-align-last: center; }
+        input:focus, select:focus { background-color: #ffffff; border-color: #0b3c5d; box-shadow: 0 0 0 2px rgba(11, 60, 93, 0.1); }
         .text-center { text-align: center !important; }
         .text-right { text-align: right; }
         .text-red { color: #e74c3c !important; font-weight: 700; }
         .text-blue { color: #0b3c5d !important; font-weight: 700; }
         .label-bold { font-weight: 600; color: #64748b; }
-        
-        tbody tr:hover {
-            background-color: #f8fafc;
-        }
-
         .checkbox-cell { text-align: center; width: 45px; }
-        .checkbox-cell input[type="checkbox"] {
-            accent-color: #0b3c5d;
-            transform: scale(1.1);
-            cursor: pointer;
-        }
-
-        .table-responsive {
-            width: 100%;
-            overflow-x: hidden; 
-            border-radius: 8px;
-            border: 1px solid #edf2f7;
-        }
-
-        .mini-input-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 4px;
-            background: #c1d8f0;
-            padding: 8px;
-            border-radius: 8px;
-            border: 1px solid #edf2f7;
-            max-width: 340px;
-        }
-        .mini-input-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex: 1;
-        }
-        .mini-input-item label {
-            font-size: 12px;
-            font-weight: 600;
-            color: #ff0000;
-            white-space: nowrap;
-        }
-        .mini-input-item input {
-            height: 30px;
-            background: #fffdf0 !important;
-            border: 1px solid #fef3c7 !important;
-            text-align: center;
-        }
-
-        .status-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 8px;
-            text-align: center;
-            background-color: #ffffff;
-            border-top: 1px solid #e2e8f0;
-            font-size: 11.5px;
-            font-weight: 600;
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.03);
-            color: #2a0fe9;
-        }
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            margin-right: 6px;
-            display: inline-block;
-        }
-        .status-green { background-color: #2ecc71; box-shadow: 0 0 6px #2ecc71; }
-        .status-yellow { background-color: #f1c40f; box-shadow: 0 0 6px #f1c40f; }
-        .status-red { background-color: #e74c3c; box-shadow: 0 0 6px #e74c3c; }
+        .checkbox-cell input[type="checkbox"] { accent-color: #0b3c5d; transform: scale(1.1); cursor: pointer; }
+        .table-responsive { width: 100%; overflow-x: hidden; border-radius: 8px; border: 1px solid #edf2f7; }
+        .mini-input-group { display: flex; gap: 10px; margin-bottom: 4px; background: #c1d8f0; padding: 8px; border-radius: 8px; border: 1px solid #edf2f7; max-width: 340px; }
+        .mini-input-item { display: flex; align-items: center; gap: 6px; flex: 1; }
+        .mini-input-item input { height: 30px; background: #fffdf0 !important; border: 1px solid #fef3c7 !important; text-align: center; }
+        .status-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 8px; text-align: center; background-color: #ffffff; border-top: 1px solid #e2e8f0; font-size: 11.5px; font-weight: 600; z-index: 1000; display: flex; justify-content: center; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.03); color: #2a0fe9; }
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; margin-right: 6px; display: inline-block; }
     </style>
 </head>
 <body>
@@ -198,113 +40,48 @@
 <div class="app-grid">
     <div style="display: flex; flex-direction: column; gap: 12px;">
         <div class="card">
-            <div class="card-title" style="border-left-color: #0b3c5d;">
-                <span>NHẬP THÔNG TIN SẢN PHẨM</span>
-                <button id="btnXoa" class="btn-clear">Xóa dữ liệu</button>
-            </div>
+            <div class="card-title"><span>NHẬP THÔNG TIN SẢN PHẨM</span><button id="btnXoa" class="btn-clear">Xóa dữ liệu</button></div>
             <table class="sheet-table">
-                <tbody>
-                    <tr>
-                        <td class="label-bold" style="width: 35%;">Nhóm SP</td>
-                        <td colspan="2" style="padding: 2px;">
-                            <select id="nhomSP" style="color: #0b3c5d;">
-                                <option value="">Đang kết nối dữ liệu...</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="label-bold">Giá NY</td>
-                        <td colspan="2" style="padding: 2px;"><input type="text" id="giaNY" class="text-center money-format text-blue" value="0"></td>
-                    </tr>
-                    <tr>
-                        <td class="label-bold">Giá KM</td>
-                        <td colspan="2" style="padding: 2px;"><input type="text" id="giaKM" class="text-center money-format text-red" value="0"></td>
-                    </tr>
-                    <tr>
-                        <td class="label-bold">Min TT</td>
-                        <td colspan="2" style="padding: 2px;"><input type="text" id="minTT" class="text-center percent-format" value="0%"></td>
-                    </tr>
-                    <tr>
-                        <td class="label-bold">Max TT</td>
-                        <td colspan="2" style="padding: 2px;"><input type="text" id="maxTT" class="text-center percent-format" value="70%"></td>
-                    </tr>
-                    <tr>
-                        <td class="label-bold">Góp (Th)</td>
-                        <td colspan="2" style="padding: 2px;"><input type="number" id="soThangGop" class="text-center" value="6"></td>
-                    </tr>
-                    <tr>
-                        <td class="label-bold">Tặng PMH</td>
-                        <td colspan="2" style="padding: 2px;"><input type="text" id="tangPMH" class="text-center money-format text-blue" value="0"></td>
-                    </tr>
-                </tbody>
+                <tr><td class="label-bold" style="width: 35%;">Nhóm SP</td><td colspan="2"><select id="nhomSP"></select></td></tr>
+                <tr><td class="label-bold">Giá NY</td><td colspan="2"><input type="text" id="giaNY" class="text-center money-input text-blue" value="0"></td></tr>
+                <tr><td class="label-bold">Giá KM</td><td colspan="2"><input type="text" id="giaKM" class="text-center money-input text-red" value="0"></td></tr>
+                <tr><td class="label-bold">Min TT</td><td colspan="2"><input type="text" id="minTT" class="text-center percent-input" value="0%"></td></tr>
+                <tr><td class="label-bold">Max TT</td><td colspan="2"><input type="text" id="maxTT" class="text-center percent-input" value="70%"></td></tr>
+                <tr><td class="label-bold">Góp (Th)</td><td colspan="2"><input type="number" id="soThangGop" class="text-center" value="6"></td></tr>
+                <tr><td class="label-bold">Tặng PMH</td><td colspan="2"><input type="text" id="tangPMH" class="text-center money-input text-blue" value="0"></td></tr>
             </table>
         </div>
 
         <div class="card">
-            <div class="card-title" style="border-left-color: #2ecc71;">GIÁ TRỊ CÁC GÓI BẢO HIỂM</div>
+            <div class="card-title">GIÁ TRỊ CÁC GÓI BẢO HIỂM</div>
             <table class="sheet-table">
-                <tbody>
-                    <tr class="bg-teal-header">
-                        <td style="text-align: center; width: 45px; font-weight: bold;">Chọn</td>
-                        <td style="padding-left: 6px;">BH Tận Tâm</td>
-                        <td style="text-align: right; padding-right: 6px; width: 95px;">Giá gói</td>
-                    </tr>
-                    <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_11"></td><td class="label-bold">BH 1-1</td><td class="text-right text-blue" id="val_bh_11">0</td></tr>
-                    <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m1"></td><td class="label-bold">BHMR 1 năm</td><td class="text-right text-blue" id="val_bh_m1">0</td></tr>
-                    <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m2"></td><td class="label-bold">BHMR 2 năm</td><td class="text-right text-blue" id="val_bh_m2">0</td></tr>
-                    <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m3"></td><td class="label-bold">BHMR 3 năm</td><td class="text-right text-blue" id="val_bh_m3">0</td></tr>
-                    <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_rv6"></td><td class="label-bold">BHRV 6 th</td><td class="text-right text-blue" id="val_bh_rv6">0</td></tr>
-                    <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_rv12"></td><td class="label-bold">BHRV 12 th</td><td class="text-right text-blue" id="val_bh_rv12">0</td></tr>
-                    <tr class="bg-light-green">
-                        <td class="text-center" style="font-weight: bold; color: #e74c3c;">∑</td>
-                        <td style="padding-left: 6px; font-weight: bold; color: #0b3c5d;">TỔNG BH GỘP</td>
-                        <td class="text-right text-red" id="val_bh_gop">0</td>
-                    </tr>
-                </tbody>
+                <tr class="bg-teal-header"><td>Chọn</td><td>BH Tận Tâm</td><td>Giá gói</td></tr>
+                <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_11"></td><td class="label-bold">BH 1-1</td><td class="text-right text-blue" id="val_bh_11">0</td></tr>
+                <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m1"></td><td class="label-bold">BHMR 1 năm</td><td class="text-right text-blue" id="val_bh_m1">0</td></tr>
+                <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m2"></td><td class="label-bold">BHMR 2 năm</td><td class="text-right text-blue" id="val_bh_m2">0</td></tr>
+                <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m3"></td><td class="label-bold">BHMR 3 năm</td><td class="text-right text-blue" id="val_bh_m3">0</td></tr>
+                <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_rv6"></td><td class="label-bold">BHRV 6 th</td><td class="text-right text-blue" id="val_bh_rv6">0</td></tr>
+                <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_rv12"></td><td class="label-bold">BHRV 12 th</td><td class="text-right text-blue" id="val_bh_rv12">0</td></tr>
+                <tr class="bg-light-green"><td>∑</td><td>TỔNG BH GỘP</td><td class="text-right text-red" id="val_bh_gop">0</td></tr>
             </table>
         </div>
     </div>
 
     <div class="card">
-        <div class="card-title" style="border-left-color: #e74c3c;">TƯ VẤN CÁC GÓI TRẢ GÓP</div>
+        <div class="card-title">TƯ VẤN CÁC GÓI TRẢ GÓP</div>
         <div class="mini-input-group">
-            <div class="mini-input-item">
-                <label for="khachTT">Khách TT:</label>
-                <input type="text" id="khachTT" class="money-format text-red" value="1,000,000">
-            </div>
-            <div class="mini-input-item">
-                <label for="phiHS">Phí HS:</label>
-                <input type="text" id="phiHS" class="money-format text-red" value="200,000">
-            </div>
+            <div class="mini-input-item"><label>Khách TT:</label><input type="text" id="khachTT" class="money-input text-red" value="1,000,000"></div>
+            <div class="mini-input-item"><label>Phí HS:</label><input type="text" id="phiHS" class="money-input text-red" value="200,000"></div>
         </div>
-        <div class="table-responsive">
-            <table class="sheet-table">
-                <thead>
-                    <tr style="background-color: #0b3c5d; color: white;">
-                        <th style="width: 20%; font-weight: 600; font-size: 11px; text-align: center;">Gói góp</th>
-                        <th style="width: 16%; font-weight: 600; font-size: 11px; text-align: center;">Trả trước</th>
-                        <th style="width: 16%; font-weight: 600; font-size: 11px; text-align: center;">Góp/tháng</th>
-                        <th style="width: 16%; font-weight: 600; font-size: 11px; text-align: center; background-color: #d9383a;">NHẬP LIỆU</th>
-                        <th style="width: 16%; font-weight: 600; font-size: 11px; text-align: center;">Min TT Góp</th>
-                        <th style="width: 16%; font-weight: 600; font-size: 11px; text-align: center;">Thêm/tháng</th>
-                    </tr>
-                </thead>
-                <tbody id="tbodyKetQuaGop"></tbody>
-            </table>
-        </div>
+        <div class="table-responsive"><table class="sheet-table"><thead style="background:#0b3c5d; color:white;"><tr><th>Gói góp</th><th>Trả trước</th><th>Góp/tháng</th><th>NHẬP LIỆU</th><th>Min TT Góp</th><th>Thêm/tháng</th></tr></thead><tbody id="tbodyKetQuaGop"></tbody></table></div>
     </div>
 </div>
 
-<div class="status-bar">
-    <span id="statusIndicator" class="status-dot status-yellow"></span>
-    <span id="statusText">Đang kết nối API phân khúc bảo hiểm...</span>
-</div>
+<div class="status-bar"><span id="statusIndicator" class="status-dot"></span><span id="statusText">Đang tải...</span></div>
 
 <script>
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyJoieV-BbecLitxFzhL5ZR4Z0umFMU87o3piWhZjrjktI5z-wxbi0XS4gh2URD8VFVXQ/exec";
-
     let DATA_1DOI1 = [], DATA_MORE = [], DATA_ROIVO = [];
-    
     let GOI_BH_CONFIG = [
         { id: "chk_bh_11", label: "BH 1-1", type: "1doi1", key: "phi", targetId: "val_bh_11" },
         { id: "chk_bh_m1", label: "BHMR 1 NĂM", type: "more", key: "phi1n", targetId: "val_bh_m1" },
@@ -313,7 +90,6 @@
         { id: "chk_bh_rv6", label: "BHRV 6 TH", type: "roivo", key: "phi6t", targetId: "val_bh_rv6" },
         { id: "chk_bh_rv12", label: "BHRV 12 TH", type: "roivo", key: "phi12t", targetId: "val_bh_rv12" }
     ];
-
     let DANH_SACH_GOI_GOP = [
         { key: "GOP_THUONG", label: "GÓP THƯỜNG", bhType: "none" },
         { key: "BH_11", label: "BH 1-1", bhId: "chk_bh_11" },
@@ -325,156 +101,94 @@
         { key: "BH_GOP", label: "BH GỘP", bhType: "gop" }
     ];
 
-    function saveDataToLocalStorage() {
-        const fields = ['nhomSP', 'giaNY', 'giaKM', 'minTT', 'maxTT', 'soThangGop', 'tangPMH', 'khachTT', 'phiHS'];
+    const fmt = (n) => Math.round(n || 0).toLocaleString('en-US');
+    const parse = (s) => Number(s.toString().replace(/,/g, "").replace(/%/g, "")) || 0;
+
+    function handleMoneyInput(e) { e.target.value = fmt(parse(e.target.value)); tinhToanCongThucGiaoDien(); }
+    
+    function saveData() {
         let data = {};
-        fields.forEach(id => {
-            const el = document.getElementById(id);
-            if(el) data[id] = el.value;
-        });
-        GOI_BH_CONFIG.forEach(item => {
-            const el = document.getElementById(item.id);
-            if(el) data[item.id] = el.checked;
-        });
+        document.querySelectorAll('input, select').forEach(el => { if(el.id) data[el.id] = (el.type === 'checkbox') ? el.checked : el.value; });
         localStorage.setItem('dashboard_data', JSON.stringify(data));
     }
 
-    function loadDataFromLocalStorage() {
-        const savedData = localStorage.getItem('dashboard_data');
-        if (savedData) {
-            const data = JSON.parse(savedData);
-            for (let id in data) {
+    function loadData() {
+        const saved = localStorage.getItem('dashboard_data');
+        if(saved) {
+            const data = JSON.parse(saved);
+            Object.keys(data).forEach(id => {
                 const el = document.getElementById(id);
-                if (el) {
-                    if (el.type === 'checkbox') el.checked = data[id];
-                    else el.value = data[id];
-                }
-            }
+                if(el) { el.type === 'checkbox' ? el.checked = data[id] : el.value = data[id]; }
+            });
+            return data.nhomSP;
         }
-    }
-
-    function cleanNumber(str) {
-        if (!str) return 0;
-        return Number(str.toString().replace(/,/g, "").replace(/%/g, "")) || 0;
-    }
-
-    function formatCurrency(num) {
-        if (isNaN(num) || num === null || num === 0) return "0";
-        return Math.round(num).toLocaleString('en-US');
-    }
-
-    function roundUpToThousand(num) {
-        if (num <= 0) return 0;
-        return Math.ceil(num / 1000) * 1000;
-    }
-
-    function parsePercent(str) {
-        let val = str.toString().replace(/%/g, "").trim();
-        return (Number(val) || 0) / 100;
-    }
-
-    function capNhatTrangThai(status, text) {
-        const indicator = document.getElementById('statusIndicator');
-        const statusText = document.getElementById('statusText');
-        indicator.className = 'status-dot ' + (status === 'success' ? 'status-green' : status === 'loading' ? 'status-yellow' : 'status-red');
-        statusText.innerText = text;
-    }
-
-    function taiDuLieuPhanKhuc() {
-        if (WEB_APP_URL.includes("DÁN_URL_WEB_APP")) return capNhatTrangThai('error', 'Chưa dán Link Web App!');
-        capNhatTrangThai('loading', 'Đang nạp dữ liệu...');
-        fetch(WEB_APP_URL)
-        .then(res => res.json())
-        .then(res => {
-            if (res.status === "success") {
-                DATA_1DOI1 = res.db11; DATA_MORE = res.dbMore; DATA_ROIVO = res.dbRoivo;
-                const select = document.getElementById('nhomSP');
-                const currentValue = select.value;
-                select.innerHTML = '';
-                res.dropdown.forEach(item => {
-                    let opt = document.createElement('option');
-                    opt.value = item; opt.text = item;
-                    select.appendChild(opt);
-                });
-                if(currentValue) select.value = currentValue;
-                capNhatTrangThai('success', 'Kết nối thành công!');
-                tinhToanCongThucGiaoDien();
-            } else capNhatTrangThai('error', 'Lỗi dữ liệu: ' + res.message);
-        })
-        .catch(err => capNhatTrangThai('error', 'Lỗi kết nối Web App!'));
-    }
-
-    function timPhiBaoHiem(db, nhom, gia, key) {
-        let match = db.find(row => row.nhom === nhom && gia >= row.tu && gia <= row.den);
-        return match ? match[key] : 0;
+        return null;
     }
 
     function tinhToanCongThucGiaoDien() {
-        saveDataToLocalStorage();
+        saveData();
         const nhomSP = document.getElementById('nhomSP').value;
-        const giaNY = cleanNumber(document.getElementById('giaNY').value);
-        const giaKM = cleanNumber(document.getElementById('giaKM').value);
-        const minTTPercent = parsePercent(document.getElementById('minTT').value);
+        if(!nhomSP) return;
+        const giaNY = parse(document.getElementById('giaNY').value);
+        const giaKM = parse(document.getElementById('giaKM').value);
+        const minTTPercent = parse(document.getElementById('minTT').value) / 100;
         const soThangGop = Number(document.getElementById('soThangGop').value) || 1;
-        const tangPMH = cleanNumber(document.getElementById('tangPMH').value);
-        const khachTT = cleanNumber(document.getElementById('khachTT').value);
-        const phiHS = cleanNumber(document.getElementById('phiHS').value);
-
-        if (!nhomSP) return;
+        const tangPMH = parse(document.getElementById('tangPMH').value);
+        const khachTT = parse(document.getElementById('khachTT').value);
+        const phiHS = parse(document.getElementById('phiHS').value);
 
         GOI_BH_CONFIG.forEach(item => {
-            let srcDB = item.type === "1doi1" ? DATA_1DOI1 : (item.type === "more" ? DATA_MORE : DATA_ROIVO);
-            item.phiThucTe = timPhiBaoHiem(srcDB, nhomSP, giaNY, item.key);
-            document.getElementById(item.targetId).innerText = formatCurrency(item.phiThucTe);
+            let src = item.type === "1doi1" ? DATA_1DOI1 : (item.type === "more" ? DATA_MORE : DATA_ROIVO);
+            let match = src.find(r => r.nhom === nhomSP && giaNY >= r.tu && giaNY <= r.den);
+            item.phiThucTe = match ? match[item.key] : 0;
+            document.getElementById(item.targetId).innerText = fmt(item.phiThucTe);
         });
 
-        let tongBHGop = 0;
-        GOI_BH_CONFIG.forEach(item => {
-            if (document.getElementById(item.id).checked) tongBHGop += item.phiThucTe;
-        });
-        document.getElementById('val_bh_gop').innerText = formatCurrency(tongBHGop);
+        let tongBHGop = GOI_BH_CONFIG.reduce((acc, item) => acc + (document.getElementById(item.id).checked ? item.phiThucTe : 0), 0);
+        document.getElementById('val_bh_gop').innerText = fmt(tongBHGop);
 
         const tbody = document.getElementById('tbodyKetQuaGop');
         tbody.innerHTML = '';
-        let mangGopThangSauLamTron = {};
+        let gopThuong = 0;
 
         DANH_SACH_GOI_GOP.forEach(goi => {
             let giaGoiBH = (goi.bhType === "none") ? 0 : (goi.bhType === "gop" ? tongBHGop : (GOI_BH_CONFIG.find(c => c.id === goi.bhId)?.phiThucTe || 0));
-            let minTTGopGoc = (minTTPercent * giaKM) + tangPMH + phiHS + giaGoiBH;
-            let nhapLieuFormat = khachTT - phiHS - tangPMH - giaGoiBH;
-            let gopThangGoc = ((giaKM - nhapLieuFormat) / soThangGop) + 12000;
-            let gopThangFormat = roundUpToThousand(gopThangGoc);
-            mangGopThangSauLamTron[goi.key] = gopThangFormat;
-
+            let nhapLieu = khachTT - phiHS - tangPMH - giaGoiBH;
+            let gopThang = Math.ceil((((giaKM - nhapLieu) / soThangGop) + 12000) / 1000) * 1000;
+            if(goi.key === "GOP_THUONG") gopThuong = gopThang;
+            
             let tr = document.createElement('tr');
-            tr.innerHTML = `<td class="text-center" style="${goi.key === 'BH_GOP' ? 'color:#e74c3c; font-weight:bold;' : 'font-weight:600; color:#475569;'} font-size:11.5px;">${goi.label}</td>
-                            <td class="text-center text-red" style="font-size:12px;">${formatCurrency(khachTT)}</td>
-                            <td class="text-center text-blue" style="font-size:12px;">${formatCurrency(gopThangFormat)}</td>
-                            <td class="text-center" style="color:#e74c3c; font-weight:bold; background-color:#fff5f5; font-size:12px;">${formatCurrency(nhapLieuFormat)}</td>
-                            <td class="text-center" style="font-weight:700; color:#1e293b; font-size:12px;">${formatCurrency(roundUpToThousand(minTTGopGoc))}</td>
-                            <td class="text-center text-red" style="font-weight:bold; font-size:12px;">${formatCurrency(gopThangFormat - mangGopThangSauLamTron["GOP_THUONG"])}</td>`;
+            tr.innerHTML = `<td class="text-center" style="font-weight:bold; font-size:11.5px; color:${goi.key==='BH_GOP'?'#e74c3c':'#475569'}">${goi.label}</td>
+                            <td class="text-center text-red">${fmt(khachTT)}</td>
+                            <td class="text-center text-blue">${fmt(gopThang)}</td>
+                            <td class="text-center" style="color:#e74c3c; font-weight:bold; background:#fff5f5;">${fmt(nhapLieu)}</td>
+                            <td class="text-center">${fmt(Math.ceil(((minTTPercent * giaKM) + tangPMH + phiHS + giaGoiBH)/1000)*1000)}</td>
+                            <td class="text-center text-red" style="font-weight:bold;">${fmt(gopThang - gopThuong)}</td>`;
             tbody.appendChild(tr);
         });
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-        loadDataFromLocalStorage();
-        taiDuLieuPhanKhuc();
-        document.getElementById('btnXoa').addEventListener('click', () => {
-            localStorage.removeItem('dashboard_data');
-            document.getElementById('giaNY').value = '0'; document.getElementById('giaKM').value = '0';
-            document.getElementById('tangPMH').value = '0'; document.getElementById('khachTT').value = '1,000,000';
-            document.getElementById('phiHS').value = '200,000';
-            GOI_BH_CONFIG.forEach(item => { document.getElementById(item.id).checked = false; });
+        let savedNhom = loadData();
+        fetch(WEB_APP_URL).then(r => r.json()).then(res => {
+            DATA_1DOI1 = res.db11; DATA_MORE = res.dbMore; DATA_ROIVO = res.dbRoivo;
+            const select = document.getElementById('nhomSP');
+            select.innerHTML = res.dropdown.map(i => `<option value="${i}">${i}</option>`).join('');
+            if(savedNhom) select.value = savedNhom;
+            document.getElementById('statusIndicator').className = 'status-dot status-green';
+            document.getElementById('statusText').innerText = 'Dữ liệu sẵn sàng';
             tinhToanCongThucGiaoDien();
         });
-        document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', tinhToanCongThucGiaoDien));
-        document.querySelectorAll('.money-format').forEach(input => {
-            input.addEventListener('input', (e) => {
-                let val = cleanNumber(e.target.value);
-                e.target.value = formatCurrency(val);
-            });
+        document.getElementById('btnXoa').addEventListener('click', () => {
+            localStorage.removeItem('dashboard_data');
+            location.reload();
         });
+        document.querySelectorAll('.money-input').forEach(el => el.addEventListener('input', handleMoneyInput));
+        document.querySelectorAll('.percent-input').forEach(el => {
+            el.addEventListener('focus', (e) => e.target.value = e.target.value.replace('%', ''));
+            el.addEventListener('blur', (e) => { e.target.value = e.target.value.replace('%', '') + '%'; tinhToanCongThucGiaoDien(); });
+        });
+        document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', tinhToanCongThucGiaoDien));
     });
 </script>
 </body>
