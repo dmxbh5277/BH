@@ -31,8 +31,12 @@
         .mini-input-group { display: flex; gap: 10px; margin-bottom: 4px; background: #c1d8f0; padding: 8px; border-radius: 8px; border: 1px solid #edf2f7; max-width: 340px; }
         .mini-input-item { display: flex; align-items: center; gap: 6px; flex: 1; }
         .mini-input-item input { height: 30px; background: #fffdf0 !important; border: 1px solid #fef3c7 !important; text-align: center; }
-        .status-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 8px; text-align: center; background-color: #ffffff; border-top: 1px solid #e2e8f0; font-size: 11.5px; font-weight: 600; z-index: 1000; display: flex; justify-content: center; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.03); color: #2a0fe9; }
-        .status-dot { width: 6px; height: 6px; border-radius: 50%; margin-right: 6px; display: inline-block; }
+        .status-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 6px 12px; text-align: center; background-color: #ffffff; border-top: 1px solid #e2e8f0; font-size: 11.5px; font-weight: 600; z-index: 1000; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 -2px 8px rgba(0,0,0,0.03); color: #2a0fe9; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; background-color: #cbd5e1; }
+        .status-green { background-color: #2ecc71 !important; }
+        .status-yellow { background-color: #f1c40f !important; }
+        .btn-refresh { background: #e2e8f0; border: none; padding: 2px 8px; border-radius: 4px; font-size: 10.5px; cursor: pointer; color: #334155; font-weight: 700; }
+        .btn-refresh:hover { background: #cbd5e1; }
     </style>
 </head>
 <body>
@@ -77,10 +81,16 @@
     </div>
 </div>
 
-<div class="status-bar"><span id="statusIndicator" class="status-dot"></span><span id="statusText">Đang tải...</span></div>
+<div class="status-bar">
+    <span id="statusIndicator" class="status-dot"></span>
+    <span id="statusText">Đang tải...</span>
+    <button id="btnReloadApi" class="btn-refresh" title="Lấy bảng giá mới nhất từ Google Sheet">🔄 Cập nhật giá</button>
+</div>
 
 <script>
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyJoieV-BbecLitxFzhL5ZR4Z0umFMU87o3piWhZjrjktI5z-wxbi0XS4gh2URD8VFVXQ/exec";
+    const CACHE_EXPIRE_TIME = 30 * 60 * 1000; // Thời gian Cache: 30 phút
+
     let DATA_1DOI1 = [], DATA_MORE = [], DATA_ROIVO = [];
     let GOI_BH_CONFIG = [
         { id: "chk_bh_11", label: "BH 1-1", type: "1doi1", key: "phi", targetId: "val_bh_11" },
@@ -123,6 +133,40 @@
             return data.nhomSP;
         }
         return null;
+    }
+
+    function capNhatGiaoDienVoiData(res, savedNhom) {
+        DATA_1DOI1 = res.db11 || []; 
+        DATA_MORE = res.dbMore || []; 
+        DATA_ROIVO = res.dbRoivo || [];
+        
+        const select = document.getElementById('nhomSP');
+        const currentVal = select.value || savedNhom;
+        
+        select.innerHTML = (res.dropdown || []).map(i => `<option value="${i}">${i}</option>`).join('');
+        if(currentVal) select.value = currentVal;
+        
+        tinhToanCongThucGiaoDien();
+    }
+
+    function fetchServerData(savedNhom, forceFetch = false) {
+        document.getElementById('statusIndicator').className = 'status-dot status-yellow';
+        document.getElementById('statusText').innerText = 'Đang đồng bộ Google Sheet...';
+        
+        fetch(WEB_APP_URL)
+            .then(r => r.json())
+            .then(res => {
+                localStorage.setItem('dashboard_app_db', JSON.stringify(res));
+                localStorage.setItem('dashboard_app_db_time', Date.now().toString());
+                capNhatGiaoDienVoiData(res, savedNhom);
+                document.getElementById('statusIndicator').className = 'status-dot status-green';
+                document.getElementById('statusText').innerText = 'Dữ liệu trực tuyến';
+            })
+            .catch(err => {
+                console.error("Fetch error:", err);
+                document.getElementById('statusIndicator').className = 'status-dot status-yellow';
+                document.getElementById('statusText').innerText = 'Dùng dữ liệu offline';
+            });
     }
 
     function tinhToanCongThucGiaoDien() {
@@ -170,19 +214,43 @@
 
     window.addEventListener('DOMContentLoaded', () => {
         let savedNhom = loadData();
-        fetch(WEB_APP_URL).then(r => r.json()).then(res => {
-            DATA_1DOI1 = res.db11; DATA_MORE = res.dbMore; DATA_ROIVO = res.dbRoivo;
-            const select = document.getElementById('nhomSP');
-            select.innerHTML = res.dropdown.map(i => `<option value="${i}">${i}</option>`).join('');
-            if(savedNhom) select.value = savedNhom;
-            document.getElementById('statusIndicator').className = 'status-dot status-green';
-            document.getElementById('statusText').innerText = 'Dữ liệu sẵn sàng';
-            tinhToanCongThucGiaoDien();
-        });
+        
+        const cachedRes = localStorage.getItem('dashboard_app_db');
+        const lastFetchTime = localStorage.getItem('dashboard_app_db_time');
+        const now = Date.now();
+
+        if (cachedRes) {
+            try {
+                const res = JSON.parse(cachedRes);
+                capNhatGiaoDienVoiData(res, savedNhom);
+                
+                // Nếu Cache còn hạn (dưới 30 phút), dùng luôn không cần tải ngầm
+                if (lastFetchTime && (now - Number(lastFetchTime) < CACHE_EXPIRE_TIME)) {
+                    document.getElementById('statusIndicator').className = 'status-dot status-green';
+                    document.getElementById('statusText').innerText = 'Dữ liệu sẵn sàng (Tối ưu)';
+                } else {
+                    // Cache đã hết hạn, tiến hành đồng bộ lại
+                    fetchServerData(savedNhom);
+                }
+            } catch (e) {
+                fetchServerData(savedNhom);
+            }
+        } else {
+            // Lần đầu tiên mở web, chưa có Cache
+            fetchServerData(savedNhom);
+        }
+
+        // Nút xóa lịch sử nhập liệu cá nhân
         document.getElementById('btnXoa').addEventListener('click', () => {
             localStorage.removeItem('dashboard_data');
             location.reload();
         });
+
+        // Nút ép buộc tải lại bảng giá mới nhất từ Google Sheet
+        document.getElementById('btnReloadApi').addEventListener('click', () => {
+            fetchServerData(loadData(), true);
+        });
+
         document.querySelectorAll('.money-input').forEach(el => el.addEventListener('input', handleMoneyInput));
         document.querySelectorAll('.percent-input').forEach(el => {
             el.addEventListener('focus', (e) => e.target.value = e.target.value.replace('%', ''));
