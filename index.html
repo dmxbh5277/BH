@@ -114,12 +114,13 @@
     const fmt = (n) => Math.round(n || 0).toLocaleString('en-US');
     const parse = (s) => Number(s.toString().replace(/,/g, "").replace(/%/g, "")) || 0;
 
+    // Định dạng tiền tệ realtime khi gõ
     function handleMoneyInput(e) { 
         e.target.value = fmt(parse(e.target.value)); 
         tinhToanCongThucGiaoDien(); 
     }
 
-    // Tự động nhân 1.000 khi nhập số rút gọn (ví dụ nhập 2590 -> 2,590,000)
+    // Tự động nhân 1.000 khi rời ô nhập liệu (nếu giá trị nhập < 100.000)
     function handleMoneyBlur(e) {
         let val = parse(e.target.value);
         if (val > 0 && val < 100000) {
@@ -131,7 +132,13 @@
     
     function saveData() {
         let data = {};
-        document.querySelectorAll('input, select').forEach(el => { if(el.id) data[el.id] = (el.type === 'checkbox') ? el.checked : el.value; });
+        document.querySelectorAll('input, select').forEach(el => { 
+            if(el.id && el.id !== 'nhomSP') { // Không lưu giá trị rỗng của nhomSP trước khi dropdown sẵn sàng
+                data[el.id] = (el.type === 'checkbox') ? el.checked : el.value; 
+            } else if(el.id === 'nhomSP' && el.value) {
+                data[el.id] = el.value;
+            }
+        });
         localStorage.setItem('dashboard_data', JSON.stringify(data));
     }
 
@@ -141,7 +148,9 @@
             const data = JSON.parse(saved);
             Object.keys(data).forEach(id => {
                 const el = document.getElementById(id);
-                if(el) { el.type === 'checkbox' ? el.checked = data[id] : el.value = data[id]; }
+                if(el && id !== 'nhomSP') { 
+                    el.type === 'checkbox' ? el.checked = data[id] : el.value = data[id]; 
+                }
             });
             return data.nhomSP;
         }
@@ -154,10 +163,14 @@
         DATA_ROIVO = res.dbRoivo || [];
         
         const select = document.getElementById('nhomSP');
-        const currentVal = select.value || savedNhom;
         
-        select.innerHTML = (res.dropdown || []).map(i => `<option value="${i}">${i}</option>`).join('');
-        if(currentVal) select.value = currentVal;
+        // Render lại danh sách Dropdown từ API
+        if (res.dropdown && res.dropdown.length > 0) {
+            select.innerHTML = res.dropdown.map(i => `<option value="${i}">${i}</option>`).join('');
+            if (savedNhom && res.dropdown.includes(savedNhom)) {
+                select.value = savedNhom;
+            }
+        }
         
         tinhToanCongThucGiaoDien();
     }
@@ -237,19 +250,16 @@
                 const res = JSON.parse(cachedRes);
                 capNhatGiaoDienVoiData(res, savedNhom);
                 
-                // Nếu Cache còn hạn (dưới 30 phút), dùng luôn không cần tải ngầm
                 if (lastFetchTime && (now - Number(lastFetchTime) < CACHE_EXPIRE_TIME)) {
                     document.getElementById('statusIndicator').className = 'status-dot status-green';
                     document.getElementById('statusText').innerText = 'Dữ liệu sẵn sàng (Tối ưu)';
                 } else {
-                    // Cache đã hết hạn, tiến hành đồng bộ lại
                     fetchServerData(savedNhom);
                 }
             } catch (e) {
                 fetchServerData(savedNhom);
             }
         } else {
-            // Lần đầu tiên mở web, chưa có Cache
             fetchServerData(savedNhom);
         }
 
@@ -264,7 +274,7 @@
             fetchServerData(loadData(), true);
         });
 
-        // Gắn sự kiện tự động nhân 1000 cho tất cả ô nhập tiền (Giá NY, Giá KM, Tặng PMH, Khách TT, Phí HS)
+        // Gắn sự kiện định dạng & tự động nhân 1000 cho các ô nhập tiền
         document.querySelectorAll('.money-input').forEach(el => {
             el.addEventListener('input', handleMoneyInput);
             el.addEventListener('blur', handleMoneyBlur);
@@ -274,6 +284,7 @@
             el.addEventListener('focus', (e) => e.target.value = e.target.value.replace('%', ''));
             el.addEventListener('blur', (e) => { e.target.value = e.target.value.replace('%', '') + '%'; tinhToanCongThucGiaoDien(); });
         });
+        
         document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', tinhToanCongThucGiaoDien));
     });
 </script>
