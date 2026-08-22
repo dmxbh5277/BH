@@ -37,6 +37,14 @@
         .status-yellow { background-color: #f1c40f !important; }
         .btn-refresh { background: #e2e8f0; border: none; padding: 2px 8px; border-radius: 4px; font-size: 10.5px; cursor: pointer; color: #334155; font-weight: 700; }
         .btn-refresh:hover { background: #cbd5e1; }
+
+        /* CSS bổ sung cho phần thu gọn & nút X xóa nhanh */
+        .input-wrapper { position: relative; display: flex; align-items: center; width: 100%; height: 100%; }
+        .input-wrapper input { padding-right: 22px !important; }
+        .btn-clear-field { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); background: #cbd5e1; color: #fff; border: none; border-radius: 50%; width: 16px; height: 16px; font-size: 10px; line-height: 16px; text-align: center; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; z-index: 5; }
+        .btn-clear-field:hover { background: #e74c3c; }
+        .compact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+        .compact-grid .full-width { grid-column: span 2; }
     </style>
 </head>
 <body>
@@ -45,15 +53,82 @@
     <div style="display: flex; flex-direction: column; gap: 12px;">
         <div class="card">
             <div class="card-title"><span>NHẬP THÔNG TIN SẢN PHẨM</span><button id="btnXoa" class="btn-clear">Xóa dữ liệu</button></div>
-            <table class="sheet-table">
-                <tr><td class="label-bold" style="width: 35%;">Nhóm SP</td><td colspan="2"><select id="nhomSP"></select></td></tr>
-                <tr><td class="label-bold">Giá NY</td><td colspan="2"><input type="text" id="giaNY" class="text-center money-input text-blue" value="0"></td></tr>
-                <tr><td class="label-bold">Giá KM</td><td colspan="2"><input type="text" id="giaKM" class="text-center money-input text-red" value="0"></td></tr>
-                <tr><td class="label-bold">Min TT</td><td colspan="2"><input type="text" id="minTT" class="text-center percent-input" value="0%"></td></tr>
-                <tr><td class="label-bold">Max TT</td><td colspan="2"><input type="text" id="maxTT" class="text-center percent-input" value="70%"></td></tr>
-                <tr><td class="label-bold">Góp (Th)</td><td colspan="2"><input type="number" id="soThangGop" class="text-center" value="6"></td></tr>
-                <tr><td class="label-bold">Tặng PMH</td><td colspan="2"><input type="text" id="tangPMH" class="text-center money-input text-blue" value="0"></td></tr>
-            </table>
+            <div class="compact-grid">
+                <div class="full-width">
+                    <table class="sheet-table">
+                        <tr>
+                            <td class="label-bold" style="width: 35%;">Nhóm SP</td>
+                            <td><select id="nhomSP"></select></td>
+                        </tr>
+                    </table>
+                </div>
+                <table class="sheet-table">
+                    <tr>
+                        <td class="label-bold" style="width: 45%;">Giá NY</td>
+                        <td>
+                            <div class="input-wrapper">
+                                <input type="text" id="giaNY" class="text-center money-input text-blue" value="0">
+                                <button type="button" class="btn-clear-field" onclick="clearField('giaNY')">✕</button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table class="sheet-table">
+                    <tr>
+                        <td class="label-bold" style="width: 45%;">Giá KM</td>
+                        <td>
+                            <div class="input-wrapper">
+                                <input type="text" id="giaKM" class="text-center money-input text-red" value="0">
+                                <button type="button" class="btn-clear-field" onclick="clearField('giaKM')">✕</button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table class="sheet-table">
+                    <tr>
+                        <td class="label-bold" style="width: 45%;">Min TT</td>
+                        <td>
+                            <div class="input-wrapper">
+                                <input type="text" id="minTT" class="text-center percent-input" value="0%">
+                                <button type="button" class="btn-clear-field" onclick="clearField('minTT', '0%')">✕</button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table class="sheet-table">
+                    <tr>
+                        <td class="label-bold" style="width: 45%;">Max TT</td>
+                        <td>
+                            <div class="input-wrapper">
+                                <input type="text" id="maxTT" class="text-center percent-input" value="70%">
+                                <button type="button" class="btn-clear-field" onclick="clearField('maxTT', '0%')">✕</button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table class="sheet-table">
+                    <tr>
+                        <td class="label-bold" style="width: 45%;">Góp (Th)</td>
+                        <td>
+                            <div class="input-wrapper">
+                                <input type="number" id="soThangGop" class="text-center" value="6">
+                                <button type="button" class="btn-clear-field" onclick="clearField('soThangGop', '0')">✕</button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table class="sheet-table">
+                    <tr>
+                        <td class="label-bold" style="width: 45%;">Tặng PMH</td>
+                        <td>
+                            <div class="input-wrapper">
+                                <input type="text" id="tangPMH" class="text-center money-input text-blue" value="0">
+                                <button type="button" class="btn-clear-field" onclick="clearField('tangPMH')">✕</button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
 
         <div class="card">
@@ -74,8 +149,20 @@
     <div class="card">
         <div class="card-title">TƯ VẤN CÁC GÓI TRẢ GÓP</div>
         <div class="mini-input-group">
-            <div class="mini-input-item"><label>Khách TT:</label><input type="text" id="khachTT" class="money-input text-red" value="1,000,000"></div>
-            <div class="mini-input-item"><label>Phí HS:</label><input type="text" id="phiHS" class="money-input text-red" value="200,000"></div>
+            <div class="mini-input-item">
+                <label>Khách TT:</label>
+                <div class="input-wrapper">
+                    <input type="text" id="khachTT" class="money-input text-red" value="1,000,000">
+                    <button type="button" class="btn-clear-field" onclick="clearField('khachTT')">✕</button>
+                </div>
+            </div>
+            <div class="mini-input-item">
+                <label>Phí HS:</label>
+                <div class="input-wrapper">
+                    <input type="text" id="phiHS" class="money-input text-red" value="200,000">
+                    <button type="button" class="btn-clear-field" onclick="clearField('phiHS')">✕</button>
+                </div>
+            </div>
         </div>
         <div class="table-responsive"><table class="sheet-table"><thead style="background:#0b3c5d; color:white;"><tr><th>Gói góp</th><th>Trả trước</th><th>Góp/tháng</th><th>NHẬP LIỆU</th><th>Min TT Góp</th><th>Thêm/tháng</th></tr></thead><tbody id="tbodyKetQuaGop"></tbody></table></div>
     </div>
@@ -113,6 +200,14 @@
 
     const fmt = (n) => Math.round(n || 0).toLocaleString('en-US');
     const parse = (s) => Number(s.toString().replace(/,/g, "").replace(/%/g, "")) || 0;
+
+    function clearField(id, defaultValue = '0') {
+        const el = document.getElementById(id);
+        if(el) {
+            el.value = defaultValue;
+            tinhToanCongThucGiaoDien();
+        }
+    }
 
     function handleMoneyInput(e) { e.target.value = fmt(parse(e.target.value)); tinhToanCongThucGiaoDien(); }
     
