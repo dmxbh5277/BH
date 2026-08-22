@@ -13,7 +13,7 @@
         .card { background: #ffffff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); border: 1px solid #e2e8f0; overflow: hidden; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
         .card-title { font-size: 14px; font-weight: 700; color: #0b3c5d; border-left: 4px solid #2ecc71; padding-left: 6px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; justify-content: space-between; align-items: center; }
         .btn-clear { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; }
-        table.sheet-table { width: 100%; border-collapse: collapse; background-color: #fff; }
+        table.sheet-table { width: 100%; border-collapse: collapse; background-color: #fff; table-layout: fixed; }
         table.sheet-table th, table.sheet-table td { border: 1px solid #edf2f7; padding: 6px 4px; font-size: 12.5px; height: 36px; vertical-align: middle; }
         .bg-teal-header { background-color: #0b3c5d !important; color: white; font-weight: 600; }
         .bg-light-green { background-color: #e6fffa !important; color: #0b3c5d; font-weight: bold; border-top: 1px solid #2ecc71; }
@@ -53,20 +53,27 @@
         <div class="card">
             <div class="card-title"><span>NHẬP THÔNG TIN SẢN PHẨM</span><button id="btnXoa" class="btn-clear">Xóa dữ liệu</button></div>
             <table class="sheet-table">
+                <!-- Thiết lập tỷ lệ 35% - 65% cho ma trận 2 cột (17.5% - 32.5% cho mỗi nửa) -->
+                <colgroup>
+                    <col style="width: 17.5%;">
+                    <col style="width: 32.5%;">
+                    <col style="width: 17.5%;">
+                    <col style="width: 32.5%;">
+                </colgroup>
                 <tr>
-                    <td class="label-bold" style="width: 25%;">Nhóm SP</td>
-                    <td colspan="3"><select id="nhomSP"></select></td>
+                    <td class="label-bold" style="width: 35%;">Nhóm SP</td>
+                    <td colspan="3" style="width: 65%;"><select id="nhomSP"></select></td>
                 </tr>
                 <tr>
-                    <td class="label-bold" style="width: 25%;">Giá NY</td>
-                    <td style="width: 25%;">
+                    <td class="label-bold">Giá NY</td>
+                    <td>
                         <div class="input-clear-wrapper">
                             <input type="text" id="giaNY" class="text-center money-input text-blue" value="0">
                             <button class="btn-clear-input" title="Xóa">✕</button>
                         </div>
                     </td>
-                    <td class="label-bold" style="width: 25%;">Giá KM</td>
-                    <td style="width: 25%;">
+                    <td class="label-bold">Giá KM</td>
+                    <td>
                         <div class="input-clear-wrapper">
                             <input type="text" id="giaKM" class="text-center money-input text-red" value="0">
                             <button class="btn-clear-input" title="Xóa">✕</button>
@@ -111,7 +118,7 @@
         <div class="card">
             <div class="card-title">GIÁ TRỊ CÁC GÓI BẢO HIỂM - TẬN TÂM</div>
             <table class="sheet-table">
-                <tr class="bg-teal-header"><td>Chọn</td><td>BH Tận Tâm</td><td>Giá gói</td></tr>
+                <tr class="bg-teal-header"><td style="width: 15%;">Chọn</td><td style="width: 50%;">BH Tận Tâm</td><td style="width: 35%;">Giá gói</td></tr>
                 <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_11"></td><td class="label-bold">BH 1-1</td><td class="text-right text-blue" id="val_bh_11">0</td></tr>
                 <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m1"></td><td class="label-bold">BHMR 1 năm</td><td class="text-right text-blue" id="val_bh_m1">0</td></tr>
                 <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m2"></td><td class="label-bold">BHMR 2 năm</td><td class="text-right text-blue" id="val_bh_m2">0</td></tr>
@@ -127,15 +134,15 @@
         <div class="card-title">TƯ VẤN CÁC GÓI TRẢ GÓP</div>
         <div class="mini-input-group">
             <div class="mini-input-item">
-                <label>Khách TT:</label>
-                <div class="input-clear-wrapper">
+                <label style="width: 35%; font-weight: 600; color: #64748b; font-size: 12.5px;">Khách TT:</label>
+                <div class="input-clear-wrapper" style="width: 65%;">
                     <input type="text" id="khachTT" class="money-input text-red" value="1,000,000">
                     <button class="btn-clear-input" title="Xóa">✕</button>
                 </div>
             </div>
             <div class="mini-input-item">
-                <label>Phí HS:</label>
-                <div class="input-clear-wrapper">
+                <label style="width: 35%; font-weight: 600; color: #64748b; font-size: 12.5px;">Phí HS:</label>
+                <div class="input-clear-wrapper" style="width: 65%;">
                     <input type="text" id="phiHS" class="money-input text-red" value="200,000">
                     <button class="btn-clear-input" title="Xóa">✕</button>
                 </div>
