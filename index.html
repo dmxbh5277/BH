@@ -17,6 +17,13 @@
         table.sheet-table th, table.sheet-table td { border: 1px solid #edf2f7; padding: 6px 4px; font-size: 12.5px; height: 36px; vertical-align: middle; }
         .bg-teal-header { background-color: #0b3c5d !important; color: white; font-weight: 600; }
         .bg-light-green { background-color: #e6fffa !important; color: #0b3c5d; font-weight: bold; border-top: 1px solid #2ecc71; }
+        
+        /* Container cho ô input và nút xóa */
+        .input-clear-wrapper { position: relative; width: 100%; height: 100%; display: flex; align-items: center; }
+        .input-clear-wrapper input { padding-right: 24px !important; }
+        .btn-clear-input { position: absolute; right: 4px; background: transparent; border: none; color: #94a3b8; font-size: 12px; font-weight: bold; cursor: pointer; padding: 2px 6px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 5; }
+        .btn-clear-input:hover { color: #e74c3c; background: #fee2e2; }
+
         input[type="text"], input[type="number"], select { width: 100%; height: 100%; border: 1px solid transparent; border-radius: 6px; outline: none; font-size: 12.5px; font-weight: 700; background: #f8fafc; padding: 2px 6px; color: #334155; }
         select { cursor: pointer; appearance: none; text-align-last: center; }
         input:focus, select:focus { background-color: #ffffff; border-color: #0b3c5d; box-shadow: 0 0 0 2px rgba(11, 60, 93, 0.1); }
@@ -47,12 +54,60 @@
             <div class="card-title"><span>NHẬP THÔNG TIN SẢN PHẨM</span><button id="btnXoa" class="btn-clear">Xóa dữ liệu</button></div>
             <table class="sheet-table">
                 <tr><td class="label-bold" style="width: 35%;">Nhóm SP</td><td colspan="2"><select id="nhomSP"></select></td></tr>
-                <tr><td class="label-bold">Giá NY</td><td colspan="2"><input type="text" id="giaNY" class="text-center money-input text-blue" value="0"></td></tr>
-                <tr><td class="label-bold">Giá KM</td><td colspan="2"><input type="text" id="giaKM" class="text-center money-input text-red" value="0"></td></tr>
-                <tr><td class="label-bold">Min TT</td><td colspan="2"><input type="text" id="minTT" class="text-center percent-input" value="0%"></td></tr>
-                <tr><td class="label-bold">Max TT</td><td colspan="2"><input type="text" id="maxTT" class="text-center percent-input" value="70%"></td></tr>
-                <tr><td class="label-bold">Góp (Th)</td><td colspan="2"><input type="number" id="soThangGop" class="text-center" value="6"></td></tr>
-                <tr><td class="label-bold">Tặng PMH</td><td colspan="2"><input type="text" id="tangPMH" class="text-center money-input text-blue" value="0"></td></tr>
+                <tr>
+                    <td class="label-bold">Giá NY</td>
+                    <td colspan="2">
+                        <div class="input-clear-wrapper">
+                            <input type="text" id="giaNY" class="text-center money-input text-blue" value="0">
+                            <button class="btn-clear-input" title="Xóa">✕</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-bold">Giá KM</td>
+                    <td colspan="2">
+                        <div class="input-clear-wrapper">
+                            <input type="text" id="giaKM" class="text-center money-input text-red" value="0">
+                            <button class="btn-clear-input" title="Xóa">✕</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-bold">Min TT</td>
+                    <td colspan="2">
+                        <div class="input-clear-wrapper">
+                            <input type="text" id="minTT" class="text-center percent-input" value="0%">
+                            <button class="btn-clear-input" title="Xóa">✕</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-bold">Max TT</td>
+                    <td colspan="2">
+                        <div class="input-clear-wrapper">
+                            <input type="text" id="maxTT" class="text-center percent-input" value="70%">
+                            <button class="btn-clear-input" title="Xóa">✕</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-bold">Góp (Th)</td>
+                    <td colspan="2">
+                        <div class="input-clear-wrapper">
+                            <input type="number" id="soThangGop" class="text-center" value="6">
+                            <button class="btn-clear-input" title="Xóa">✕</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-bold">Tặng PMH</td>
+                    <td colspan="2">
+                        <div class="input-clear-wrapper">
+                            <input type="text" id="tangPMH" class="text-center money-input text-blue" value="0">
+                            <button class="btn-clear-input" title="Xóa">✕</button>
+                        </div>
+                    </td>
+                </tr>
             </table>
         </div>
 
@@ -74,8 +129,20 @@
     <div class="card">
         <div class="card-title">TƯ VẤN CÁC GÓI TRẢ GÓP</div>
         <div class="mini-input-group">
-            <div class="mini-input-item"><label>Khách TT:</label><input type="text" id="khachTT" class="money-input text-red" value="1,000,000"></div>
-            <div class="mini-input-item"><label>Phí HS:</label><input type="text" id="phiHS" class="money-input text-red" value="200,000"></div>
+            <div class="mini-input-item">
+                <label>Khách TT:</label>
+                <div class="input-clear-wrapper">
+                    <input type="text" id="khachTT" class="money-input text-red" value="1,000,000">
+                    <button class="btn-clear-input" title="Xóa">✕</button>
+                </div>
+            </div>
+            <div class="mini-input-item">
+                <label>Phí HS:</label>
+                <div class="input-clear-wrapper">
+                    <input type="text" id="phiHS" class="money-input text-red" value="200,000">
+                    <button class="btn-clear-input" title="Xóa">✕</button>
+                </div>
+            </div>
         </div>
         <div class="table-responsive"><table class="sheet-table"><thead style="background:#0b3c5d; color:white;"><tr><th>Gói góp</th><th>Trả trước</th><th>Góp/tháng</th><th>NHẬP LIỆU</th><th>Min TT Góp</th><th>Thêm/tháng</th></tr></thead><tbody id="tbodyKetQuaGop"></tbody></table></div>
     </div>
@@ -249,6 +316,19 @@
         // Nút ép buộc tải lại bảng giá mới nhất từ Google Sheet
         document.getElementById('btnReloadApi').addEventListener('click', () => {
             fetchServerData(loadData(), true);
+        });
+
+        // Đăng ký sự kiện cho các nút X xóa nhanh nội dung ô input
+        document.querySelectorAll('.btn-clear-input').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const input = btn.previousElementSibling;
+                if (input) {
+                    input.value = input.classList.contains('percent-input') ? '0%' : (input.type === 'number' ? '' : '0');
+                    tinhToanCongThucGiaoDien();
+                    input.focus();
+                }
+            });
         });
 
         document.querySelectorAll('.money-input').forEach(el => el.addEventListener('input', handleMoneyInput));
