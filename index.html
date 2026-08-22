@@ -1,95 +1,14 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dashboard Trả Góp & Bảo Hiểm - Mobile Optimized</title>
-    <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet">
-    <style>
-        * { box-sizing: border-box; font-family: 'Google Sans', 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; }
-        body { background-color: #f4f6f9; padding: 8px; color: #2c3e50; padding-bottom: 50px; }
-        .app-grid { display: grid; grid-template-columns: 1fr; gap: 12px; max-width: 1440px; margin: 0 auto; }
-        @media(min-width: 992px) { .app-grid { grid-template-columns: 380px 1fr; gap: 20px; padding: 12px; } }
-        .card { background: #ffffff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); border: 1px solid #e2e8f0; overflow: hidden; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
-        .card-title { font-size: 14px; font-weight: 700; color: #0b3c5d; border-left: 4px solid #2ecc71; padding-left: 6px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; justify-content: space-between; align-items: center; }
-        .btn-clear { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; }
-        table.sheet-table { width: 100%; border-collapse: collapse; background-color: #fff; }
-        table.sheet-table th, table.sheet-table td { border: 1px solid #edf2f7; padding: 6px 4px; font-size: 12.5px; height: 36px; vertical-align: middle; }
-        .bg-teal-header { background-color: #0b3c5d !important; color: white; font-weight: 600; }
-        .bg-light-green { background-color: #e6fffa !important; color: #0b3c5d; font-weight: bold; border-top: 1px solid #2ecc71; }
-        input[type="text"], input[type="number"], select { width: 100%; height: 100%; border: 1px solid transparent; border-radius: 6px; outline: none; font-size: 12.5px; font-weight: 700; background: #f8fafc; padding: 2px 6px; color: #334155; }
-        select { cursor: pointer; appearance: none; text-align-last: center; }
-        input:focus, select:focus { background-color: #ffffff; border-color: #0b3c5d; box-shadow: 0 0 0 2px rgba(11, 60, 93, 0.1); }
-        .text-center { text-align: center !important; }
-        .text-right { text-align: right; }
-        .text-red { color: #e74c3c !important; font-weight: 700; }
-        .text-blue { color: #0b3c5d !important; font-weight: 700; }
-        .label-bold { font-weight: 600; color: #64748b; }
-        .checkbox-cell { text-align: center; width: 45px; }
-        .checkbox-cell input[type="checkbox"] { accent-color: #0b3c5d; transform: scale(1.1); cursor: pointer; }
-        .table-responsive { width: 100%; overflow-x: hidden; border-radius: 8px; border: 1px solid #edf2f7; }
-        .mini-input-group { display: flex; gap: 10px; margin-bottom: 4px; background: #c1d8f0; padding: 8px; border-radius: 8px; border: 1px solid #edf2f7; max-width: 340px; }
-        .mini-input-item { display: flex; align-items: center; gap: 6px; flex: 1; }
-        .mini-input-item input { height: 30px; background: #fffdf0 !important; border: 1px solid #fef3c7 !important; text-align: center; }
-        .status-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 6px 12px; text-align: center; background-color: #ffffff; border-top: 1px solid #e2e8f0; font-size: 11.5px; font-weight: 600; z-index: 1000; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 -2px 8px rgba(0,0,0,0.03); color: #2a0fe9; }
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; background-color: #cbd5e1; }
-        .status-green { background-color: #2ecc71 !important; }
-        .status-yellow { background-color: #f1c40f !important; }
-        .btn-refresh { background: #e2e8f0; border: none; padding: 2px 8px; border-radius: 4px; font-size: 10.5px; cursor: pointer; color: #334155; font-weight: 700; }
-        .btn-refresh:hover { background: #cbd5e1; }
-    </style>
-</head>
-<body>
-
-<div class="app-grid">
-    <div style="display: flex; flex-direction: column; gap: 12px;">
-        <div class="card">
-            <div class="card-title"><span>NHẬP THÔNG TIN SẢN PHẨM</span><button id="btnXoa" class="btn-clear">Xóa Form Nhập</button></div>
-            <table class="sheet-table">
-                <tr><td class="label-bold" style="width: 35%;">Nhóm SP</td><td colspan="2"><select id="nhomSP"></select></td></tr>
-                <tr><td class="label-bold">Giá NY</td><td colspan="2"><input type="text" id="giaNY" class="text-center money-input text-blue" value="0"></td></tr>
-                <tr><td class="label-bold">Giá KM</td><td colspan="2"><input type="text" id="giaKM" class="text-center money-input text-red" value="0"></td></tr>
-                <tr><td class="label-bold">Min TT</td><td colspan="2"><input type="text" id="minTT" class="text-center percent-input" value="0%"></td></tr>
-                <tr><td class="label-bold">Max TT</td><td colspan="2"><input type="text" id="maxTT" class="text-center percent-input" value="70%"></td></tr>
-                <tr><td class="label-bold">Góp (Th)</td><td colspan="2"><input type="number" id="soThangGop" class="text-center" value="6"></td></tr>
-                <tr><td class="label-bold">Tặng PMH</td><td colspan="2"><input type="text" id="tangPMH" class="text-center money-input text-blue" value="0"></td></tr>
-            </table>
-        </div>
-
-        <div class="card">
-            <div class="card-title">GIÁ TRỊ CÁC GÓI BẢO HIỂM - TẬN TÂM</div>
-            <table class="sheet-table">
-                <tr class="bg-teal-header"><td>Chọn</td><td>BH Tận Tâm</td><td>Giá gói</td></tr>
-                <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_11"></td><td class="label-bold">BH 1-1</td><td class="text-right text-blue" id="val_bh_11">0</td></tr>
-                <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m1"></td><td class="label-bold">BHMR 1 năm</td><td class="text-right text-blue" id="val_bh_m1">0</td></tr>
-                <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m2"></td><td class="label-bold">BHMR 2 năm</td><td class="text-right text-blue" id="val_bh_m2">0</td></tr>
-                <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m3"></td><td class="label-bold">BHMR 3 năm</td><td class="text-right text-blue" id="val_bh_m3">0</td></tr>
-                <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_rv6"></td><td class="label-bold">BHRV 6 th</td><td class="text-right text-blue" id="val_bh_rv6">0</td></tr>
-                <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_rv12"></td><td class="label-bold">BHRV 12 th</td><td class="text-right text-blue" id="val_bh_rv12">0</td></tr>
-                <tr class="bg-light-green"><td>∑</td><td>TỔNG BH GỘP</td><td class="text-right text-red" id="val_bh_gop">0</td></tr>
-            </table>
-        </div>
-    </div>
-
-    <div class="card">
-        <div class="card-title">TƯ VẤN CÁC GÓI TRẢ GÓP</div>
-        <div class="mini-input-group">
-            <div class="mini-input-item"><label>Khách TT:</label><input type="text" id="khachTT" class="money-input text-red" value="1,000,000"></div>
-            <div class="mini-input-item"><label>Phí HS:</label><input type="text" id="phiHS" class="money-input text-red" value="200,000"></div>
-        </div>
-        <div class="table-responsive"><table class="sheet-table"><thead style="background:#0b3c5d; color:white;"><tr><th>Gói góp</th><th>Trả trước</th><th>Góp/tháng</th><th>NHẬP LIỆU</th><th>Min TT Góp</th><th>Thêm/tháng</th></tr></thead><tbody id="tbodyKetQuaGop"></tbody></table></div>
-    </div>
-</div>
-
-<div class="status-bar">
-    <span id="statusIndicator" class="status-dot"></span>
-    <span id="statusText">Đang khởi tạo...</span>
-    <button id="btnReloadApi" class="btn-refresh" title="Lấy bảng giá mới nhất từ Google Sheet">🔄 Cập nhật giá</button>
-</div>
-
 <script>
-    // THAY LINK WEB APP CỦA BẠN VÀO ĐÂY (Link bản Deploy mới nhất)
+    // Đã thay bằng Link mới nhất của bạn
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzeh3X5lPD6gmGldcLgnZ4vTOSJxlN1u1tFS-m4KNYrxM7kWk-ryNeqNJP7sswglGcuHA/exec";
+
+    // --- ĐOẠN NÀY LÀ MỚI: Tự động xóa data cũ nếu phát hiện link API thay đổi ---
+    const savedApiUrl = localStorage.getItem('current_api_url');
+    if (savedApiUrl !== WEB_APP_URL) {
+        localStorage.removeItem('dashboard_app_db'); // Xóa sạch data lỗi cũ
+        localStorage.setItem('current_api_url', WEB_APP_URL);
+    }
+    // -------------------------------------------------------------------------
 
     let DATA_1DOI1 = [], DATA_MORE = [], DATA_ROIVO = [];
     let GOI_BH_CONFIG = [
@@ -114,7 +33,6 @@
     const fmt = (n) => Math.round(n || 0).toLocaleString('en-US');
     const parse = (s) => Number(s.toString().replace(/,/g, "").replace(/%/g, "")) || 0;
 
-    // Xử lý tự động nhân 1000 cho các số nhập rút gọn
     function processInputValue(val) {
         let num = parse(val);
         if (num > 0 && num < 100000) {
@@ -137,7 +55,7 @@
     function saveData() {
         let data = {};
         document.querySelectorAll('input, select').forEach(el => { if(el.id) data[el.id] = (el.type === 'checkbox') ? el.checked : el.value; });
-        localStorage.setItem('dashboard_data', JSON.stringify(data)); // Lưu cấu hình người nhập
+        localStorage.setItem('dashboard_data', JSON.stringify(data)); 
     }
 
     function loadData() {
@@ -161,18 +79,16 @@
         const select = document.getElementById('nhomSP');
         const options = res.dropdown || [];
         
-        // Tạo danh sách option an toàn
         if (options.length > 0) {
             select.innerHTML = options.map(i => `<option value="${i}">${i}</option>`).join('');
-            
-            // Ưu tiên: 1. Nhóm đã lưu, 2. Nếu không có thì lấy option đầu tiên
             if (savedNhom && options.includes(savedNhom)) {
                 select.value = savedNhom;
             } else {
                 select.value = options[0]; 
             }
         } else {
-            select.innerHTML = '<option value="">-- Trống --</option>';
+            // Hiển thị lỗi rõ ràng nếu API trả về mảng rỗng
+            select.innerHTML = '<option value="">-- Sheet DROPDOWN đang trống --</option>';
         }
         
         tinhToanCongThucGiaoDien();
@@ -185,9 +101,8 @@
         fetch(WEB_APP_URL)
             .then(r => r.json())
             .then(res => {
-                // Lưu bảng giá vào LocalStorage để lần sau tải nhanh
+                console.log("Dữ liệu từ Google Sheet:", res); // Sẽ in ra F12 để bạn dễ kiểm tra
                 localStorage.setItem('dashboard_app_db', JSON.stringify(res));
-                
                 capNhatGiaoDienVoiData(res, savedNhom);
                 
                 document.getElementById('statusIndicator').className = 'status-dot status-green';
@@ -196,12 +111,12 @@
             .catch(err => {
                 console.error("Fetch error:", err);
                 document.getElementById('statusIndicator').className = 'status-dot status-yellow';
-                document.getElementById('statusText').innerText = 'Lỗi cập nhật. Đang dùng dữ liệu cũ.';
+                document.getElementById('statusText').innerText = 'Lỗi kết nối API';
             });
     }
 
     function tinhToanCongThucGiaoDien() {
-        saveData(); // Lưu lại input đang nhập
+        saveData(); 
         const nhomSP = document.getElementById('nhomSP').value;
         if(!nhomSP) return;
         const giaNY = parse(document.getElementById('giaNY').value);
@@ -244,41 +159,31 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-        // 1. Tải các cấu hình người dùng đã nhập (giá, checkbox, v.v.)
         let savedNhom = loadData();
-        
-        // 2. Kiểm tra xem đã có data Database từ Google Sheet lưu trong máy chưa
         const cachedRes = localStorage.getItem('dashboard_app_db');
 
         if (cachedRes) {
-            // NẾU ĐÃ CÓ DATA: Dùng ngay lập tức để tải trang trong 0.1s
             try {
                 const res = JSON.parse(cachedRes);
                 capNhatGiaoDienVoiData(res, savedNhom);
-                
                 document.getElementById('statusIndicator').className = 'status-dot status-green';
-                document.getElementById('statusText').innerText = 'Sử dụng dữ liệu Offline (Tốc độ cao)';
+                document.getElementById('statusText').innerText = 'Dữ liệu Offline';
             } catch (e) {
-                // Nếu lỗi đọc cache, gọi lại API
                 fetchServerData(savedNhom);
             }
         } else {
-            // CHƯA CÓ DATA (Lần đầu mở web): Bắt buộc tải từ Server
             fetchServerData(savedNhom);
         }
 
-        // Sự kiện: Nút Xóa dữ liệu (Chỉ xóa các input đã nhập, không xóa Bảng giá DB)
         document.getElementById('btnXoa').addEventListener('click', () => {
             localStorage.removeItem('dashboard_data');
             location.reload();
         });
 
-        // Sự kiện: Nút Cập nhật giá (Bắt buộc chọc API lấy giá mới nhất)
         document.getElementById('btnReloadApi').addEventListener('click', () => {
             fetchServerData(document.getElementById('nhomSP').value);
         });
 
-        // Các sự kiện Input tự động tính toán
         document.querySelectorAll('.money-input').forEach(el => {
             el.addEventListener('input', handleMoneyInput);
             el.addEventListener('blur', handleMoneyBlur);
@@ -293,5 +198,3 @@
         document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', tinhToanCongThucGiaoDien));
     });
 </script>
-</body>
-</html>
