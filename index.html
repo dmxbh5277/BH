@@ -13,24 +13,23 @@
         .card { background: #ffffff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); border: 1px solid #e2e8f0; overflow: hidden; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
         .card-title { font-size: 14px; font-weight: 700; color: #0b3c5d; border-left: 4px solid #2ecc71; padding-left: 6px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; justify-content: space-between; align-items: center; }
         .btn-clear { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; }
-        table.sheet-table { width: 100%; border-collapse: collapse; background-color: #fff; table-layout: fixed; }
-        table.sheet-table th, table.sheet-table td { border: 1px solid #edf2f7; padding: 6px 2px; font-size: 12px; height: 36px; vertical-align: middle; }
+        table.sheet-table { width: 100%; border-collapse: collapse; background-color: #fff; }
+        table.sheet-table th, table.sheet-table td { border: 1px solid #edf2f7; padding: 6px 4px; font-size: 12.5px; height: 36px; vertical-align: middle; }
         .bg-teal-header { background-color: #0b3c5d !important; color: white; font-weight: 600; }
         .bg-light-green { background-color: #e6fffa !important; color: #0b3c5d; font-weight: bold; border-top: 1px solid #2ecc71; }
-        input[type="text"], input[type="number"], select { width: 100%; height: 100%; border: 1px solid transparent; border-radius: 6px; outline: none; font-size: 12px; font-weight: 700; background: #f8fafc; padding: 2px 4px; color: #334155; }
+        input[type="text"], input[type="number"], select { width: 100%; height: 100%; border: 1px solid transparent; border-radius: 6px; outline: none; font-size: 12.5px; font-weight: 700; background: #f8fafc; padding: 2px 6px; color: #334155; }
         select { cursor: pointer; appearance: none; text-align-last: center; }
         input:focus, select:focus { background-color: #ffffff; border-color: #0b3c5d; box-shadow: 0 0 0 2px rgba(11, 60, 93, 0.1); }
         .text-center { text-align: center !important; }
         .text-right { text-align: right; }
         .text-red { color: #e74c3c !important; font-weight: 700; }
         .text-blue { color: #0b3c5d !important; font-weight: 700; }
-        .label-bold { font-weight: 600; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .label-bold { font-weight: 600; color: #64748b; }
         .checkbox-cell { text-align: center; width: 45px; }
         .checkbox-cell input[type="checkbox"] { accent-color: #0b3c5d; transform: scale(1.1); cursor: pointer; }
         .table-responsive { width: 100%; overflow-x: hidden; border-radius: 8px; border: 1px solid #edf2f7; }
-        .mini-input-group { display: flex; gap: 8px; margin-bottom: 4px; background: #c1d8f0; padding: 8px; border-radius: 8px; border: 1px solid #edf2f7; max-width: 360px; }
-        .mini-input-item { display: flex; align-items: center; gap: 4px; flex: 1; }
-        .mini-input-item label { font-size: 12px; font-weight: 600; white-space: nowrap; }
+        .mini-input-group { display: flex; gap: 10px; margin-bottom: 4px; background: #c1d8f0; padding: 8px; border-radius: 8px; border: 1px solid #edf2f7; max-width: 340px; }
+        .mini-input-item { display: flex; align-items: center; gap: 6px; flex: 1; }
         .mini-input-item input { height: 30px; background: #fffdf0 !important; border: 1px solid #fef3c7 !important; text-align: center; }
         .status-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 6px 12px; text-align: center; background-color: #ffffff; border-top: 1px solid #e2e8f0; font-size: 11.5px; font-weight: 600; z-index: 1000; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 -2px 8px rgba(0,0,0,0.03); color: #2a0fe9; }
         .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; background-color: #cbd5e1; }
@@ -38,14 +37,6 @@
         .status-yellow { background-color: #f1c40f !important; }
         .btn-refresh { background: #e2e8f0; border: none; padding: 2px 8px; border-radius: 4px; font-size: 10.5px; cursor: pointer; color: #334155; font-weight: 700; }
         .btn-refresh:hover { background: #cbd5e1; }
-
-        /* Tối ưu hóa vùng nhập liệu 65% - Nhãn 35% */
-        .input-wrapper { position: relative; display: flex; align-items: center; width: 100%; height: 100%; }
-        .input-wrapper input { padding-right: 18px !important; }
-        .btn-clear-field { position: absolute; right: 2px; top: 50%; transform: translateY(-50%); background: #cbd5e1; color: #fff; border: none; border-radius: 50%; width: 14px; height: 14px; font-size: 9px; line-height: 14px; text-align: center; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; z-index: 5; }
-        .btn-clear-field:hover { background: #e74c3c; }
-        .compact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-        .compact-grid .full-width { grid-column: span 2; }
     </style>
 </head>
 <body>
@@ -54,88 +45,21 @@
     <div style="display: flex; flex-direction: column; gap: 12px;">
         <div class="card">
             <div class="card-title"><span>NHẬP THÔNG TIN SẢN PHẨM</span><button id="btnXoa" class="btn-clear">Xóa dữ liệu</button></div>
-            <div class="compact-grid">
-                <div class="full-width">
-                    <table class="sheet-table">
-                        <tr>
-                            <td class="label-bold" style="width: 35%;">Nhóm SP</td>
-                            <td style="width: 65%;"><select id="nhomSP"></select></td>
-                        </tr>
-                    </table>
-                </div>
-                <table class="sheet-table">
-                    <tr>
-                        <td class="label-bold" style="width: 35%;">Giá NY</td>
-                        <td style="width: 65%;">
-                            <div class="input-wrapper">
-                                <input type="text" id="giaNY" class="text-center money-input text-blue" value="0">
-                                <button type="button" class="btn-clear-field" onclick="clearField('giaNY')">✕</button>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-                <table class="sheet-table">
-                    <tr>
-                        <td class="label-bold" style="width: 35%;">Giá KM</td>
-                        <td style="width: 65%;">
-                            <div class="input-wrapper">
-                                <input type="text" id="giaKM" class="text-center money-input text-red" value="0">
-                                <button type="button" class="btn-clear-field" onclick="clearField('giaKM')">✕</button>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-                <table class="sheet-table">
-                    <tr>
-                        <td class="label-bold" style="width: 35%;">Min TT</td>
-                        <td style="width: 65%;">
-                            <div class="input-wrapper">
-                                <input type="text" id="minTT" class="text-center percent-input" value="0%">
-                                <button type="button" class="btn-clear-field" onclick="clearField('minTT', '0%')">✕</button>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-                <table class="sheet-table">
-                    <tr>
-                        <td class="label-bold" style="width: 35%;">Max TT</td>
-                        <td style="width: 65%;">
-                            <div class="input-wrapper">
-                                <input type="text" id="maxTT" class="text-center percent-input" value="70%">
-                                <button type="button" class="btn-clear-field" onclick="clearField('maxTT', '0%')">✕</button>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-                <table class="sheet-table">
-                    <tr>
-                        <td class="label-bold" style="width: 35%;">Góp</td>
-                        <td style="width: 65%;">
-                            <div class="input-wrapper">
-                                <input type="number" id="soThangGop" class="text-center" value="6">
-                                <button type="button" class="btn-clear-field" onclick="clearField('soThangGop', '0')">✕</button>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-                <table class="sheet-table">
-                    <tr>
-                        <td class="label-bold" style="width: 35%;">PMH</td>
-                        <td style="width: 65%;">
-                            <div class="input-wrapper">
-                                <input type="text" id="tangPMH" class="text-center money-input text-blue" value="0">
-                                <button type="button" class="btn-clear-field" onclick="clearField('tangPMH')">✕</button>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            <table class="sheet-table">
+                <tr><td class="label-bold" style="width: 35%;">Nhóm SP</td><td colspan="2"><select id="nhomSP"></select></td></tr>
+                <tr><td class="label-bold">Giá NY</td><td colspan="2"><input type="text" id="giaNY" class="text-center money-input text-blue" value="0"></td></tr>
+                <tr><td class="label-bold">Giá KM</td><td colspan="2"><input type="text" id="giaKM" class="text-center money-input text-red" value="0"></td></tr>
+                <tr><td class="label-bold">Min TT</td><td colspan="2"><input type="text" id="minTT" class="text-center percent-input" value="0%"></td></tr>
+                <tr><td class="label-bold">Max TT</td><td colspan="2"><input type="text" id="maxTT" class="text-center percent-input" value="70%"></td></tr>
+                <tr><td class="label-bold">Góp (Th)</td><td colspan="2"><input type="number" id="soThangGop" class="text-center" value="6"></td></tr>
+                <tr><td class="label-bold">Tặng PMH</td><td colspan="2"><input type="text" id="tangPMH" class="text-center money-input text-blue" value="0"></td></tr>
+            </table>
         </div>
 
         <div class="card">
             <div class="card-title">GIÁ TRỊ CÁC GÓI BẢO HIỂM - TẬN TÂM</div>
             <table class="sheet-table">
-                <tr class="bg-teal-header"><td style="width: 15%;">Chọn</td><td style="width: 45%;">BH Tận Tâm</td><td style="width: 40%;">Giá gói</td></tr>
+                <tr class="bg-teal-header"><td>Chọn</td><td>BH Tận Tâm</td><td>Giá gói</td></tr>
                 <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_11"></td><td class="label-bold">BH 1-1</td><td class="text-right text-blue" id="val_bh_11">0</td></tr>
                 <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m1"></td><td class="label-bold">BHMR 1 năm</td><td class="text-right text-blue" id="val_bh_m1">0</td></tr>
                 <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m2"></td><td class="label-bold">BHMR 2 năm</td><td class="text-right text-blue" id="val_bh_m2">0</td></tr>
@@ -150,20 +74,8 @@
     <div class="card">
         <div class="card-title">TƯ VẤN CÁC GÓI TRẢ GÓP</div>
         <div class="mini-input-group">
-            <div class="mini-input-item">
-                <label>Khách TT:</label>
-                <div class="input-wrapper">
-                    <input type="text" id="khachTT" class="money-input text-red" value="1,000,000">
-                    <button type="button" class="btn-clear-field" onclick="clearField('khachTT')">✕</button>
-                </div>
-            </div>
-            <div class="mini-input-item">
-                <label>Phí HS:</label>
-                <div class="input-wrapper">
-                    <input type="text" id="phiHS" class="money-input text-red" value="200,000">
-                    <button type="button" class="btn-clear-field" onclick="clearField('phiHS')">✕</button>
-                </div>
-            </div>
+            <div class="mini-input-item"><label>Khách TT:</label><input type="text" id="khachTT" class="money-input text-red" value="1,000,000"></div>
+            <div class="mini-input-item"><label>Phí HS:</label><input type="text" id="phiHS" class="money-input text-red" value="200,000"></div>
         </div>
         <div class="table-responsive"><table class="sheet-table"><thead style="background:#0b3c5d; color:white;"><tr><th>Gói góp</th><th>Trả trước</th><th>Góp/tháng</th><th>NHẬP LIỆU</th><th>Min TT Góp</th><th>Thêm/tháng</th></tr></thead><tbody id="tbodyKetQuaGop"></tbody></table></div>
     </div>
@@ -201,14 +113,6 @@
 
     const fmt = (n) => Math.round(n || 0).toLocaleString('en-US');
     const parse = (s) => Number(s.toString().replace(/,/g, "").replace(/%/g, "")) || 0;
-
-    function clearField(id, defaultValue = '0') {
-        const el = document.getElementById(id);
-        if(el) {
-            el.value = defaultValue;
-            tinhToanCongThucGiaoDien();
-        }
-    }
 
     function handleMoneyInput(e) { e.target.value = fmt(parse(e.target.value)); tinhToanCongThucGiaoDien(); }
     
@@ -320,24 +224,29 @@
                 const res = JSON.parse(cachedRes);
                 capNhatGiaoDienVoiData(res, savedNhom);
                 
+                // Nếu Cache còn hạn (dưới 30 phút), dùng luôn không cần tải ngầm
                 if (lastFetchTime && (now - Number(lastFetchTime) < CACHE_EXPIRE_TIME)) {
                     document.getElementById('statusIndicator').className = 'status-dot status-green';
                     document.getElementById('statusText').innerText = 'Dữ liệu sẵn sàng (Tối ưu)';
                 } else {
+                    // Cache đã hết hạn, tiến hành đồng bộ lại
                     fetchServerData(savedNhom);
                 }
             } catch (e) {
                 fetchServerData(savedNhom);
             }
         } else {
+            // Lần đầu tiên mở web, chưa có Cache
             fetchServerData(savedNhom);
         }
 
+        // Nút xóa lịch sử nhập liệu cá nhân
         document.getElementById('btnXoa').addEventListener('click', () => {
             localStorage.removeItem('dashboard_data');
             location.reload();
         });
 
+        // Nút ép buộc tải lại bảng giá mới nhất từ Google Sheet
         document.getElementById('btnReloadApi').addEventListener('click', () => {
             fetchServerData(loadData(), true);
         });
