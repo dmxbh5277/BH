@@ -114,7 +114,20 @@
     const fmt = (n) => Math.round(n || 0).toLocaleString('en-US');
     const parse = (s) => Number(s.toString().replace(/,/g, "").replace(/%/g, "")) || 0;
 
-    function handleMoneyInput(e) { e.target.value = fmt(parse(e.target.value)); tinhToanCongThucGiaoDien(); }
+    function handleMoneyInput(e) { 
+        e.target.value = fmt(parse(e.target.value)); 
+        tinhToanCongThucGiaoDien(); 
+    }
+
+    // Tự động nhân 1.000 khi nhập số rút gọn (ví dụ nhập 2590 -> 2,590,000)
+    function handleMoneyBlur(e) {
+        let val = parse(e.target.value);
+        if (val > 0 && val < 100000) {
+            val = val * 1000;
+        }
+        e.target.value = fmt(val);
+        tinhToanCongThucGiaoDien();
+    }
     
     function saveData() {
         let data = {};
@@ -251,7 +264,12 @@
             fetchServerData(loadData(), true);
         });
 
-        document.querySelectorAll('.money-input').forEach(el => el.addEventListener('input', handleMoneyInput));
+        // Gắn sự kiện tự động nhân 1000 cho tất cả ô nhập tiền (Giá NY, Giá KM, Tặng PMH, Khách TT, Phí HS)
+        document.querySelectorAll('.money-input').forEach(el => {
+            el.addEventListener('input', handleMoneyInput);
+            el.addEventListener('blur', handleMoneyBlur);
+        });
+
         document.querySelectorAll('.percent-input').forEach(el => {
             el.addEventListener('focus', (e) => e.target.value = e.target.value.replace('%', ''));
             el.addEventListener('blur', (e) => { e.target.value = e.target.value.replace('%', '') + '%'; tinhToanCongThucGiaoDien(); });
