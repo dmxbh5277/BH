@@ -88,7 +88,7 @@
 </div>
 
 <script>
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzeh3X5lPD6gmGldcLgnZ4vTOSJxlN1u1tFS-m4KNYrxM7kWk-ryNeqNJP7sswglGcuHA/exec";
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyJoieV-BbecLitxFzhL5ZR4Z0umFMU87o3piWhZjrjktI5z-wxbi0XS4gh2URD8VFVXQ/exec";
     const CACHE_EXPIRE_TIME = 30 * 60 * 1000; // Thời gian Cache: 30 phút
 
     let DATA_1DOI1 = [], DATA_MORE = [], DATA_ROIVO = [];
@@ -114,19 +114,8 @@
     const fmt = (n) => Math.round(n || 0).toLocaleString('en-US');
     const parse = (s) => Number(s.toString().replace(/,/g, "").replace(/%/g, "")) || 0;
 
-    // Focus: hiển thị số rút gọn (chia 1000) để dễ gõ. VD: 2,590,000 -> 2590
-    function handleMoneyFocus(e) {
-        const val = parse(e.target.value) / 1000;
-        e.target.value = val ? val.toString() : '';
-    }
-
-    // Blur: nhân lại 1000 và format đầy đủ. VD: gõ 2590 -> 2,590,000
-    function handleMoneyBlur(e) {
-        const val = parse(e.target.value) * 1000;
-        e.target.value = fmt(val);
-        tinhToanCongThucGiaoDien();
-    }
-
+    function handleMoneyInput(e) { e.target.value = fmt(parse(e.target.value)); tinhToanCongThucGiaoDien(); }
+    
     function saveData() {
         let data = {};
         document.querySelectorAll('input, select').forEach(el => { if(el.id) data[el.id] = (el.type === 'checkbox') ? el.checked : el.value; });
@@ -262,19 +251,12 @@
             fetchServerData(loadData(), true);
         });
 
-        document.querySelectorAll('.money-input').forEach(el => {
-            el.addEventListener('focus', handleMoneyFocus);
-            el.addEventListener('blur', handleMoneyBlur);
-        });
+        document.querySelectorAll('.money-input').forEach(el => el.addEventListener('input', handleMoneyInput));
         document.querySelectorAll('.percent-input').forEach(el => {
             el.addEventListener('focus', (e) => e.target.value = e.target.value.replace('%', ''));
             el.addEventListener('blur', (e) => { e.target.value = e.target.value.replace('%', '') + '%'; tinhToanCongThucGiaoDien(); });
         });
-        document.querySelectorAll('input, select').forEach(el => {
-            if (!el.classList.contains('money-input')) {
-                el.addEventListener('input', tinhToanCongThucGiaoDien);
-            }
-        });
+        document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', tinhToanCongThucGiaoDien));
     });
 </script>
 </body>
