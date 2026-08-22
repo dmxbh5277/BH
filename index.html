@@ -44,7 +44,7 @@
 <div class="app-grid">
     <div style="display: flex; flex-direction: column; gap: 12px;">
         <div class="card">
-            <div class="card-title"><span>NHẬP THÔNG TIN SẢN PHẨM</span><button id="btnXoa" class="btn-clear">Xóa dữ liệu</button></div>
+            <div class="card-title"><span>NHẬP THÔNG TIN SẢN PHẨM</span><button id="btnXoa" class="btn-clear">Xóa Form Nhập</button></div>
             <table class="sheet-table">
                 <tr><td class="label-bold" style="width: 35%;">Nhóm SP</td><td colspan="2"><select id="nhomSP"></select></td></tr>
                 <tr><td class="label-bold">Giá NY</td><td colspan="2"><input type="text" id="giaNY" class="text-center money-input text-blue" value="0"></td></tr>
@@ -83,13 +83,13 @@
 
 <div class="status-bar">
     <span id="statusIndicator" class="status-dot"></span>
-    <span id="statusText">Đang tải...</span>
+    <span id="statusText">Đang khởi tạo...</span>
     <button id="btnReloadApi" class="btn-refresh" title="Lấy bảng giá mới nhất từ Google Sheet">🔄 Cập nhật giá</button>
 </div>
 
 <script>
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz_gH7STdCz3bQUjOmGvyxrC_-4J7ITyFls-vMghYoSdem0B0cdGPwmY1YR7pumnAMl0Q/exec";
-    const CACHE_EXPIRE_TIME = 30 * 60 * 1000; // Thời gian Cache: 30 phút
+    // THAY LINK WEB APP CỦA BẠN VÀO ĐÂY (Link bản Deploy mới nhất)
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzeh3X5lPD6gmGldcLgnZ4vTOSJxlN1u1tFS-m4KNYrxM7kWk-ryNeqNJP7sswglGcuHA/exec";
 
     let DATA_1DOI1 = [], DATA_MORE = [], DATA_ROIVO = [];
     let GOI_BH_CONFIG = [
@@ -137,7 +137,7 @@
     function saveData() {
         let data = {};
         document.querySelectorAll('input, select').forEach(el => { if(el.id) data[el.id] = (el.type === 'checkbox') ? el.checked : el.value; });
-        localStorage.setItem('dashboard_data', JSON.stringify(data));
+        localStorage.setItem('dashboard_data', JSON.stringify(data)); // Lưu cấu hình người nhập
     }
 
     function loadData() {
@@ -159,36 +159,49 @@
         DATA_ROIVO = res.dbRoivo || [];
         
         const select = document.getElementById('nhomSP');
-        const currentVal = select.value || savedNhom;
+        const options = res.dropdown || [];
         
-        select.innerHTML = (res.dropdown || []).map(i => `<option value="${i}">${i}</option>`).join('');
-        if(currentVal) select.value = currentVal;
+        // Tạo danh sách option an toàn
+        if (options.length > 0) {
+            select.innerHTML = options.map(i => `<option value="${i}">${i}</option>`).join('');
+            
+            // Ưu tiên: 1. Nhóm đã lưu, 2. Nếu không có thì lấy option đầu tiên
+            if (savedNhom && options.includes(savedNhom)) {
+                select.value = savedNhom;
+            } else {
+                select.value = options[0]; 
+            }
+        } else {
+            select.innerHTML = '<option value="">-- Trống --</option>';
+        }
         
         tinhToanCongThucGiaoDien();
     }
 
-    function fetchServerData(savedNhom, forceFetch = false) {
+    function fetchServerData(savedNhom) {
         document.getElementById('statusIndicator').className = 'status-dot status-yellow';
         document.getElementById('statusText').innerText = 'Đang đồng bộ Google Sheet...';
         
         fetch(WEB_APP_URL)
             .then(r => r.json())
             .then(res => {
+                // Lưu bảng giá vào LocalStorage để lần sau tải nhanh
                 localStorage.setItem('dashboard_app_db', JSON.stringify(res));
-                localStorage.setItem('dashboard_app_db_time', Date.now().toString());
+                
                 capNhatGiaoDienVoiData(res, savedNhom);
+                
                 document.getElementById('statusIndicator').className = 'status-dot status-green';
-                document.getElementById('statusText').innerText = 'Dữ liệu trực tuyến';
+                document.getElementById('statusText').innerText = 'Đã cập nhật bảng giá mới';
             })
             .catch(err => {
                 console.error("Fetch error:", err);
                 document.getElementById('statusIndicator').className = 'status-dot status-yellow';
-                document.getElementById('statusText').innerText = 'Dùng dữ liệu offline';
+                document.getElementById('statusText').innerText = 'Lỗi cập nhật. Đang dùng dữ liệu cũ.';
             });
     }
 
     function tinhToanCongThucGiaoDien() {
-        saveData();
+        saveData(); // Lưu lại input đang nhập
         const nhomSP = document.getElementById('nhomSP').value;
         if(!nhomSP) return;
         const giaNY = parse(document.getElementById('giaNY').value);
@@ -231,39 +244,41 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+        // 1. Tải các cấu hình người dùng đã nhập (giá, checkbox, v.v.)
         let savedNhom = loadData();
         
+        // 2. Kiểm tra xem đã có data Database từ Google Sheet lưu trong máy chưa
         const cachedRes = localStorage.getItem('dashboard_app_db');
-        const lastFetchTime = localStorage.getItem('dashboard_app_db_time');
-        const now = Date.now();
 
         if (cachedRes) {
+            // NẾU ĐÃ CÓ DATA: Dùng ngay lập tức để tải trang trong 0.1s
             try {
                 const res = JSON.parse(cachedRes);
                 capNhatGiaoDienVoiData(res, savedNhom);
                 
-                if (lastFetchTime && (now - Number(lastFetchTime) < CACHE_EXPIRE_TIME)) {
-                    document.getElementById('statusIndicator').className = 'status-dot status-green';
-                    document.getElementById('statusText').innerText = 'Dữ liệu sẵn sàng (Tối ưu)';
-                } else {
-                    fetchServerData(savedNhom);
-                }
+                document.getElementById('statusIndicator').className = 'status-dot status-green';
+                document.getElementById('statusText').innerText = 'Sử dụng dữ liệu Offline (Tốc độ cao)';
             } catch (e) {
+                // Nếu lỗi đọc cache, gọi lại API
                 fetchServerData(savedNhom);
             }
         } else {
+            // CHƯA CÓ DATA (Lần đầu mở web): Bắt buộc tải từ Server
             fetchServerData(savedNhom);
         }
 
+        // Sự kiện: Nút Xóa dữ liệu (Chỉ xóa các input đã nhập, không xóa Bảng giá DB)
         document.getElementById('btnXoa').addEventListener('click', () => {
             localStorage.removeItem('dashboard_data');
             location.reload();
         });
 
+        // Sự kiện: Nút Cập nhật giá (Bắt buộc chọc API lấy giá mới nhất)
         document.getElementById('btnReloadApi').addEventListener('click', () => {
-            fetchServerData(loadData(), true);
+            fetchServerData(document.getElementById('nhomSP').value);
         });
 
+        // Các sự kiện Input tự động tính toán
         document.querySelectorAll('.money-input').forEach(el => {
             el.addEventListener('input', handleMoneyInput);
             el.addEventListener('blur', handleMoneyBlur);
