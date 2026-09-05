@@ -127,8 +127,8 @@
                 <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m1"></td><td class="label-bold">BHMR 1 năm</td><td class="text-right text-blue" id="val_bh_m1">0</td></tr>
                 <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m2"></td><td class="label-bold">BHMR 2 năm</td><td class="text-right text-blue" id="val_bh_m2">0</td></tr>
                 <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m3"></td><td class="label-bold">BHMR 3 năm</td><td class="text-right text-blue" id="val_bh_m3">0</td></tr>
-                <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_rv6"></td><td class="label-bold">BHRV 6 th</td><td class="text-right text-blue" id="val_bh_rv6">0</td></tr>
-                <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_rv12"></td><td class="label-bold">BHRV 12 th</td><td class="text-right text-blue" id="val_bh_rv12">0</td></tr>
+                <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_rv6"></td><td class="label-bold">BHRV 6 tháng</td><td class="text-right text-blue" id="val_bh_rv6">0</td></tr>
+                <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_rv12"></td><td class="label-bold">BHRV 12 tháng</td><td class="text-right text-blue" id="val_bh_rv12">0</td></tr>
                 
                 <tr class="row-vsml"><td class="checkbox-cell"><input type="checkbox" id="chk_vsml_1"></td><td class="label-bold" id="lbl_vsml_1">VSML 2 lần/1 năm</td><td class="text-right text-blue" id="val_vsml_1">0</td></tr>
                 <tr class="row-vsml"><td class="checkbox-cell"><input type="checkbox" id="chk_vsml_2"></td><td class="label-bold" id="lbl_vsml_2">VSML 4 lần/2 năm</td><td class="text-right text-blue" id="val_vsml_2">0</td></tr>
@@ -158,7 +158,7 @@
                 </div>
             </div>
         </div>
-        <div class="table-responsive"><table class="sheet-table"><thead style="background:#0b3c5d; color:white;"><tr><th>Gói góp</th><th>Trả trước</th><th>Góp/tháng</th><th>NHẬP LIỆU</th><th>Min TT Góp</th><th>Thêm/tháng</th></tr></thead><tbody id="tbodyKetQuaGop"></tbody></table></div>
+        <div class="table-responsive"><table class="sheet-table"><thead style="background:#0b3c5d; color:white;"><tr><th>Gói</th><th>T.Trước</th><th>Góp</th><th>NHẬP LIỆU</th><th>Min TT</th><th>Thêm</th></tr></thead><tbody id="tbodyKetQuaGop"></tbody></table></div>
     </div>
 </div>
 
@@ -338,11 +338,11 @@
         let danhSachGoiGop = [
             { key: "GOP_THUONG", label: "GÓP THƯỜNG", bhType: "none" },
             { key: "BH_11", label: "BH 1-1", bhId: "chk_bh_11" },
-            { key: "BHMR_1Y", label: "BHMR 1 NĂM", bhId: "chk_bh_m1" },
-            { key: "BHMR_2Y", label: "BHMR 2 NĂM", bhId: "chk_bh_m2" },
-            { key: "BHMR_3Y", label: "BHMR 3 NĂM", bhId: "chk_bh_m3" },
-            { key: "BHRV_6T", label: "BHRV 6 TH", bhId: "chk_bh_rv6" },
-            { key: "BHRV_12T", label: "BHRV 12 TH", bhId: "chk_bh_rv12" }
+            { key: "BHMR_1Y", label: "BHMR 1N", bhId: "chk_bh_m1" },
+            { key: "BHMR_2Y", label: "BHMR 2N", bhId: "chk_bh_m2" },
+            { key: "BHMR_3Y", label: "BHMR 3N", bhId: "chk_bh_m3" },
+            { key: "BHRV_6T", label: "BHRV 6TH", bhId: "chk_bh_rv6" },
+            { key: "BHRV_12T", label: "BHRV 12TH", bhId: "chk_bh_rv12" }
         ];
 
         if (selectedVsmlItem) {
