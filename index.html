@@ -19,7 +19,6 @@
         .bg-teal-header { background-color: #0b3c5d !important; color: white; font-weight: 600; }
         .bg-light-green { background-color: #e6fffa !important; color: #0b3c5d; font-weight: bold; border-top: 1px solid #2ecc71; }
         
-        /* Container cho ô input và nút xóa */
         .input-clear-wrapper { position: relative; width: 100%; height: 100%; display: flex; align-items: center; }
         .input-clear-wrapper input { padding-right: 20px !important; }
         .btn-clear-input { position: absolute; right: 2px; background: transparent; border: none; color: #94a3b8; font-size: 12px; font-weight: bold; cursor: pointer; padding: 2px 4px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 5; }
@@ -37,7 +36,6 @@
         .checkbox-cell input[type="checkbox"] { accent-color: #0b3c5d; transform: scale(1.1); cursor: pointer; }
         .table-responsive { width: 100%; overflow-x: hidden; border-radius: 8px; border: 1px solid #edf2f7; }
         
-        /* Cấu hình 35% Label - 65% Input cho Mini Group */
         .mini-input-group { display: flex; gap: 10px; margin-bottom: 4px; background: #c1d8f0; padding: 8px; border-radius: 8px; border: 1px solid #edf2f7; }
         .mini-input-item { display: flex; align-items: center; flex: 1; }
         .mini-input-item label { width: 35%; font-weight: 600; color: #0b3c5d; font-size: 11.5px; padding-right: 2px; }
@@ -60,8 +58,6 @@
             <div class="card-title"><span>NHẬP THÔNG TIN SẢN PHẨM</span><button id="btnXoa" class="btn-clear">Xóa dữ liệu</button></div>
             
             <table class="sheet-table">
-                <!-- Cấu hình chuẩn cho ma trận 2x3: Mỗi nửa chiếm 50% tổng bảng.
-                     Trong đó: Cột Nhãn = 35% của 50% (tức 17.5%), Cột Input = 65% của 50% (tức 32.5%) -->
                 <colgroup>
                     <col style="width: 17.5%;">
                     <col style="width: 32.5%;">
@@ -124,16 +120,22 @@
         </div>
 
         <div class="card">
-            <div class="card-title">GIÁ TRỊ CÁC GÓI BẢO HIỂM - TẬN TÂM</div>
+            <div class="card-title">GIÁ TRỊ CÁC GÓI BẢO HIỂM & DỊCH VỤ</div>
             <table class="sheet-table">
-                <tr class="bg-teal-header"><td style="width: 15%;">Chọn</td><td style="width: 50%;">BH Tận Tâm</td><td style="width: 35%;">Giá gói</td></tr>
+                <tr class="bg-teal-header"><td style="width: 15%;">Chọn</td><td style="width: 50%;">Tên gói / Dịch vụ</td><td style="width: 35%;">Giá gói</td></tr>
                 <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_11"></td><td class="label-bold">BH 1-1</td><td class="text-right text-blue" id="val_bh_11">0</td></tr>
                 <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m1"></td><td class="label-bold">BHMR 1 năm</td><td class="text-right text-blue" id="val_bh_m1">0</td></tr>
                 <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m2"></td><td class="label-bold">BHMR 2 năm</td><td class="text-right text-blue" id="val_bh_m2">0</td></tr>
                 <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m3"></td><td class="label-bold">BHMR 3 năm</td><td class="text-right text-blue" id="val_bh_m3">0</td></tr>
                 <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_rv6"></td><td class="label-bold">BHRV 6 th</td><td class="text-right text-blue" id="val_bh_rv6">0</td></tr>
                 <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_rv12"></td><td class="label-bold">BHRV 12 th</td><td class="text-right text-blue" id="val_bh_rv12">0</td></tr>
-                <tr class="bg-light-green"><td>∑</td><td>TỔNG BH GỘP</td><td class="text-right text-red" id="val_bh_gop">0</td></tr>
+                
+                <tr class="row-vsml"><td class="checkbox-cell"><input type="checkbox" id="chk_vsml_1"></td><td class="label-bold" id="lbl_vsml_1">VSML 2 lần/1 năm</td><td class="text-right text-blue" id="val_vsml_1">0</td></tr>
+                <tr class="row-vsml"><td class="checkbox-cell"><input type="checkbox" id="chk_vsml_2"></td><td class="label-bold" id="lbl_vsml_2">VSML 4 lần/2 năm</td><td class="text-right text-blue" id="val_vsml_2">0</td></tr>
+                <tr class="row-vsml"><td class="checkbox-cell"><input type="checkbox" id="chk_vsml_3"></td><td class="label-bold" id="lbl_vsml_3">VSML 6 lần/3 năm</td><td class="text-right text-blue" id="val_vsml_3">0</td></tr>
+                <tr class="row-vsml"><td class="checkbox-cell"><input type="checkbox" id="chk_vsml_4"></td><td class="label-bold" id="lbl_vsml_4">VSML 8 lần/4 năm</td><td class="text-right text-blue" id="val_vsml_4">0</td></tr>
+
+                <tr class="bg-light-green"><td class="text-center">∑</td><td>TỔNG BH GỘP</td><td class="text-right text-red" id="val_bh_gop">0</td></tr>
             </table>
         </div>
     </div>
@@ -167,31 +169,47 @@
 </div>
 
 <script>
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyJoieV-BbecLitxFzhL5ZR4Z0umFMU87o3piWhZjrjktI5z-wxbi0XS4gh2URD8VFVXQ/exec";
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyA2MmdHDC4DTS_nTcxUSotbArDGR7vbNv8_Ik8uIdT8YuYrNRrES2KRRiyNa9etKJS9g/exec";
     const CACHE_EXPIRE_TIME = 30 * 60 * 1000;
 
-    let DATA_1DOI1 = [], DATA_MORE = [], DATA_ROIVO = [];
+    let DATA_1DOI1 = [], DATA_MORE = [], DATA_ROIVO = [], DATA_VSML = [];
+    
     let GOI_BH_CONFIG = [
-        { id: "chk_bh_11", label: "BH 1-1", type: "1doi1", key: "phi", targetId: "val_bh_11" },
-        { id: "chk_bh_m1", label: "BHMR 1 NĂM", type: "more", key: "phi1n", targetId: "val_bh_m1" },
-        { id: "chk_bh_m2", label: "BHMR 2 NĂM", type: "more", key: "phi2n", targetId: "val_bh_m2" },
-        { id: "chk_bh_m3", label: "BHMR 3 NĂM", type: "more", key: "phi3n", targetId: "val_bh_m3" },
-        { id: "chk_bh_rv6", label: "BHRV 6 TH", type: "roivo", key: "phi6t", targetId: "val_bh_rv6" },
-        { id: "chk_bh_rv12", label: "BHRV 12 TH", type: "roivo", key: "phi12t", targetId: "val_bh_rv12" }
+        { id: "chk_bh_11", label: "BH 1-1", type: "1doi1", keys: ["GIÁ BH", "Giá BH", "phi"], targetId: "val_bh_11" },
+        { id: "chk_bh_m1", label: "BHMR 1 NĂM", type: "more", keys: ["Gói 1 năm", "phi1n"], targetId: "val_bh_m1" },
+        { id: "chk_bh_m2", label: "BHMR 2 NĂM", type: "more", keys: ["Gói 2 năm", "phi2n"], targetId: "val_bh_m2" },
+        { id: "chk_bh_m3", label: "BHMR 3 NĂM", type: "more", keys: ["Gói 3 năm", "phi3n"], targetId: "val_bh_m3" },
+        { id: "chk_bh_rv6", label: "BHRV 6 TH", type: "roivo", keys: ["Rơi vỡ 6 tháng", "phi6t"], targetId: "val_bh_rv6" },
+        { id: "chk_bh_rv12", label: "BHRV 12 TH", type: "roivo", keys: ["Rơi vỡ 12 tháng", "phi12t"], targetId: "val_bh_rv12" }
     ];
-    let DANH_SACH_GOI_GOP = [
-        { key: "GOP_THUONG", label: "GÓP THƯỜNG", bhType: "none" },
-        { key: "BH_11", label: "BH 1-1", bhId: "chk_bh_11" },
-        { key: "BHMR_1Y", label: "BHMR 1 NĂM", bhId: "chk_bh_m1" },
-        { key: "BHMR_2Y", label: "BHMR 2 NĂM", bhId: "chk_bh_m2" },
-        { key: "BHMR_3Y", label: "BHMR 3 NĂM", bhId: "chk_bh_m3" },
-        { key: "BHRV_6T", label: "BHRV 6 TH", bhId: "chk_bh_rv6" },
-        { key: "BHRV_12T", label: "BHRV 12 TH", bhId: "chk_bh_rv12" },
-        { key: "BH_GOP", label: "BH GỘP", bhType: "gop" }
+
+    let VSML_CONFIG = [
+        { id: "chk_vsml_1", labelId: "lbl_vsml_1", targetId: "val_vsml_1", index: 0 },
+        { id: "chk_vsml_2", labelId: "lbl_vsml_2", targetId: "val_vsml_2", index: 1 },
+        { id: "chk_vsml_3", labelId: "lbl_vsml_3", targetId: "val_vsml_3", index: 2 },
+        { id: "chk_vsml_4", labelId: "lbl_vsml_4", targetId: "val_vsml_4", index: 3 }
     ];
 
     const fmt = (n) => Math.round(n || 0).toLocaleString('en-US');
-    const parse = (s) => Number(s.toString().replace(/,/g, "").replace(/%/g, "")) || 0;
+    
+    const parse = (s) => {
+        if (s === undefined || s === null) return 0;
+        let str = s.toString().trim();
+        if (str === "-" || str === "") return 0;
+        return Number(str.replace(/[^0-9.-]+/g, "")) || 0;
+    };
+
+    function getValByFlexibleKey(rowObj, possibleKeys) {
+        if (!rowObj) return 0;
+        let objKeys = Object.keys(rowObj);
+        for (let pKey of possibleKeys) {
+            let foundKey = objKeys.find(k => k.trim().toLowerCase() === pKey.trim().toLowerCase());
+            if (foundKey && rowObj[foundKey] !== undefined) {
+                return parse(rowObj[foundKey]);
+            }
+        }
+        return 0;
+    }
 
     function handleMoneyInput(e) { e.target.value = fmt(parse(e.target.value)); tinhToanCongThucGiaoDien(); }
     
@@ -218,6 +236,7 @@
         DATA_1DOI1 = res.db11 || []; 
         DATA_MORE = res.dbMore || []; 
         DATA_ROIVO = res.dbRoivo || [];
+        DATA_VSML = res.dbVsml || [];
         
         const select = document.getElementById('nhomSP');
         const currentVal = select.value || savedNhom;
@@ -252,6 +271,7 @@
         saveData();
         const nhomSP = document.getElementById('nhomSP').value;
         if(!nhomSP) return;
+
         const giaNY = parse(document.getElementById('giaNY').value);
         const giaKM = parse(document.getElementById('giaKM').value);
         const minTTPercent = parse(document.getElementById('minTT').value) / 100;
@@ -262,26 +282,101 @@
 
         GOI_BH_CONFIG.forEach(item => {
             let src = item.type === "1doi1" ? DATA_1DOI1 : (item.type === "more" ? DATA_MORE : DATA_ROIVO);
-            let match = src.find(r => r.nhom === nhomSP && giaNY >= r.tu && giaNY <= r.den);
-            item.phiThucTe = match ? match[item.key] : 0;
+            
+            let match = src.find(r => {
+                let keys = Object.keys(r);
+                let nhomKey = keys.find(k => k.trim().toLowerCase().includes("bh") || k.trim().toLowerCase().includes("nhom") || k.trim().toLowerCase().includes("nhóm"));
+                let tuKey = keys.find(k => k.trim().toLowerCase().includes("từ") || k.trim().toLowerCase().includes("tu"));
+                let denKey = keys.find(k => k.trim().toLowerCase().includes("đến") || k.trim().toLowerCase().includes("den"));
+
+                let rNhom = nhomKey ? r[nhomKey].toString().trim().toLowerCase() : '';
+                let targetNhom = nhomSP.toString().trim().toLowerCase();
+                
+                let rTu = tuKey ? parse(r[tuKey]) : 0;
+                let rDen = denKey ? parse(r[denKey]) : 999999999;
+                
+                return rNhom === targetNhom && giaNY >= rTu && giaNY <= rDen;
+            });
+
+            item.phiThucTe = match ? getValByFlexibleKey(match, item.keys) : 0;
             document.getElementById(item.targetId).innerText = fmt(item.phiThucTe);
         });
 
+        let isMayLanh = nhomSP.toLowerCase().includes("máy lạnh") || nhomSP.toLowerCase().includes("may lanh");
+        let selectedVsmlItem = null;
+
+        VSML_CONFIG.forEach(config => {
+            let rowEl = document.getElementById(config.id).closest('tr');
+            if (isMayLanh && DATA_VSML[config.index]) {
+                rowEl.style.display = "";
+                let dataObj = DATA_VSML[config.index];
+                
+                let serviceName = dataObj["Dịch vụ"] || dataObj["dichvu"] || "Dịch vụ VSML";
+                let price = parse(dataObj["Giá Bán"] || dataObj["giaban"]);
+
+                document.getElementById(config.labelId).innerText = serviceName;
+                document.getElementById(config.targetId).innerText = fmt(price);
+                config.phiThucTe = price;
+                config.serviceName = serviceName;
+
+                if (document.getElementById(config.id).checked) {
+                    selectedVsmlItem = config;
+                }
+            } else {
+                rowEl.style.display = "none";
+                document.getElementById(config.id).checked = false;
+                config.phiThucTe = 0;
+            }
+        });
+
         let tongBHGop = GOI_BH_CONFIG.reduce((acc, item) => acc + (document.getElementById(item.id).checked ? item.phiThucTe : 0), 0);
+        if (selectedVsmlItem) {
+            tongBHGop += selectedVsmlItem.phiThucTe;
+        }
         document.getElementById('val_bh_gop').innerText = fmt(tongBHGop);
+
+        let danhSachGoiGop = [
+            { key: "GOP_THUONG", label: "GÓP THƯỜNG", bhType: "none" },
+            { key: "BH_11", label: "BH 1-1", bhId: "chk_bh_11" },
+            { key: "BHMR_1Y", label: "BHMR 1 NĂM", bhId: "chk_bh_m1" },
+            { key: "BHMR_2Y", label: "BHMR 2 NĂM", bhId: "chk_bh_m2" },
+            { key: "BHMR_3Y", label: "BHMR 3 NĂM", bhId: "chk_bh_m3" },
+            { key: "BHRV_6T", label: "BHRV 6 TH", bhId: "chk_bh_rv6" },
+            { key: "BHRV_12T", label: "BHRV 12 TH", bhId: "chk_bh_rv12" }
+        ];
+
+        if (selectedVsmlItem) {
+            danhSachGoiGop.push({
+                key: "VSML",
+                label: selectedVsmlItem.serviceName.toUpperCase(),
+                phiCustom: selectedVsmlItem.phiThucTe
+            });
+        }
+
+        danhSachGoiGop.push({ key: "BH_GOP", label: "BH GỘP", bhType: "gop" });
 
         const tbody = document.getElementById('tbodyKetQuaGop');
         tbody.innerHTML = '';
         let gopThuong = 0;
 
-        DANH_SACH_GOI_GOP.forEach(goi => {
-            let giaGoiBH = (goi.bhType === "none") ? 0 : (goi.bhType === "gop" ? tongBHGop : (GOI_BH_CONFIG.find(c => c.id === goi.bhId)?.phiThucTe || 0));
+        danhSachGoiGop.forEach(goi => {
+            let giaGoiBH = 0;
+            if (goi.bhType === "none") {
+                giaGoiBH = 0;
+            } else if (goi.bhType === "gop") {
+                giaGoiBH = tongBHGop;
+            } else if (goi.phiCustom !== undefined) {
+                giaGoiBH = goi.phiCustom;
+            } else {
+                giaGoiBH = GOI_BH_CONFIG.find(c => c.id === goi.bhId)?.phiThucTe || 0;
+            }
+
             let nhapLieu = khachTT - phiHS - tangPMH - giaGoiBH;
             let gopThang = Math.ceil((((giaKM - nhapLieu) / soThangGop) + 12000) / 1000) * 1000;
             if(goi.key === "GOP_THUONG") gopThuong = gopThang;
             
             let tr = document.createElement('tr');
-            tr.innerHTML = `<td class="text-center" style="font-weight:bold; font-size:11.5px; color:${goi.key==='BH_GOP'?'#e74c3c':'#475569'}">${goi.label}</td>
+            tr.innerHTML = `<td class="text-center" style="font-weight:bold; font-size:11.5px; color:${goi.key==='BH_GOP'?'#e74c3c':(goi.key==='VSML'?'#27ae60':'#475569')}">${goi.label}</td>
                             <td class="text-center text-red">${fmt(khachTT)}</td>
                             <td class="text-center text-blue">${fmt(gopThang)}</td>
                             <td class="text-center" style="color:#e74c3c; font-weight:bold; background:#fff5f5;">${fmt(nhapLieu)}</td>
@@ -294,6 +389,17 @@
     window.addEventListener('DOMContentLoaded', () => {
         let savedNhom = loadData();
         
+        VSML_CONFIG.forEach(config => {
+            document.getElementById(config.id).addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    VSML_CONFIG.forEach(c => {
+                        if (c.id !== config.id) document.getElementById(c.id).checked = false;
+                    });
+                }
+                tinhToanCongThucGiaoDien();
+            });
+        });
+
         const cachedRes = localStorage.getItem('dashboard_app_db');
         const lastFetchTime = localStorage.getItem('dashboard_app_db_time');
         const now = Date.now();
