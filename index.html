@@ -146,7 +146,7 @@
             <div class="mini-input-item">
                 <label>Khách TT:</label>
                 <div class="input-clear-wrapper">
-                    <input type="text" id="khachTT" inputmode="numeric" class="money-input text-red" value="1,000,000">
+                    <input type="text" id="khachTT" inputmode="numeric" class="text-red" value="0">
                     <button class="btn-clear-input" title="Xóa">✕</button>
                 </div>
             </div>
@@ -190,7 +190,6 @@
         { id: "chk_vsml_4", labelId: "lbl_vsml_4", targetId: "val_vsml_4", index: 3, phiThucTe: 0 }
     ];
 
-    // Formatters & Parsers
     const fmt = (n) => Math.round(n || 0).toLocaleString('en-US');
     const parse = (s) => {
         if (s === undefined || s === null) return 0;
@@ -199,7 +198,6 @@
         return Number(str.replace(/[^0-9.-]+/g, "")) || 0;
     };
 
-    // Debounce helper to optimize performance on mobile fast typing
     function debounce(func, wait = 150) {
         let timeout;
         return function(...args) {
@@ -220,11 +218,6 @@
         return 0;
     }
 
-    function handleMoneyInput(e) { 
-        e.target.value = fmt(parse(e.target.value)); 
-        debouncedCalc(); 
-    }
-    
     function saveData() {
         let data = {};
         document.querySelectorAll('input, select').forEach(el => { 
@@ -241,27 +234,35 @@
                 const el = document.getElementById(id);
                 if(el) { el.type === 'checkbox' ? el.checked = data[id] : el.value = data[id]; }
             });
-            return data.nhomSP;
+            return { hasSavedData: true, nhomSP: data.nhomSP };
         }
-        return null;
+        return { hasSavedData: false, nhomSP: null };
     }
 
-    function capNhatGiaoDienVoiData(res, savedNhom) {
+    function capNhatGiaoDienVoiData(res, savedState) {
         DATA_1DOI1 = res.db11 || []; 
         DATA_MORE = res.dbMore || []; 
         DATA_ROIVO = res.dbRoivo || [];
         DATA_VSML = res.dbVsml || [];
         
         const select = document.getElementById('nhomSP');
-        const currentVal = select.value || savedNhom;
+        const currentVal = select.value || savedState.nhomSP;
         
         select.innerHTML = (res.dropdown || []).map(i => `<option value="${i}">${i}</option>`).join('');
         if(currentVal) select.value = currentVal;
         
-        tinhToanCongThucGiaoDien();
+        // Thiết lập tick mặc định nếu chưa từng có dữ liệu lưu
+        if (!savedState.hasSavedData) {
+            const chk11 = document.getElementById('chk_bh_11');
+            const chkm1 = document.getElementById('chk_bh_m1');
+            if (chk11) chk11.checked = true;
+            if (chkm1) chkm1.checked = true;
+        }
+
+        tinhToanCongThucGiaoDien(true);
     }
 
-    function fetchServerData(savedNhom, forceFetch = false) {
+    function fetchServerData(savedState, forceFetch = false) {
         document.getElementById('statusIndicator').className = 'status-dot status-yellow';
         document.getElementById('statusText').innerText = 'Đang đồng bộ Google Sheet...';
         
@@ -270,7 +271,7 @@
             .then(res => {
                 localStorage.setItem('dashboard_app_db', JSON.stringify(res));
                 localStorage.setItem('dashboard_app_db_time', Date.now().toString());
-                capNhatGiaoDienVoiData(res, savedNhom);
+                capNhatGiaoDienVoiData(res, savedState);
                 document.getElementById('statusIndicator').className = 'status-dot status-green';
                 document.getElementById('statusText').innerText = 'Dữ liệu trực tuyến';
             })
@@ -281,8 +282,10 @@
             });
     }
 
-    function tinhToanCongThucGiaoDien() {
-        saveData();
+    /**
+     * @param {boolean} isUpperInputChanged - Nếu true: thông tin phía trên thay đổi -> tính lại Khách TT = 150% Min TT (BH Gộp)
+     */
+    function tinhToanCongThucGiaoDien(isUpperInputChanged = true) {
         const nhomSP = document.getElementById('nhomSP').value;
         if(!nhomSP) return;
 
@@ -291,10 +294,9 @@
         const minTTPercent = parse(document.getElementById('minTT').value) / 100;
         const soThangGop = Number(document.getElementById('soThangGop').value) || 1;
         const tangPMH = parse(document.getElementById('tangPMH').value);
-        const khachTT = parse(document.getElementById('khachTT').value);
         const phiHS = parse(document.getElementById('phiHS').value);
 
-        // 1. TÍNH PHÍ VÀ XỬ LÝ ẨN/HIỆN CÁC GÓI BẢO HIỂM THƯỜNG
+        // 1. LẤY PHÍ VÀ ẨN/HIỆN CÁC DÒNG BẢO HIỂM
         GOI_BH_CONFIG.forEach(item => {
             let src = item.type === "1doi1" ? DATA_1DOI1 : (item.type === "more" ? DATA_MORE : DATA_ROIVO);
             
@@ -318,18 +320,17 @@
             const rowEl = document.getElementById(item.rowId);
             const chkEl = document.getElementById(item.id);
 
-            // LOGIC ẨN/HIỆN GÓI KHÔNG CÓ GIÁ TRỊ:
             if (item.phiThucTe > 0) {
                 rowEl.style.display = "";
                 document.getElementById(item.targetId).innerText = fmt(item.phiThucTe);
             } else {
                 rowEl.style.display = "none";
-                chkEl.checked = false; // Bỏ tick tự động nếu bị ẩn
+                chkEl.checked = false; 
                 document.getElementById(item.targetId).innerText = "0";
             }
         });
 
-        // 2. XỬ LÝ ẨN/HIỆN VSML (VỆ SINH MÁY LẠNH)
+        // 2. VSML LOGIC
         let isMayLanh = nhomSP.toLowerCase().includes("máy lạnh") || nhomSP.toLowerCase().includes("may lanh");
         let selectedVsmlItem = null;
 
@@ -362,7 +363,7 @@
             }
         });
 
-        // 3. TÍNH TỔNG BẢO HIỂM GỘP (CHỈ CÁC GÓI ĐANG CHECKED VA CÓ PHÍ > 0)
+        // 3. TÍNH TỔNG BẢO HIỂM GỘP (CÁC GÓI ĐANG CHECKED VÀ CÓ PHÍ > 0)
         let tongBHGop = GOI_BH_CONFIG.reduce((acc, item) => {
             return acc + (document.getElementById(item.id).checked ? item.phiThucTe : 0);
         }, 0);
@@ -372,12 +373,21 @@
         }
         document.getElementById('val_bh_gop').innerText = fmt(tongBHGop);
 
-        // 4. DỰNG DANH SÁCH GÓI TRẢ GÓP (CHỈ HIỂN THỊ CÁC GÓI CÓ GIÁ TRỊ)
+        // 4. CẬP NHẬT Ô KHÁCH TT NẾU THÔNG TIN PHÍA TRÊN THAY ĐỔI
+        const khachTTInput = document.getElementById('khachTT');
+        if (isUpperInputChanged) {
+            let minTT_BHGop = Math.ceil(((minTTPercent * giaKM) + tangPMH + phiHS + tongBHGop) / 1000) * 1000;
+            let calculatedKhachTT = minTT_BHGop * 1.5;
+            khachTTInput.value = fmt(calculatedKhachTT);
+        }
+
+        const khachTT = parse(khachTTInput.value);
+
+        // 5. LẬP BẢNG TƯ VẤN CÁC GÓI TRẢ GÓP
         let danhSachGoiGop = [
             { key: "GOP_THUONG", label: "GÓP THƯỜNG", bhType: "none" }
         ];
 
-        // Lọc thêm các gói Bảo Hiểm có giá trị
         GOI_BH_CONFIG.forEach(item => {
             if (item.phiThucTe > 0) {
                 danhSachGoiGop.push({
@@ -396,10 +406,8 @@
             });
         }
 
-        // Dòng Tổng BH Gộp
         danhSachGoiGop.push({ key: "BH_GOP", label: "BH GỘP", bhType: "gop" });
 
-        // Tối ưu DOM Rendering bằng DocumentFragment
         const tbody = document.getElementById('tbodyKetQuaGop');
         const fragment = document.createDocumentFragment();
         let gopThuong = 0;
@@ -432,14 +440,16 @@
 
         tbody.innerHTML = '';
         tbody.appendChild(fragment);
+
+        saveData();
     }
 
-    const debouncedCalc = debounce(tinhToanCongThucGiaoDien, 100);
+    const debouncedCalcUpper = debounce(() => tinhToanCongThucGiaoDien(true), 120);
 
     window.addEventListener('DOMContentLoaded', () => {
-        let savedNhom = loadData();
+        let savedState = loadData();
         
-        // Gán sự kiện Radio-like cho VSML
+        // Sự kiện radio-group cho VSML
         VSML_CONFIG.forEach(config => {
             document.getElementById(config.id).addEventListener('change', (e) => {
                 if (e.target.checked) {
@@ -447,7 +457,7 @@
                         if (c.id !== config.id) document.getElementById(c.id).checked = false;
                     });
                 }
-                tinhToanCongThucGiaoDien();
+                tinhToanCongThucGiaoDien(true);
             });
         });
 
@@ -458,22 +468,22 @@
         if (cachedRes) {
             try {
                 const res = JSON.parse(cachedRes);
-                capNhatGiaoDienVoiData(res, savedNhom);
+                capNhatGiaoDienVoiData(res, savedState);
                 
                 if (lastFetchTime && (now - Number(lastFetchTime) < CACHE_EXPIRE_TIME)) {
                     document.getElementById('statusIndicator').className = 'status-dot status-green';
                     document.getElementById('statusText').innerText = 'Dữ liệu sẵn sàng (Tối ưu)';
                 } else {
-                    fetchServerData(savedNhom);
+                    fetchServerData(savedState);
                 }
             } catch (e) {
-                fetchServerData(savedNhom);
+                fetchServerData(savedState);
             }
         } else {
-            fetchServerData(savedNhom);
+            fetchServerData(savedState);
         }
 
-        // Button Controls
+        // Nút Xóa dữ liệu
         document.getElementById('btnXoa').addEventListener('click', () => {
             localStorage.removeItem('dashboard_data');
             location.reload();
@@ -483,33 +493,51 @@
             fetchServerData(loadData(), true);
         });
 
-        // Inputs Clear Events
+        // Nút xóa nhanh các ô input
         document.querySelectorAll('.btn-clear-input').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 const input = btn.previousElementSibling;
                 if (input) {
                     input.value = input.classList.contains('percent-input') ? '0%' : (input.type === 'number' ? '' : '0');
-                    tinhToanCongThucGiaoDien();
+                    let isUpper = (input.id !== 'khachTT');
+                    tinhToanCongThucGiaoDien(isUpper);
                     input.focus();
                 }
             });
         });
 
-        // Binding Events với Debounce
-        document.querySelectorAll('.money-input').forEach(el => el.addEventListener('input', handleMoneyInput));
+        // Sự kiện riêng khi người dùng gõ tay trực tiếp vào ô Khách TT
+        const khachTTInput = document.getElementById('khachTT');
+        khachTTInput.addEventListener('input', (e) => {
+            e.target.value = fmt(parse(e.target.value));
+            tinhToanCongThucGiaoDien(false); // false: KHÔNG tính lại 150%, lấy theo số người dùng gõ
+        });
+
+        // Sự kiện các ô tiền tệ phía trên
+        document.querySelectorAll('.money-input').forEach(el => {
+            if (el.id !== 'khachTT') {
+                el.addEventListener('input', (e) => {
+                    e.target.value = fmt(parse(e.target.value));
+                    debouncedCalcUpper();
+                });
+            }
+        });
+
+        // Ô Phần trăm %
         document.querySelectorAll('.percent-input').forEach(el => {
             el.addEventListener('focus', (e) => e.target.value = e.target.value.replace('%', ''));
             el.addEventListener('blur', (e) => { 
                 e.target.value = e.target.value.replace('%', '') + '%'; 
-                tinhToanCongThucGiaoDien(); 
+                tinhToanCongThucGiaoDien(true); 
             });
         });
         
+        // Tất cả input & select còn lại phía trên
         document.querySelectorAll('input, select').forEach(el => {
-            if (!el.classList.contains('money-input') && !el.classList.contains('percent-input')) {
-                el.addEventListener('change', tinhToanCongThucGiaoDien);
-                el.addEventListener('input', debouncedCalc);
+            if (el.id !== 'khachTT' && !el.classList.contains('money-input') && !el.classList.contains('percent-input')) {
+                el.addEventListener('change', () => tinhToanCongThucGiaoDien(true));
+                el.addEventListener('input', debouncedCalcUpper);
             }
         });
     });
