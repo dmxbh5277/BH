@@ -6,8 +6,8 @@
     <title>Dashboard Trả Góp & Bảo Hiểm - Mobile Optimized</title>
     <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; font-family: 'Google Sans', 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; }
-        body { background-color: #f4f6f9; padding: 8px; color: #2c3e50; padding-bottom: 50px; }
+        * { box-sizing: border-box; font-family: 'Google Sans', 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; touch-action: manipulation; }
+        body { background-color: #f4f6f9; padding: 8px; color: #2c3e50; padding-bottom: 50px; -webkit-tap-highlight-color: transparent; }
         .app-grid { display: grid; grid-template-columns: 1fr; gap: 12px; max-width: 1440px; margin: 0 auto; }
         @media(min-width: 992px) { .app-grid { grid-template-columns: 420px 1fr; gap: 20px; padding: 12px; } }
         .card { background: #ffffff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); border: 1px solid #e2e8f0; overflow: hidden; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
@@ -20,7 +20,7 @@
         .bg-light-green { background-color: #e6fffa !important; color: #0b3c5d; font-weight: bold; border-top: 1px solid #2ecc71; }
         
         .input-clear-wrapper { position: relative; width: 100%; height: 100%; display: flex; align-items: center; }
-        .input-clear-wrapper input { padding-right: 20px !important; }
+        .input-clear-wrapper input { padding-right: 22px !important; }
         .btn-clear-input { position: absolute; right: 2px; background: transparent; border: none; color: #94a3b8; font-size: 12px; font-weight: bold; cursor: pointer; padding: 2px 4px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 5; }
         .btn-clear-input:hover { color: #e74c3c; background: #fee2e2; }
 
@@ -72,14 +72,14 @@
                     <td class="label-bold">Giá NY</td>
                     <td>
                         <div class="input-clear-wrapper">
-                            <input type="text" id="giaNY" class="text-center money-input text-blue" value="0">
+                            <input type="text" id="giaNY" inputmode="numeric" class="text-center money-input text-blue" value="0">
                             <button class="btn-clear-input" title="Xóa">✕</button>
                         </div>
                     </td>
                     <td class="label-bold">Giá KM</td>
                     <td>
                         <div class="input-clear-wrapper">
-                            <input type="text" id="giaKM" class="text-center money-input text-red" value="0">
+                            <input type="text" id="giaKM" inputmode="numeric" class="text-center money-input text-red" value="0">
                             <button class="btn-clear-input" title="Xóa">✕</button>
                         </div>
                     </td>
@@ -88,14 +88,14 @@
                     <td class="label-bold">Min TT</td>
                     <td>
                         <div class="input-clear-wrapper">
-                            <input type="text" id="minTT" class="text-center percent-input" value="0%">
+                            <input type="text" id="minTT" inputmode="numeric" class="text-center percent-input" value="0%">
                             <button class="btn-clear-input" title="Xóa">✕</button>
                         </div>
                     </td>
                     <td class="label-bold">Max TT</td>
                     <td>
                         <div class="input-clear-wrapper">
-                            <input type="text" id="maxTT" class="text-center percent-input" value="70%">
+                            <input type="text" id="maxTT" inputmode="numeric" class="text-center percent-input" value="70%">
                             <button class="btn-clear-input" title="Xóa">✕</button>
                         </div>
                     </td>
@@ -104,14 +104,14 @@
                     <td class="label-bold">Góp (th)</td>
                     <td>
                         <div class="input-clear-wrapper">
-                            <input type="number" id="soThangGop" class="text-center" value="6">
+                            <input type="number" id="soThangGop" inputmode="numeric" class="text-center" value="6">
                             <button class="btn-clear-input" title="Xóa">✕</button>
                         </div>
                     </td>
                     <td class="label-bold">PMH</td>
                     <td>
                         <div class="input-clear-wrapper">
-                            <input type="text" id="tangPMH" class="text-center money-input text-blue" value="0">
+                            <input type="text" id="tangPMH" inputmode="numeric" class="text-center money-input text-blue" value="0">
                             <button class="btn-clear-input" title="Xóa">✕</button>
                         </div>
                     </td>
@@ -123,12 +123,12 @@
             <div class="card-title">GIÁ TRỊ CÁC GÓI BẢO HIỂM & DỊCH VỤ</div>
             <table class="sheet-table">
                 <tr class="bg-teal-header"><td style="width: 15%;">Chọn</td><td style="width: 50%;">Tên gói / Dịch vụ</td><td style="width: 35%;">Giá gói</td></tr>
-                <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_11"></td><td class="label-bold">BH 1-1</td><td class="text-right text-blue" id="val_bh_11">0</td></tr>
-                <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m1"></td><td class="label-bold">BHMR 1 năm</td><td class="text-right text-blue" id="val_bh_m1">0</td></tr>
-                <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m2"></td><td class="label-bold">BHMR 2 năm</td><td class="text-right text-blue" id="val_bh_m2">0</td></tr>
-                <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m3"></td><td class="label-bold">BHMR 3 năm</td><td class="text-right text-blue" id="val_bh_m3">0</td></tr>
-                <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_rv6"></td><td class="label-bold">BHRV 6 tháng</td><td class="text-right text-blue" id="val_bh_rv6">0</td></tr>
-                <tr><td class="checkbox-cell"><input type="checkbox" id="chk_bh_rv12"></td><td class="label-bold">BHRV 12 tháng</td><td class="text-right text-blue" id="val_bh_rv12">0</td></tr>
+                <tr id="row_bh_11"><td class="checkbox-cell"><input type="checkbox" id="chk_bh_11"></td><td class="label-bold">BH 1-1</td><td class="text-right text-blue" id="val_bh_11">0</td></tr>
+                <tr id="row_bh_m1"><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m1"></td><td class="label-bold">BHMR 1 năm</td><td class="text-right text-blue" id="val_bh_m1">0</td></tr>
+                <tr id="row_bh_m2"><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m2"></td><td class="label-bold">BHMR 2 năm</td><td class="text-right text-blue" id="val_bh_m2">0</td></tr>
+                <tr id="row_bh_m3"><td class="checkbox-cell"><input type="checkbox" id="chk_bh_m3"></td><td class="label-bold">BHMR 3 năm</td><td class="text-right text-blue" id="val_bh_m3">0</td></tr>
+                <tr id="row_bh_rv6"><td class="checkbox-cell"><input type="checkbox" id="chk_bh_rv6"></td><td class="label-bold">BHRV 6 tháng</td><td class="text-right text-blue" id="val_bh_rv6">0</td></tr>
+                <tr id="row_bh_rv12"><td class="checkbox-cell"><input type="checkbox" id="chk_bh_rv12"></td><td class="label-bold">BHRV 12 tháng</td><td class="text-right text-blue" id="val_bh_rv12">0</td></tr>
                 
                 <tr class="row-vsml"><td class="checkbox-cell"><input type="checkbox" id="chk_vsml_1"></td><td class="label-bold" id="lbl_vsml_1">VSML 2 lần/1 năm</td><td class="text-right text-blue" id="val_vsml_1">0</td></tr>
                 <tr class="row-vsml"><td class="checkbox-cell"><input type="checkbox" id="chk_vsml_2"></td><td class="label-bold" id="lbl_vsml_2">VSML 4 lần/2 năm</td><td class="text-right text-blue" id="val_vsml_2">0</td></tr>
@@ -146,14 +146,14 @@
             <div class="mini-input-item">
                 <label>Khách TT:</label>
                 <div class="input-clear-wrapper">
-                    <input type="text" id="khachTT" class="money-input text-red" value="1,000,000">
+                    <input type="text" id="khachTT" inputmode="numeric" class="money-input text-red" value="1,000,000">
                     <button class="btn-clear-input" title="Xóa">✕</button>
                 </div>
             </div>
             <div class="mini-input-item">
                 <label>Phí HS:</label>
                 <div class="input-clear-wrapper">
-                    <input type="text" id="phiHS" class="money-input text-red" value="200,000">
+                    <input type="text" id="phiHS" inputmode="numeric" class="money-input text-red" value="200,000">
                     <button class="btn-clear-input" title="Xóa">✕</button>
                 </div>
             </div>
@@ -175,29 +175,38 @@
     let DATA_1DOI1 = [], DATA_MORE = [], DATA_ROIVO = [], DATA_VSML = [];
     
     let GOI_BH_CONFIG = [
-        { id: "chk_bh_11", label: "BH 1-1", type: "1doi1", keys: ["GIÁ BH", "Giá BH", "phi"], targetId: "val_bh_11" },
-        { id: "chk_bh_m1", label: "BHMR 1 NĂM", type: "more", keys: ["Gói 1 năm", "phi1n"], targetId: "val_bh_m1" },
-        { id: "chk_bh_m2", label: "BHMR 2 NĂM", type: "more", keys: ["Gói 2 năm", "phi2n"], targetId: "val_bh_m2" },
-        { id: "chk_bh_m3", label: "BHMR 3 NĂM", type: "more", keys: ["Gói 3 năm", "phi3n"], targetId: "val_bh_m3" },
-        { id: "chk_bh_rv6", label: "BHRV 6 TH", type: "roivo", keys: ["Rơi vỡ 6 tháng", "phi6t"], targetId: "val_bh_rv6" },
-        { id: "chk_bh_rv12", label: "BHRV 12 TH", type: "roivo", keys: ["Rơi vỡ 12 tháng", "phi12t"], targetId: "val_bh_rv12" }
+        { id: "chk_bh_11", rowId: "row_bh_11", label: "BH 1-1", shortLabel: "BH 1-1", type: "1doi1", keys: ["GIÁ BH", "Giá BH", "phi"], targetId: "val_bh_11", phiThucTe: 0 },
+        { id: "chk_bh_m1", rowId: "row_bh_m1", label: "BHMR 1 NĂM", shortLabel: "BHMR 1N", type: "more", keys: ["Gói 1 năm", "phi1n"], targetId: "val_bh_m1", phiThucTe: 0 },
+        { id: "chk_bh_m2", rowId: "row_bh_m2", label: "BHMR 2 NĂM", shortLabel: "BHMR 2N", type: "more", keys: ["Gói 2 năm", "phi2n"], targetId: "val_bh_m2", phiThucTe: 0 },
+        { id: "chk_bh_m3", rowId: "row_bh_m3", label: "BHMR 3 NĂM", shortLabel: "BHMR 3N", type: "more", keys: ["Gói 3 năm", "phi3n"], targetId: "val_bh_m3", phiThucTe: 0 },
+        { id: "chk_bh_rv6", rowId: "row_bh_rv6", label: "BHRV 6 TH", shortLabel: "BHRV 6TH", type: "roivo", keys: ["Rơi vỡ 6 tháng", "phi6t"], targetId: "val_bh_rv6", phiThucTe: 0 },
+        { id: "chk_bh_rv12", rowId: "row_bh_rv12", label: "BHRV 12 TH", shortLabel: "BHRV 12TH", type: "roivo", keys: ["Rơi vỡ 12 tháng", "phi12t"], targetId: "val_bh_rv12", phiThucTe: 0 }
     ];
 
     let VSML_CONFIG = [
-        { id: "chk_vsml_1", labelId: "lbl_vsml_1", targetId: "val_vsml_1", index: 0 },
-        { id: "chk_vsml_2", labelId: "lbl_vsml_2", targetId: "val_vsml_2", index: 1 },
-        { id: "chk_vsml_3", labelId: "lbl_vsml_3", targetId: "val_vsml_3", index: 2 },
-        { id: "chk_vsml_4", labelId: "lbl_vsml_4", targetId: "val_vsml_4", index: 3 }
+        { id: "chk_vsml_1", labelId: "lbl_vsml_1", targetId: "val_vsml_1", index: 0, phiThucTe: 0 },
+        { id: "chk_vsml_2", labelId: "lbl_vsml_2", targetId: "val_vsml_2", index: 1, phiThucTe: 0 },
+        { id: "chk_vsml_3", labelId: "lbl_vsml_3", targetId: "val_vsml_3", index: 2, phiThucTe: 0 },
+        { id: "chk_vsml_4", labelId: "lbl_vsml_4", targetId: "val_vsml_4", index: 3, phiThucTe: 0 }
     ];
 
+    // Formatters & Parsers
     const fmt = (n) => Math.round(n || 0).toLocaleString('en-US');
-    
     const parse = (s) => {
         if (s === undefined || s === null) return 0;
         let str = s.toString().trim();
         if (str === "-" || str === "") return 0;
         return Number(str.replace(/[^0-9.-]+/g, "")) || 0;
     };
+
+    // Debounce helper to optimize performance on mobile fast typing
+    function debounce(func, wait = 150) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+    }
 
     function getValByFlexibleKey(rowObj, possibleKeys) {
         if (!rowObj) return 0;
@@ -211,11 +220,16 @@
         return 0;
     }
 
-    function handleMoneyInput(e) { e.target.value = fmt(parse(e.target.value)); tinhToanCongThucGiaoDien(); }
+    function handleMoneyInput(e) { 
+        e.target.value = fmt(parse(e.target.value)); 
+        debouncedCalc(); 
+    }
     
     function saveData() {
         let data = {};
-        document.querySelectorAll('input, select').forEach(el => { if(el.id) data[el.id] = (el.type === 'checkbox') ? el.checked : el.value; });
+        document.querySelectorAll('input, select').forEach(el => { 
+            if(el.id) data[el.id] = (el.type === 'checkbox') ? el.checked : el.value; 
+        });
         localStorage.setItem('dashboard_data', JSON.stringify(data));
     }
 
@@ -280,6 +294,7 @@
         const khachTT = parse(document.getElementById('khachTT').value);
         const phiHS = parse(document.getElementById('phiHS').value);
 
+        // 1. TÍNH PHÍ VÀ XỬ LÝ ẨN/HIỆN CÁC GÓI BẢO HIỂM THƯỜNG
         GOI_BH_CONFIG.forEach(item => {
             let src = item.type === "1doi1" ? DATA_1DOI1 : (item.type === "more" ? DATA_MORE : DATA_ROIVO);
             
@@ -299,28 +314,46 @@
             });
 
             item.phiThucTe = match ? getValByFlexibleKey(match, item.keys) : 0;
-            document.getElementById(item.targetId).innerText = fmt(item.phiThucTe);
+            
+            const rowEl = document.getElementById(item.rowId);
+            const chkEl = document.getElementById(item.id);
+
+            // LOGIC ẨN/HIỆN GÓI KHÔNG CÓ GIÁ TRỊ:
+            if (item.phiThucTe > 0) {
+                rowEl.style.display = "";
+                document.getElementById(item.targetId).innerText = fmt(item.phiThucTe);
+            } else {
+                rowEl.style.display = "none";
+                chkEl.checked = false; // Bỏ tick tự động nếu bị ẩn
+                document.getElementById(item.targetId).innerText = "0";
+            }
         });
 
+        // 2. XỬ LÝ ẨN/HIỆN VSML (VỆ SINH MÁY LẠNH)
         let isMayLanh = nhomSP.toLowerCase().includes("máy lạnh") || nhomSP.toLowerCase().includes("may lanh");
         let selectedVsmlItem = null;
 
         VSML_CONFIG.forEach(config => {
             let rowEl = document.getElementById(config.id).closest('tr');
             if (isMayLanh && DATA_VSML[config.index]) {
-                rowEl.style.display = "";
                 let dataObj = DATA_VSML[config.index];
-                
                 let serviceName = dataObj["Dịch vụ"] || dataObj["dichvu"] || "Dịch vụ VSML";
                 let price = parse(dataObj["Giá Bán"] || dataObj["giaban"]);
 
-                document.getElementById(config.labelId).innerText = serviceName;
-                document.getElementById(config.targetId).innerText = fmt(price);
-                config.phiThucTe = price;
-                config.serviceName = serviceName;
+                if (price > 0) {
+                    rowEl.style.display = "";
+                    document.getElementById(config.labelId).innerText = serviceName;
+                    document.getElementById(config.targetId).innerText = fmt(price);
+                    config.phiThucTe = price;
+                    config.serviceName = serviceName;
 
-                if (document.getElementById(config.id).checked) {
-                    selectedVsmlItem = config;
+                    if (document.getElementById(config.id).checked) {
+                        selectedVsmlItem = config;
+                    }
+                } else {
+                    rowEl.style.display = "none";
+                    document.getElementById(config.id).checked = false;
+                    config.phiThucTe = 0;
                 }
             } else {
                 rowEl.style.display = "none";
@@ -329,23 +362,33 @@
             }
         });
 
-        let tongBHGop = GOI_BH_CONFIG.reduce((acc, item) => acc + (document.getElementById(item.id).checked ? item.phiThucTe : 0), 0);
+        // 3. TÍNH TỔNG BẢO HIỂM GỘP (CHỈ CÁC GÓI ĐANG CHECKED VA CÓ PHÍ > 0)
+        let tongBHGop = GOI_BH_CONFIG.reduce((acc, item) => {
+            return acc + (document.getElementById(item.id).checked ? item.phiThucTe : 0);
+        }, 0);
+        
         if (selectedVsmlItem) {
             tongBHGop += selectedVsmlItem.phiThucTe;
         }
         document.getElementById('val_bh_gop').innerText = fmt(tongBHGop);
 
+        // 4. DỰNG DANH SÁCH GÓI TRẢ GÓP (CHỈ HIỂN THỊ CÁC GÓI CÓ GIÁ TRỊ)
         let danhSachGoiGop = [
-            { key: "GOP_THUONG", label: "GÓP THƯỜNG", bhType: "none" },
-            { key: "BH_11", label: "BH 1-1", bhId: "chk_bh_11" },
-            { key: "BHMR_1Y", label: "BHMR 1N", bhId: "chk_bh_m1" },
-            { key: "BHMR_2Y", label: "BHMR 2N", bhId: "chk_bh_m2" },
-            { key: "BHMR_3Y", label: "BHMR 3N", bhId: "chk_bh_m3" },
-            { key: "BHRV_6T", label: "BHRV 6TH", bhId: "chk_bh_rv6" },
-            { key: "BHRV_12T", label: "BHRV 12TH", bhId: "chk_bh_rv12" }
+            { key: "GOP_THUONG", label: "GÓP THƯỜNG", bhType: "none" }
         ];
 
-        if (selectedVsmlItem) {
+        // Lọc thêm các gói Bảo Hiểm có giá trị
+        GOI_BH_CONFIG.forEach(item => {
+            if (item.phiThucTe > 0) {
+                danhSachGoiGop.push({
+                    key: item.id,
+                    label: item.shortLabel,
+                    bhId: item.id
+                });
+            }
+        });
+
+        if (selectedVsmlItem && selectedVsmlItem.phiThucTe > 0) {
             danhSachGoiGop.push({
                 key: "VSML",
                 label: selectedVsmlItem.serviceName.toUpperCase(),
@@ -353,10 +396,12 @@
             });
         }
 
+        // Dòng Tổng BH Gộp
         danhSachGoiGop.push({ key: "BH_GOP", label: "BH GỘP", bhType: "gop" });
 
+        // Tối ưu DOM Rendering bằng DocumentFragment
         const tbody = document.getElementById('tbodyKetQuaGop');
-        tbody.innerHTML = '';
+        const fragment = document.createDocumentFragment();
         let gopThuong = 0;
 
         danhSachGoiGop.forEach(goi => {
@@ -373,7 +418,7 @@
 
             let nhapLieu = khachTT - phiHS - tangPMH - giaGoiBH;
             let gopThang = Math.ceil((((giaKM - nhapLieu) / soThangGop) + 12000) / 1000) * 1000;
-            if(goi.key === "GOP_THUONG") gopThuong = gopThang;
+            if (goi.key === "GOP_THUONG") gopThuong = gopThang;
             
             let tr = document.createElement('tr');
             tr.innerHTML = `<td class="text-center" style="font-weight:bold; font-size:11.5px; color:${goi.key==='BH_GOP'?'#e74c3c':(goi.key==='VSML'?'#27ae60':'#475569')}">${goi.label}</td>
@@ -382,13 +427,19 @@
                             <td class="text-center" style="color:#e74c3c; font-weight:bold; background:#fff5f5;">${fmt(nhapLieu)}</td>
                             <td class="text-center">${fmt(Math.ceil(((minTTPercent * giaKM) + tangPMH + phiHS + giaGoiBH)/1000)*1000)}</td>
                             <td class="text-center text-red" style="font-weight:bold;">${fmt(gopThang - gopThuong)}</td>`;
-            tbody.appendChild(tr);
+            fragment.appendChild(tr);
         });
+
+        tbody.innerHTML = '';
+        tbody.appendChild(fragment);
     }
+
+    const debouncedCalc = debounce(tinhToanCongThucGiaoDien, 100);
 
     window.addEventListener('DOMContentLoaded', () => {
         let savedNhom = loadData();
         
+        // Gán sự kiện Radio-like cho VSML
         VSML_CONFIG.forEach(config => {
             document.getElementById(config.id).addEventListener('change', (e) => {
                 if (e.target.checked) {
@@ -422,6 +473,7 @@
             fetchServerData(savedNhom);
         }
 
+        // Button Controls
         document.getElementById('btnXoa').addEventListener('click', () => {
             localStorage.removeItem('dashboard_data');
             location.reload();
@@ -431,6 +483,7 @@
             fetchServerData(loadData(), true);
         });
 
+        // Inputs Clear Events
         document.querySelectorAll('.btn-clear-input').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -443,12 +496,22 @@
             });
         });
 
+        // Binding Events với Debounce
         document.querySelectorAll('.money-input').forEach(el => el.addEventListener('input', handleMoneyInput));
         document.querySelectorAll('.percent-input').forEach(el => {
             el.addEventListener('focus', (e) => e.target.value = e.target.value.replace('%', ''));
-            el.addEventListener('blur', (e) => { e.target.value = e.target.value.replace('%', '') + '%'; tinhToanCongThucGiaoDien(); });
+            el.addEventListener('blur', (e) => { 
+                e.target.value = e.target.value.replace('%', '') + '%'; 
+                tinhToanCongThucGiaoDien(); 
+            });
         });
-        document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', tinhToanCongThucGiaoDien));
+        
+        document.querySelectorAll('input, select').forEach(el => {
+            if (!el.classList.contains('money-input') && !el.classList.contains('percent-input')) {
+                el.addEventListener('change', tinhToanCongThucGiaoDien);
+                el.addEventListener('input', debouncedCalc);
+            }
+        });
     });
 </script>
 </body>
