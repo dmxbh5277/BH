@@ -2,12 +2,12 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Dashboard Trả Góp & Bảo Hiểm - Mobile Optimized</title>
     <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet">
     <style>
         * { box-sizing: border-box; font-family: 'Google Sans', 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; touch-action: manipulation; }
-        body { background-color: #f4f6f9; padding: 8px; color: #2c3e50; padding-bottom: 50px; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #f4f6f9; padding: 8px; color: #2c3e50; padding-bottom: calc(50px + env(safe-area-inset-bottom, 0px)); -webkit-tap-highlight-color: transparent; }
         .app-grid { display: grid; grid-template-columns: 1fr; gap: 12px; max-width: 1440px; margin: 0 auto; }
         @media(min-width: 992px) { .app-grid { grid-template-columns: 420px 1fr; gap: 20px; padding: 12px; } }
         .card { background: #ffffff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); border: 1px solid #e2e8f0; overflow: hidden; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
@@ -20,8 +20,8 @@
         .bg-light-green { background-color: #e6fffa !important; color: #0b3c5d; font-weight: bold; border-top: 1px solid #2ecc71; }
         
         .input-clear-wrapper { position: relative; width: 100%; height: 100%; display: flex; align-items: center; }
-        .input-clear-wrapper input { padding-right: 22px !important; }
-        .btn-clear-input { position: absolute; right: 2px; background: transparent; border: none; color: #94a3b8; font-size: 12px; font-weight: bold; cursor: pointer; padding: 2px 4px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 5; }
+        .input-clear-wrapper input { padding-right: 30px !important; }
+        .btn-clear-input { position: absolute; right: 0; width: 28px; height: 28px; background: transparent; border: none; color: #94a3b8; font-size: 13px; font-weight: bold; cursor: pointer; padding: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 5; }
         .btn-clear-input:hover { color: #e74c3c; background: #fee2e2; }
 
         input[type="text"], input[type="number"], select { width: 100%; height: 100%; border: 1px solid transparent; border-radius: 4px; outline: none; font-size: 12px; font-weight: 700; background: #f8fafc; padding: 2px 4px; color: #334155; }
@@ -32,9 +32,10 @@
         .text-red { color: #e74c3c !important; font-weight: 700; }
         .text-blue { color: #0b3c5d !important; font-weight: 700; }
         .label-bold { font-weight: 600; color: #64748b; font-size: 11.5px; }
-        .checkbox-cell { text-align: center; width: 45px; }
-        .checkbox-cell input[type="checkbox"] { accent-color: #0b3c5d; transform: scale(1.1); cursor: pointer; }
-        .table-responsive { width: 100%; overflow-x: hidden; border-radius: 8px; border: 1px solid #edf2f7; }
+        .checkbox-cell { text-align: center; width: 52px; }
+        .checkbox-cell input[type="checkbox"] { accent-color: #0b3c5d; transform: scale(1.5); cursor: pointer; padding: 8px; }
+        .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; border: 1px solid #edf2f7; }
+        .table-responsive table.sheet-table { min-width: 560px; }
         
         .mini-input-group { display: flex; gap: 10px; margin-bottom: 4px; background: #c1d8f0; padding: 8px; border-radius: 8px; border: 1px solid #edf2f7; }
         .mini-input-item { display: flex; align-items: center; flex: 1; }
@@ -42,12 +43,18 @@
         .mini-input-item .input-clear-wrapper { width: 65%; }
         .mini-input-item input { height: 30px; background: #fffdf0 !important; border: 1px solid #fef3c7 !important; text-align: center; }
         
-        .status-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 6px 12px; text-align: center; background-color: #ffffff; border-top: 1px solid #e2e8f0; font-size: 11.5px; font-weight: 600; z-index: 1000; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 -2px 8px rgba(0,0,0,0.03); color: #2a0fe9; }
+        .status-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 6px 12px calc(6px + env(safe-area-inset-bottom, 0px)) 12px; text-align: center; background-color: #ffffff; border-top: 1px solid #e2e8f0; font-size: 11.5px; font-weight: 600; z-index: 1000; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 -2px 8px rgba(0,0,0,0.03); color: #2a0fe9; }
         .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; background-color: #cbd5e1; }
         .status-green { background-color: #2ecc71 !important; }
         .status-yellow { background-color: #f1c40f !important; }
-        .btn-refresh { background: #e2e8f0; border: none; padding: 2px 8px; border-radius: 4px; font-size: 10.5px; cursor: pointer; color: #334155; font-weight: 700; }
+        .btn-refresh { background: #e2e8f0; border: none; padding: 6px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; color: #334155; font-weight: 700; min-height: 28px; }
         .btn-refresh:hover { background: #cbd5e1; }
+
+        /* Tối ưu mobile: tránh iOS tự zoom khi focus input (font < 16px) và cho cuộn ngang bảng dày dữ liệu */
+        @media (max-width: 600px) {
+            input[type="text"], input[type="number"], select { font-size: 16px; }
+            .mini-input-item input { font-size: 16px; }
+        }
     </style>
 </head>
 <body>
@@ -283,7 +290,8 @@
     }
 
     /**
-     * @param {boolean} isUpperInputChanged - Nếu true: thông tin phía trên thay đổi -> tính lại Khách TT = 150% Min TT (BH Gộp)
+     * @param {boolean} isUpperInputChanged - (Giữ lại cho tương thích lời gọi cũ) Không còn ảnh hưởng tới ô Khách TT,
+     * vì ô này hiện là ô nhập liệu tay thuần túy, không tự động tính theo công thức.
      */
     function tinhToanCongThucGiaoDien(isUpperInputChanged = true) {
         const nhomSP = document.getElementById('nhomSP').value;
@@ -373,14 +381,8 @@
         }
         document.getElementById('val_bh_gop').innerText = fmt(tongBHGop);
 
-        // 4. CẬP NHẬT Ô KHÁCH TT NẾU THÔNG TIN PHÍA TRÊN THAY ĐỔI
+        // 4. Ô KHÁCH TT: giữ nguyên bản là ô nhập liệu tay, không còn tự động tính theo công thức
         const khachTTInput = document.getElementById('khachTT');
-        if (isUpperInputChanged) {
-            let minTT_BHGop = Math.ceil(((minTTPercent * giaKM) + tangPMH + phiHS + tongBHGop) / 1000) * 1000;
-            let calculatedKhachTT = minTT_BHGop * 1.5;
-            khachTTInput.value = fmt(calculatedKhachTT);
-        }
-
         const khachTT = parse(khachTTInput.value);
 
         // 5. LẬP BẢNG TƯ VẤN CÁC GÓI TRẢ GÓP
