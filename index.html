@@ -146,7 +146,7 @@
             <div class="mini-input-item">
                 <label>Khách TT:</label>
                 <div class="input-clear-wrapper">
-                    <input type="text" id="khachTT" inputmode="numeric" class="text-red" value="0">
+                    <input type="text" id="khachTT" inputmode="numeric" class="money-input text-red" value="0">
                     <button class="btn-clear-input" title="Xóa">✕</button>
                 </div>
             </div>
@@ -259,7 +259,7 @@
             if (chkm1) chkm1.checked = true;
         }
 
-        tinhToanCongThucGiaoDien(true);
+        tinhToanCongThucGiaoDien();
     }
 
     function fetchServerData(savedState, forceFetch = false) {
@@ -282,10 +282,7 @@
             });
     }
 
-    /**
-     * @param {boolean} isUpperInputChanged - Nếu true: thông tin phía trên thay đổi -> tính lại Khách TT = 150% Min TT (BH Gộp)
-     */
-    function tinhToanCongThucGiaoDien(isUpperInputChanged = true) {
+    function tinhToanCongThucGiaoDien() {
         const nhomSP = document.getElementById('nhomSP').value;
         if(!nhomSP) return;
 
@@ -363,7 +360,7 @@
             }
         });
 
-        // 3. TÍNH TỔNG BẢO HIỂM GỘP (CÁC GÓI ĐANG CHECKED VÀ CÓ PHÍ > 0)
+        // 3. TÍNH TỔNG BẢO HIỂM GỘP
         let tongBHGop = GOI_BH_CONFIG.reduce((acc, item) => {
             return acc + (document.getElementById(item.id).checked ? item.phiThucTe : 0);
         }, 0);
@@ -373,15 +370,8 @@
         }
         document.getElementById('val_bh_gop').innerText = fmt(tongBHGop);
 
-        // 4. CẬP NHẬT Ô KHÁCH TT NẾU THÔNG TIN PHÍA TRÊN THAY ĐỔI
-        const khachTTInput = document.getElementById('khachTT');
-        if (isUpperInputChanged) {
-            let minTT_BHGop = Math.ceil(((minTTPercent * giaKM) + tangPMH + phiHS + tongBHGop) / 1000) * 1000;
-            let calculatedKhachTT = minTT_BHGop * 1.5;
-            khachTTInput.value = fmt(calculatedKhachTT);
-        }
-
-        const khachTT = parse(khachTTInput.value);
+        // 4. LẤY GIÁ TRỊ KHÁCH TT TRỰC TIẾP TỪ Ô NHẬP LIỆU (KHÔNG DÙNG CÔNG THỨC BẮT BUỘC)
+        const khachTT = parse(document.getElementById('khachTT').value);
 
         // 5. LẬP BẢNG TƯ VẤN CÁC GÓI TRẢ GÓP
         let danhSachGoiGop = [
@@ -444,7 +434,7 @@
         saveData();
     }
 
-    const debouncedCalcUpper = debounce(() => tinhToanCongThucGiaoDien(true), 120);
+    const debouncedCalc = debounce(() => tinhToanCongThucGiaoDien(), 120);
 
     window.addEventListener('DOMContentLoaded', () => {
         let savedState = loadData();
@@ -457,7 +447,7 @@
                         if (c.id !== config.id) document.getElementById(c.id).checked = false;
                     });
                 }
-                tinhToanCongThucGiaoDien(true);
+                tinhToanCongThucGiaoDien();
             });
         });
 
@@ -500,44 +490,38 @@
                 const input = btn.previousElementSibling;
                 if (input) {
                     input.value = input.classList.contains('percent-input') ? '0%' : (input.type === 'number' ? '' : '0');
-                    let isUpper = (input.id !== 'khachTT');
-                    tinhToanCongThucGiaoDien(isUpper);
+                    tinhToanCongThucGiaoDien();
                     input.focus();
                 }
             });
         });
 
-        // Sự kiện riêng khi người dùng gõ tay trực tiếp vào ô Khách TT
+        // Gán class 'money-input' cho ô khachTT để tự động định dạng số tiền khi nhập
         const khachTTInput = document.getElementById('khachTT');
-        khachTTInput.addEventListener('input', (e) => {
-            e.target.value = fmt(parse(e.target.value));
-            tinhToanCongThucGiaoDien(false); // false: KHÔNG tính lại 150%, lấy theo số người dùng gõ
-        });
+        if (khachTTInput && !khachTTInput.classList.contains('money-input')) {
+            khachTTInput.classList.add('money-input');
+        }
 
-        // Sự kiện các ô tiền tệ phía trên
+        // Đăng ký sự kiện lắng nghe sự thay đổi của tất cả các input/select
         document.querySelectorAll('.money-input').forEach(el => {
-            if (el.id !== 'khachTT') {
-                el.addEventListener('input', (e) => {
-                    e.target.value = fmt(parse(e.target.value));
-                    debouncedCalcUpper();
-                });
-            }
+            el.addEventListener('input', (e) => {
+                e.target.value = fmt(parse(e.target.value));
+                debouncedCalc();
+            });
         });
 
-        // Ô Phần trăm %
         document.querySelectorAll('.percent-input').forEach(el => {
             el.addEventListener('focus', (e) => e.target.value = e.target.value.replace('%', ''));
             el.addEventListener('blur', (e) => { 
                 e.target.value = e.target.value.replace('%', '') + '%'; 
-                tinhToanCongThucGiaoDien(true); 
+                tinhToanCongThucGiaoDien(); 
             });
         });
-        
-        // Tất cả input & select còn lại phía trên
+
         document.querySelectorAll('input, select').forEach(el => {
-            if (el.id !== 'khachTT' && !el.classList.contains('money-input') && !el.classList.contains('percent-input')) {
-                el.addEventListener('change', () => tinhToanCongThucGiaoDien(true));
-                el.addEventListener('input', debouncedCalcUpper);
+            if (!el.classList.contains('money-input') && !el.classList.contains('percent-input')) {
+                el.addEventListener('change', () => tinhToanCongThucGiaoDien());
+                el.addEventListener('input', debouncedCalc);
             }
         });
     });
