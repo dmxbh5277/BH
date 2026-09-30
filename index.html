@@ -135,6 +135,18 @@
                 <tr class="row-vsml"><td class="checkbox-cell"><input type="checkbox" id="chk_vsml_3"></td><td class="label-bold" id="lbl_vsml_3">VSML 6 lần/3 năm</td><td class="text-right text-blue" id="val_vsml_3">0</td></tr>
                 <tr class="row-vsml"><td class="checkbox-cell"><input type="checkbox" id="chk_vsml_4"></td><td class="label-bold" id="lbl_vsml_4">VSML 8 lần/4 năm</td><td class="text-right text-blue" id="val_vsml_4">0</td></tr>
 
+                <!-- THÊM HÀNG GÓI THAY LÕI (ẨN MẶC ĐỊNH) -->
+                <tr id="row_gtl" style="display: none;">
+                    <td class="checkbox-cell"><input type="checkbox" id="chk_gtl"></td>
+                    <td class="label-bold">Gói thay lõi</td>
+                    <td>
+                        <div class="input-clear-wrapper">
+                            <input type="text" id="val_gtl" inputmode="numeric" class="text-right money-input text-blue" value="0">
+                            <button class="btn-clear-input" title="Xóa">✕</button>
+                        </div>
+                    </td>
+                </tr>
+
                 <tr class="bg-light-green"><td class="text-center">∑</td><td>TỔNG BH GỘP</td><td class="text-right text-red" id="val_bh_gop">0</td></tr>
             </table>
         </div>
@@ -360,6 +372,21 @@
             }
         });
 
+        // 2.1 MÁY LỌC NƯỚC LOGIC (GÓI THAY LÕI)
+        let isMayLocNuoc = nhomSP.toLowerCase().trim() === "máy lọc nước" || nhomSP.toLowerCase().includes("may loc nuoc");
+        const rowGtl = document.getElementById('row_gtl');
+        const chkGtl = document.getElementById('chk_gtl');
+        const valGtlInput = document.getElementById('val_gtl');
+        let giaGTL = parse(valGtlInput.value);
+
+        if (isMayLocNuoc) {
+            rowGtl.style.display = "";
+        } else {
+            rowGtl.style.display = "none";
+            chkGtl.checked = false;
+            giaGTL = 0;
+        }
+
         // 3. TÍNH TỔNG BẢO HIỂM GỘP
         let tongBHGop = GOI_BH_CONFIG.reduce((acc, item) => {
             return acc + (document.getElementById(item.id).checked ? item.phiThucTe : 0);
@@ -368,9 +395,14 @@
         if (selectedVsmlItem) {
             tongBHGop += selectedVsmlItem.phiThucTe;
         }
+
+        if (isMayLocNuoc && chkGtl.checked) {
+            tongBHGop += giaGTL;
+        }
+
         document.getElementById('val_bh_gop').innerText = fmt(tongBHGop);
 
-        // 4. LẤY GIÁ TRỊ KHÁCH TT TRỰC TIẾP TỪ Ô NHẬP LIỆU (KHÔNG DÙNG CÔNG THỨC BẮT BUỘC)
+        // 4. LẤY GIÁ TRỊ KHÁCH TT TRỰC TIẾP TỪ Ô NHẬP LIỆU
         const khachTT = parse(document.getElementById('khachTT').value);
 
         // 5. LẬP BẢNG TƯ VẤN CÁC GÓI TRẢ GÓP
@@ -396,6 +428,15 @@
             });
         }
 
+        // Thêm hàng tư vấn riêng lẻ cho Gói Thay Lõi khi chọn Máy Lọc Nước
+        if (isMayLocNuoc && giaGTL > 0) {
+            danhSachGoiGop.push({
+                key: "THAY_LOI",
+                label: "THAY LÕI",
+                phiCustom: giaGTL
+            });
+        }
+
         danhSachGoiGop.push({ key: "BH_GOP", label: "BH GỘP", bhType: "gop" });
 
         const tbody = document.getElementById('tbodyKetQuaGop');
@@ -418,8 +459,13 @@
             let gopThang = Math.ceil((((giaKM - nhapLieu) / soThangGop) + 12000) / 1000) * 1000;
             if (goi.key === "GOP_THUONG") gopThuong = gopThang;
             
+            let labelColor = '#475569';
+            if (goi.key === 'BH_GOP') labelColor = '#e74c3c';
+            else if (goi.key === 'VSML') labelColor = '#27ae60';
+            else if (goi.key === 'THAY_LOI') labelColor = '#8e44ad';
+
             let tr = document.createElement('tr');
-            tr.innerHTML = `<td class="text-center" style="font-weight:bold; font-size:11.5px; color:${goi.key==='BH_GOP'?'#e74c3c':(goi.key==='VSML'?'#27ae60':'#475569')}">${goi.label}</td>
+            tr.innerHTML = `<td class="text-center" style="font-weight:bold; font-size:11.5px; color:${labelColor}">${goi.label}</td>
                             <td class="text-center text-red">${fmt(khachTT)}</td>
                             <td class="text-center text-blue">${fmt(gopThang)}</td>
                             <td class="text-center" style="color:#e74c3c; font-weight:bold; background:#fff5f5;">${fmt(nhapLieu)}</td>
