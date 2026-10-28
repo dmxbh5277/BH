@@ -265,12 +265,12 @@
         }
         #tbodyKetQuaGop td:nth-child(3)::before { content: "Góp mỗi tháng"; display: inline; margin: 0; font-size: 12px; font-weight: 500; letter-spacing: 0; }
 
-        /* hàng 3: nhập liệu / min TT / trả trước */
+        /* hàng 3: nhập liệu / Min trả trước / trả trước */
         #tbodyKetQuaGop td:nth-child(4) { order: 4; flex: 1 1 0; color: var(--hot); font-size: 14px; background: none !important; }
         #tbodyKetQuaGop td:nth-child(5) { order: 5; flex: 1 1 0; color: var(--text); font-size: 14px; }
         #tbodyKetQuaGop td:nth-child(2) { order: 6; flex: 1 1 0; color: var(--text); font-size: 14px; }
         #tbodyKetQuaGop td:nth-child(4)::before { content: "Nhập liệu"; }
-        #tbodyKetQuaGop td:nth-child(5)::before { content: "Min TT"; }
+        #tbodyKetQuaGop td:nth-child(5)::before { content: "Min trả trước"; }
         #tbodyKetQuaGop td:nth-child(2)::before { content: "Trả trước"; }
 
         /* thẻ đầu tiên (GÓP THƯỜNG): mốc so sánh */
@@ -392,10 +392,10 @@
                 </div>
 
                 <div class="field">
-                    <label for="minTT">Min TT</label>
+                    <label for="minTT">Min trả trước</label>
                     <div class="input-clear-wrapper">
                         <input type="text" id="minTT" inputmode="numeric" class="text-center percent-input" value="0%">
-                        <button class="btn-clear-input" type="button" title="Xóa" aria-label="Xóa Min TT"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+                        <button class="btn-clear-input" type="button" title="Xóa" aria-label="Xóa Min trả trước"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
                     </div>
                 </div>
                 <div class="field">
@@ -484,7 +484,7 @@
             </div>
         </div>
 
-        <div class="table-responsive"><table class="sheet-table res-table"><thead><tr><th>Gói</th><th>T.Trước</th><th>Góp</th><th>NHẬP LIỆU</th><th>Min TT</th><th>Thêm</th></tr></thead><tbody id="tbodyKetQuaGop"></tbody></table></div>
+        <div class="table-responsive"><table class="sheet-table res-table"><thead><tr><th>Gói</th><th>T.Trước</th><th>Góp</th><th>NHẬP LIỆU</th><th>Min trả trước</th><th>Thêm</th></tr></thead><tbody id="tbodyKetQuaGop"></tbody></table></div>
     </section>
 </div>
 
