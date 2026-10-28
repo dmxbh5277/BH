@@ -220,7 +220,7 @@
         .bh-total .sum-val { font-size: 22px; font-weight: 800; letter-spacing: -0.01em; color: var(--hot); font-variant-numeric: tabular-nums; }
 
         /* ==========================================================
-           Khách trả trước / Phí hồ sơ
+           KHÁCH TT / PHÍ HS
            ========================================================== */
         .pay-panel { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px 14px; padding: 12px; background: var(--primary-soft); border-radius: var(--r-item); }
         .pay-panel .field { flex-direction: row; align-items: center; gap: 10px; }
@@ -265,12 +265,12 @@
         }
         #tbodyKetQuaGop td:nth-child(3)::before { content: "Góp mỗi tháng"; display: inline; margin: 0; font-size: 12px; font-weight: 500; letter-spacing: 0; }
 
-        /* hàng 3: nhập liệu / Min trả trước / trả trước */
+        /* hàng 3: nhập liệu / min TT / trả trước */
         #tbodyKetQuaGop td:nth-child(4) { order: 4; flex: 1 1 0; color: var(--hot); font-size: 14px; background: none !important; }
         #tbodyKetQuaGop td:nth-child(5) { order: 5; flex: 1 1 0; color: var(--text); font-size: 14px; }
         #tbodyKetQuaGop td:nth-child(2) { order: 6; flex: 1 1 0; color: var(--text); font-size: 14px; }
         #tbodyKetQuaGop td:nth-child(4)::before { content: "Nhập liệu"; }
-        #tbodyKetQuaGop td:nth-child(5)::before { content: "Min trả trước"; }
+        #tbodyKetQuaGop td:nth-child(5)::before { content: "Min TT"; }
         #tbodyKetQuaGop td:nth-child(2)::before { content: "Trả trước"; }
 
         /* thẻ đầu tiên (GÓP THƯỜNG): mốc so sánh */
@@ -377,47 +377,47 @@
                 </div>
 
                 <div class="field field-full">
-                    <label for="giaNY">Giá niêm yết</label>
+                    <label for="giaNY">Giá NY</label>
                     <div class="input-clear-wrapper">
                         <input type="text" id="giaNY" inputmode="numeric" class="text-center money-input text-blue" value="0">
-                        <button class="btn-clear-input" type="button" title="Xóa" aria-label="Xóa Giá niêm yết"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+                        <button class="btn-clear-input" type="button" title="Xóa" aria-label="Xóa Giá NY"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
                     </div>
                 </div>
                 <div class="field field-full">
-                    <label for="giaKM">Giá cuối App POS</label>
+                    <label for="giaKM">Giá KM</label>
                     <div class="input-clear-wrapper">
                         <input type="text" id="giaKM" inputmode="numeric" class="text-center money-input text-red" value="0">
-                        <button class="btn-clear-input" type="button" title="Xóa" aria-label="Xóa Giá cuối App POS"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+                        <button class="btn-clear-input" type="button" title="Xóa" aria-label="Xóa Giá KM"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
                     </div>
                 </div>
 
                 <div class="field">
-                    <label for="minTT">Min trả trước</label>
+                    <label for="minTT">Min TT</label>
                     <div class="input-clear-wrapper">
                         <input type="text" id="minTT" inputmode="numeric" class="text-center percent-input" value="0%">
-                        <button class="btn-clear-input" type="button" title="Xóa" aria-label="Xóa Min trả trước"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+                        <button class="btn-clear-input" type="button" title="Xóa" aria-label="Xóa Min TT"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
                     </div>
                 </div>
                 <div class="field">
-                    <label for="maxTT">Max trả trước</label>
+                    <label for="maxTT">Max TT</label>
                     <div class="input-clear-wrapper">
                         <input type="text" id="maxTT" inputmode="numeric" class="text-center percent-input" value="70%">
-                        <button class="btn-clear-input" type="button" title="Xóa" aria-label="Xóa Max trả trước"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+                        <button class="btn-clear-input" type="button" title="Xóa" aria-label="Xóa Max TT"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
                     </div>
                 </div>
 
                 <div class="field">
-                    <label for="soThangGop">Góp (tháng)</label>
+                    <label for="soThangGop">Góp (th)</label>
                     <div class="input-clear-wrapper">
                         <input type="number" id="soThangGop" inputmode="numeric" class="text-center" value="6">
                         <button class="btn-clear-input" type="button" title="Xóa" aria-label="Xóa số tháng góp"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
                     </div>
                 </div>
                 <div class="field">
-                    <label for="tangPhiếu mua hàng/Giảm">Phiếu mua hàng/Giảm</label>
+                    <label for="tangPMH">PMH</label>
                     <div class="input-clear-wrapper">
-                        <input type="text" id="tangPhiếu mua hàng/Giảm" inputmode="numeric" class="text-center money-input text-blue" value="0">
-                        <button class="btn-clear-input" type="button" title="Xóa" aria-label="Xóa Phiếu mua hàng/Giảm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+                        <input type="text" id="tangPMH" inputmode="numeric" class="text-center money-input text-blue" value="0">
+                        <button class="btn-clear-input" type="button" title="Xóa" aria-label="Xóa PMH"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
                     </div>
                 </div>
             </div>
@@ -469,22 +469,22 @@
 
         <div class="pay-panel">
             <div class="field">
-                <label for="khachTT">Khách trả trước</label>
+                <label for="khachTT">Khách TT</label>
                 <div class="input-clear-wrapper">
                     <input type="text" id="khachTT" inputmode="numeric" class="money-input text-red" value="0">
-                    <button class="btn-clear-input" type="button" title="Xóa" aria-label="Xóa Khách trả trước"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+                    <button class="btn-clear-input" type="button" title="Xóa" aria-label="Xóa Khách TT"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
                 </div>
             </div>
             <div class="field">
-                <label for="phiHS">Phí hồ sơ</label>
+                <label for="phiHS">Phí HS</label>
                 <div class="input-clear-wrapper">
                     <input type="text" id="phiHS" inputmode="numeric" class="money-input text-red" value="200,000">
-                    <button class="btn-clear-input" type="button" title="Xóa" aria-label="Xóa Phí hồ sơ"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+                    <button class="btn-clear-input" type="button" title="Xóa" aria-label="Xóa Phí HS"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
                 </div>
             </div>
         </div>
 
-        <div class="table-responsive"><table class="sheet-table res-table"><thead><tr><th>Gói</th><th>T.Trước</th><th>Góp</th><th>NHẬP LIỆU</th><th>Min trả trước</th><th>Thêm</th></tr></thead><tbody id="tbodyKetQuaGop"></tbody></table></div>
+        <div class="table-responsive"><table class="sheet-table res-table"><thead><tr><th>Gói</th><th>T.Trước</th><th>Góp</th><th>NHẬP LIỆU</th><th>Min TT</th><th>Thêm</th></tr></thead><tbody id="tbodyKetQuaGop"></tbody></table></div>
     </section>
 </div>
 
@@ -616,7 +616,7 @@
         const giaKM = parse(document.getElementById('giaKM').value);
         const minTTPercent = parse(document.getElementById('minTT').value) / 100;
         const soThangGop = Number(document.getElementById('soThangGop').value) || 1;
-        const tangPhiếu mua hàng/Giảm = parse(document.getElementById('tangPhiếu mua hàng/Giảm').value);
+        const tangPMH = parse(document.getElementById('tangPMH').value);
         const phiHS = parse(document.getElementById('phiHS').value);
 
         // 1. LẤY PHÍ VÀ ẨN/HIỆN CÁC DÒNG BẢO HIỂM
@@ -716,7 +716,7 @@
 
         document.getElementById('val_bh_gop').innerText = fmt(tongBHGop);
 
-        // 4. LẤY GIÁ TRỊ Khách trả trước TRỰC TIẾP TỪ Ô NHẬP LIỆU
+        // 4. LẤY GIÁ TRỊ KHÁCH TT TRỰC TIẾP TỪ Ô NHẬP LIỆU
         const khachTT = parse(document.getElementById('khachTT').value);
 
         // 5. LẬP BẢNG TƯ VẤN CÁC GÓI TRẢ GÓP
@@ -769,7 +769,7 @@
                 giaGoiBH = GOI_BH_CONFIG.find(c => c.id === goi.bhId)?.phiThucTe || 0;
             }
 
-            let nhapLieu = khachTT - phiHS - tangPhiếu mua hàng/Giảm - giaGoiBH;
+            let nhapLieu = khachTT - phiHS - tangPMH - giaGoiBH;
             let gopThang = Math.ceil((((giaKM - nhapLieu) / soThangGop) + 12000) / 1000) * 1000;
             if (goi.key === "GOP_THUONG") gopThuong = gopThang;
             
@@ -783,7 +783,7 @@
                             <td class="text-center text-red">${fmt(khachTT)}</td>
                             <td class="text-center text-blue">${fmt(gopThang)}</td>
                             <td class="text-center" style="color:#e74c3c; font-weight:bold; background:#fff5f5;">${fmt(nhapLieu)}</td>
-                            <td class="text-center">${fmt(Math.ceil(((minTTPercent * giaKM) + tangPhiếu mua hàng/Giảm + phiHS + giaGoiBH)/1000)*1000)}</td>
+                            <td class="text-center">${fmt(Math.ceil(((minTTPercent * giaKM) + tangPMH + phiHS + giaGoiBH)/1000)*1000)}</td>
                             <td class="text-center text-red" style="font-weight:bold;">${fmt(gopThang - gopThuong)}</td>`;
             fragment.appendChild(tr);
         });
