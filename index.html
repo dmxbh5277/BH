@@ -724,8 +724,12 @@
             { key: "GOP_THUONG", label: "GÓP THƯỜNG", bhType: "none" }
         ];
 
+        // Chỉ hiển thị các gói BH đang được tick
+        let soGoiDuocTick = 0;
+
         GOI_BH_CONFIG.forEach(item => {
-            if (item.phiThucTe > 0) {
+            if (item.phiThucTe > 0 && document.getElementById(item.id).checked) {
+                soGoiDuocTick++;
                 danhSachGoiGop.push({
                     key: item.id,
                     label: item.shortLabel,
@@ -735,6 +739,7 @@
         });
 
         if (selectedVsmlItem && selectedVsmlItem.phiThucTe > 0) {
+            soGoiDuocTick++;
             danhSachGoiGop.push({
                 key: "VSML",
                 label: selectedVsmlItem.serviceName.toUpperCase(),
@@ -743,7 +748,8 @@
         }
 
         // Thêm hàng tư vấn riêng lẻ cho Gói Thay Lõi khi chọn Máy Lọc Nước
-        if (isMayLocNuoc && giaGTL > 0) {
+        if (isMayLocNuoc && giaGTL > 0 && chkGtl.checked) {
+            soGoiDuocTick++;
             danhSachGoiGop.push({
                 key: "THAY_LOI",
                 label: "THAY LÕI",
@@ -751,7 +757,10 @@
             });
         }
 
-        danhSachGoiGop.push({ key: "BH_GOP", label: "BẢO HIỂM GỘP", bhType: "gop" });
+        // Bảo hiểm gộp chỉ hiện khi tick từ 2 gói trở lên (1 gói thì trùng với gói đơn)
+        if (soGoiDuocTick >= 2) {
+            danhSachGoiGop.push({ key: "BH_GOP", label: "BẢO HIỂM GỘP", bhType: "gop" });
+        }
 
         const tbody = document.getElementById('tbodyKetQuaGop');
         const fragment = document.createDocumentFragment();
